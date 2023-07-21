@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Pagination from "../../common/Pagination";
-import ActionsButton from "../components/ActionsButton";
+import ActionsButton from "./ActionsButton";
 
 const BookingTable = () => {
   const [activeTab, setActiveTab] = useState(0);

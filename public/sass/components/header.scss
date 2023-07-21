@@ -60,10 +60,10 @@
     position: relative;
 
     img {
-      width: 140px;
+      width: 100px;
 
       @include media-below(md) {
-        max-width: 120px;
+        max-width: 100px;
       }
     }
 

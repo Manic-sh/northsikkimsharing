@@ -55,8 +55,8 @@ const Header1 = () => {
                 {/* humberger menu */}
 
                 <Link href="/" className="header-logo mr-20">
-                  <img src="/img/general/logo-dark.svg" alt="logo icon" />
-                  <img src="/img/general/logo-dark.svg" alt="logo icon" />
+                  <img src="/img/general/logo.svg" alt="logo icon" />
+                  <img src="/img/general/logo.svg" alt="logo icon" />
                 </Link>
                 {/* End logo */}
 
