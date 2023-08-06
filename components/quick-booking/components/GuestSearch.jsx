@@ -58,7 +58,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
   );
 };
 
-const GuestSearch = () => {
+const GuestSearch = (props) => {
   const [guestCounts, setGuestCounts] = useState({
     Adults: 2,
     Children: 1,
@@ -66,6 +66,7 @@ const GuestSearch = () => {
   });
   const handleCounterChange = (name, value) => {
     setGuestCounts((prevState) => ({ ...prevState, [name]: value }));
+    props.handleCounterChange(guestCounts);
   };
   return (
     <div className="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters position-relative">

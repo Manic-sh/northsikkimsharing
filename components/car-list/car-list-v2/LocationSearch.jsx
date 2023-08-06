@@ -45,7 +45,7 @@ const LocationSearch = () => {
           data-bs-auto-close="true"
           data-bs-offset="0,22"
         >
-          <h4 className="text-15 fw-500 ls-2 lh-16">Location</h4>
+          <h4 className="text-15 fw-500 ls-2 lh-16">Packages</h4>
           <div className="text-15 text-light-1 ls-2 lh-16">
             <input
               autoComplete="off"

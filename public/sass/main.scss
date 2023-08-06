@@ -33,6 +33,9 @@
 
 @import "./components/preloader.scss";
 
+
+@import "./components/datePicker.scss";
+
 @import "./utilities/spacing";
 @import "./utilities/utilities";
 
@@ -42,3 +45,23 @@
 @import "./custom/custom-slick";
 @import "./custom/price-range-slider";
 @import "./custom/custom-next";
+
+
+.nationality-switch{
+    width: 120px;
+}
+.nationality-switch label{
+    line-height: 1.6;
+    vertical-align: top;
+}
+.nationality-switch .nationality-switch-input{
+    width: 80px;
+    height: 30px;
+}
+.nationality-switch-input::before{
+    content: 'Indian';
+    font-size: 14px;
+    padding: 4px;
+    color: #fff;
+    z-index: -1;
+}

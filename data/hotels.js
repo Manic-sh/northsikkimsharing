@@ -2,7 +2,7 @@ export const hotelsData = [
   {
     id: 1,
     tag: "Breakfast Included",
-    slideImg: ["/img/hotels/1.png"],
+    slideImg: ["/img/hotels/1.png", "/img/hotels/1.png", "/img/hotels/3.png"],
     img: "/img/hotels/1.png",
     title: "The Montcalm At Brewery London City",
     location: "Westminster Borough, London",

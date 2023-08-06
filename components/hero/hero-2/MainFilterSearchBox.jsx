@@ -1,20 +1,22 @@
+import React from "react";
 import Router from "next/router";
 import DateSearch from "../DateSearch";
 import GuestSearch from "./GuestSearch";
 import LocationSearch from "./LocationSearch";
 
-const MainFilterSearchBox = () => {
+
+const MainFilterSearchBox = (props) => {
   return (
     <>
       <div className="mainSearch -w-900 z-2 bg-white pr-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 mt-40">
         <div className="button-grid items-center">
-          <LocationSearch />
+          <LocationSearch  packages={props.packageData} />
           {/* End Location */}
 
           <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
             <div>
               <h4 className="text-15 fw-500 ls-2 lh-16">
-                Check in - Check out
+                Date of Journey
               </h4>
               <DateSearch />
             </div>

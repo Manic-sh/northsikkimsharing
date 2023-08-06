@@ -8,7 +8,7 @@ const ContentTabContent = () => {
   return (
     <>
       <div className="col-xl-10">
-        <div className="text-18 fw-500 mb-10">Hotel Content</div>
+        <div className="text-18 fw-500 mb-10">Package Content</div>
         <HotelContent />
         {/* End HotelContent */}
 

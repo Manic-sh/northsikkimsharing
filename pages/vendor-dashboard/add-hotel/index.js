@@ -7,7 +7,7 @@ import Footer from "../common/Footer";
 const index = () => {
   return (
     <>
-      <Seo pageTitle="Vendor Add Hotel" />
+      <Seo pageTitle="Vendor Add Package Detail" />
       {/* End Page Title */}
 
       <div className="header-margin"></div>
@@ -26,9 +26,9 @@ const index = () => {
           <div className="dashboard__content bg-light-2">
             <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
               <div className="col-12">
-                <h1 className="text-30 lh-14 fw-600">Settings</h1>
+                <h1 className="text-30 lh-14 fw-600">Admin Dashboard</h1>
                 <div className="text-15 text-light-1">
-                  Lorem ipsum dolor sit amet, consectetur.
+                  Add package details 
                 </div>
               </div>
               {/* End .col-12 */}

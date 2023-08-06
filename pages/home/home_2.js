@@ -1,3 +1,4 @@
+import React from "react";
 import dynamic from "next/dynamic";
 import Blog4 from "../../components/blog/Blog4";
 import Brand2 from "../../components/brand/Brand2";
@@ -14,19 +15,20 @@ import TestimonialRating from "../../components/home/home-2/TestimonialRating";
 import Travellers from "../../components/home/home-2/Travellers";
 import FilterHotelsTabs from "../../components/hotels/filter-tabs/FilterHotelsTabs";
 import FilterHotels from "../../components/hotels/FilterHotels";
-
-const home_2 = () => {
+const Home = () => {
+  
   return (
     <>
-      <Seo pageTitle="Home-2" />
+      <Seo pageTitle="Home" />
       {/* End Page Title */}
 
       <Header2 />
       {/* End Header 2 */}
-
       <Hero2 />
+      {/* <BuilderComponent
+        content={props.content}
+        model="hero" /> */}
       {/* End Hero 2 */}
-
       <section className="layout-pt-lg layout-pb-md">
         <div className="container">
           <div className="row y-gap-40 sm:y-gap-10 justify-between">
@@ -186,4 +188,4 @@ const home_2 = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(home_2), { ssr: false });
+export default dynamic(() => Promise.resolve(Home), { ssr: false });
