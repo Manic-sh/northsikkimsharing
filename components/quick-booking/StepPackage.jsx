@@ -6,7 +6,7 @@ import { builder } from "@builder.io/sdk";
 
 builder.init("02508b9173c94715834f124a5247ac79");
 // creating functional component ans getting props from app.js and destucturing them
-const StepPackage = ({ nextStep, selectedPackage, values }) => {
+const StepPackage = ({ nextStep, handleFormData, values }) => {
   //creating error state for validation
   const [packageData, setPackageData] = useState();
   const [searchValue, setSearchValue] = useState("");
