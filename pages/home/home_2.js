@@ -15,8 +15,9 @@ import TestimonialRating from "../../components/home/home-2/TestimonialRating";
 import Travellers from "../../components/home/home-2/Travellers";
 import FilterHotelsTabs from "../../components/hotels/filter-tabs/FilterHotelsTabs";
 import FilterHotels from "../../components/hotels/FilterHotels";
+
 const Home = () => {
-  
+
   return (
     <>
       <Seo pageTitle="Home" />
@@ -25,9 +26,6 @@ const Home = () => {
       <Header2 />
       {/* End Header 2 */}
       <Hero2 />
-      {/* <BuilderComponent
-        content={props.content}
-        model="hero" /> */}
       {/* End Hero 2 */}
       <section className="layout-pt-lg layout-pb-md">
         <div className="container">

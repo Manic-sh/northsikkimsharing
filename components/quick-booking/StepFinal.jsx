@@ -1,26 +1,30 @@
 import React from "react";
-import { Card, Form } from "react-bootstrap";
-
+import { Card } from "react-bootstrap";
 
 const StepFinal = ({ values }) => {
 
   //destructuring the object from values
-  const { firstName, lastName, age, email } = values;
+  console.log(values);
+
+  const { dateOfJourney, guestCounts, packageType, totalAmount } = values;
+  const { pakageName } = values?.selectedPackage?.data;
+  const jdate = new Date(dateOfJourney);
+  
   return (
     <>
       <Card style={{ marginTop: 100, textAlign: "left" }}>
         <Card.Body>
           <p>
-            <strong>First Name :</strong> {firstName}{" "}
+            <strong>Package :</strong> {pakageName}
           </p>
           <p>
-            <strong>Last Name :</strong> {lastName}{" "}
+            <strong>Date of Journey :{jdate.toDateString()}</strong> 
           </p>
           <p>
-            <strong>Age :</strong> {age}{" "}
+            <strong>Guest Counts :</strong> {guestCounts?.Adults} Adults <span> Rooms {guestCounts?.Rooms}</span>
           </p>
           <p>
-            <strong>Email :</strong> {email}{" "}
+            <strong>Total Amount :</strong> {totalAmount}
           </p>
           <div
             style={{ display: "flex", justifyContent: "space-around", flexDirection: "column", gap: '1rem' }}

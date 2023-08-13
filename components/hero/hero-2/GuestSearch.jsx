@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 const counters = [
   { name: "Adults", defaultValue: 2 },
   { name: "Children", defaultValue: 1 },
@@ -58,7 +58,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
   );
 };
 
-const GuestSearch = () => {
+const GuestSearch = ({setSelectedGuestCount}) => {
   const [guestCounts, setGuestCounts] = useState({
     Adults: 2,
     Children: 1,
@@ -67,6 +67,10 @@ const GuestSearch = () => {
   const handleCounterChange = (name, value) => {
     setGuestCounts((prevState) => ({ ...prevState, [name]: value }));
   };
+  useEffect(()=>{
+    setSelectedGuestCount(guestCounts);
+  }, [guestCounts]);
+
   return (
     <div className="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters position-relative">
       <div

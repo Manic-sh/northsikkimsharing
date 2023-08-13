@@ -29,14 +29,12 @@ function QuickBookingMainForm() {
   };
 
   // handling form input data by taking onchange value and updating our previous form data state
-  const handleInputData = input => e => {
+  const handleInputData = (name, value) => {
     // input value from the form
-    const {value } = e.target;
-
     //updating for data state taking previous state and then adding new value to create new object
     setFormData(prevState => ({
       ...prevState,
-      [input]: value
+      [name]: value
   }));
   }
 
@@ -46,7 +44,7 @@ function QuickBookingMainForm() {
     // case 1 to show stepOne form and passing nextStep, prevStep, and handleInputData as handleFormData method as prop and also formData as value to the fprm
     case 1:
       return (
-        <div className="App">
+        <div className="mainSearch z-2 bg-white pr-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 mt-40">
           <Container>
             <Row>
               <Col  md={{ span: 6, offset: 3 }} className="custom-margin">
@@ -59,7 +57,7 @@ function QuickBookingMainForm() {
     // case 2 to show stepTwo form passing nextStep, prevStep, and handleInputData as handleFormData method as prop and also formData as value to the fprm
     case 2:
       return (
-        <div className="App">
+        <div className="mainSearch z-2 bg-white pr-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 mt-40">
           <Container>
             <Row>
               <Col  md={{ span: 6, offset: 3 }} className="custom-margin">
@@ -71,7 +69,7 @@ function QuickBookingMainForm() {
       );
     case 3:
         return (
-          <div className="App">
+          <div className="mainSearch z-2 bg-white pr-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 mt-40">
             <Container>
               <Row>
                 <Col md={{ span: 6, offset: 3 }} className="custom-margin">
@@ -84,7 +82,7 @@ function QuickBookingMainForm() {
       // Only formData is passed as prop to show the final value at form submit
     case 4:
       return (
-        <div className="App">
+        <div className="mainSearch z-2 bg-white pr-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 mt-40">
           <Container>
             <Row>
               <Col  md={{ span: 6, offset: 3 }} className="custom-margin">
@@ -97,7 +95,7 @@ function QuickBookingMainForm() {
     // default case to show nothing
     default:
       return (
-        <div className="App">
+        <div className="mainSearch z-2 bg-white pr-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 mt-40">
         </div>
       );
   }

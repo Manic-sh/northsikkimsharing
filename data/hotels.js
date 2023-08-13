@@ -10,6 +10,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "72",
     delayAnimation: "100",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ export const hotelsData = [
     numberOfReviews: "2345",
     price: "85",
     delayAnimation: "200",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "68",
     delayAnimation: "300",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 4,
@@ -46,6 +49,7 @@ export const hotelsData = [
     numberOfReviews: "5633",
     price: "89",
     delayAnimation: "400",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 5,
@@ -58,6 +62,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "99",
     delayAnimation: "500",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 6,
@@ -70,6 +75,7 @@ export const hotelsData = [
     numberOfReviews: "3467",
     price: "79",
     delayAnimation: "600",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 7,
@@ -82,6 +88,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "88",
     delayAnimation: "700",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 8,
@@ -94,6 +101,7 @@ export const hotelsData = [
     numberOfReviews: "7654",
     price: "68",
     delayAnimation: "800",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 9,
@@ -106,6 +114,7 @@ export const hotelsData = [
     numberOfReviews: "3245",
     price: "72",
     delayAnimation: "900",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 10,
@@ -122,6 +131,7 @@ export const hotelsData = [
     numberOfReviews: "3432",
     price: "85",
     delayAnimation: "1000",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 11,
@@ -134,6 +144,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "68",
     delayAnimation: "1100",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 12,
@@ -146,6 +157,7 @@ export const hotelsData = [
     numberOfReviews: "2343",
     price: "89",
     delayAnimation: "1200",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 13,
@@ -158,6 +170,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "99",
     delayAnimation: "500",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 14,
@@ -170,6 +183,7 @@ export const hotelsData = [
     numberOfReviews: "3467",
     price: "79",
     delayAnimation: "600",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 15,
@@ -182,6 +196,7 @@ export const hotelsData = [
     numberOfReviews: "3014",
     price: "88",
     delayAnimation: "700",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
   {
     id: 16,
@@ -194,5 +209,6 @@ export const hotelsData = [
     numberOfReviews: "7654",
     price: "68",
     delayAnimation: "800",
+    handle: "the-Montcalma-at-brewery-london-city",
   },
 ];

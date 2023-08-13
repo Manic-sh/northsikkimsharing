@@ -6,7 +6,7 @@ import "photoswipe/dist/photoswipe.css";
 import { Gallery, Item } from "react-photoswipe-gallery";
 import { hotelsData } from "../../../data/hotels";
 import Seo from "../../../components/common/Seo";
-import DefaultHeader from "../../../components/header/default-header";
+import DefaultHeader from "../../../components/header/header-2";
 import Overview from "../../../components/hotel-single/Overview";
 import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
 import RatingTag from "../../../components/hotel-single/RatingTag";
@@ -29,19 +29,43 @@ import FilterBox2 from "../../../components/hotel-single/filter-box-2";
 import StickyHeader2 from "../../../components/hotel-single/StickyHeader2";
 import RatingBox from "../../../components/hotel-single/RatingBox";
 import PropertyHighlights2 from "../../../components/hotel-single/PropertyHighlights2";
+import { builder } from "@builder.io/sdk";
+
+builder.init("02508b9173c94715834f124a5247ac79");
+
 
 const HotelSingleV2Dynamic = () => {
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
   const [hotel, setHotel] = useState({});
-  const id = router.query.id;
-
+  const handle = router.query.handle;
+  const adults = router.query.adults;
+  const [packageDetail, setPackageDetail] = useState(null);
+  
   useEffect(() => {
-    if (!id) <h1>Loading...</h1>;
-    else setHotel(hotelsData.find((item) => item.id == id));
+    if (!handle) <h1>Loading...</h1>;
+    else fetchPackage();
+    //setHotel(hotelsData.find((item) => item.handle == handle));
+
+    async function fetchPackage() {
+      const data = await builder.get("package", {
+        fields: "data",
+        includeRefs: true, // Currently this only gets one level of nested references
+        cachebust: true,
+        query: {
+          // Get the specific article by handle
+          "data.handle": handle,
+        },
+      }).promise() || null;
+      setHotel(data);
+      setPackageDetail(data)
+      console.log(data);
+    }
 
     return () => {};
-  }, [id]);
+  }, [handle]);
+
+  console.log(hotel);
 
   return (
     <>
@@ -88,14 +112,14 @@ const HotelSingleV2Dynamic = () => {
                 <div className="galleryGrid -type-2">
                   <div className="galleryGrid__item relative d-flex justify-end">
                     <Item
-                      original={hotel?.img}
-                      thumbnail={hotel?.img}
+                      original={packageDetail?.data?.images[0].image}
+                      thumbnail={packageDetail?.data?.images[0].image}
                       width={660}
                       height={660}
                     >
                       {({ ref, open }) => (
                         <img
-                          src={hotel?.img}
+                          src={packageDetail?.data?.images[0].image}
                           ref={ref}
                           onClick={open}
                           alt="image"
@@ -190,8 +214,9 @@ const HotelSingleV2Dynamic = () => {
                   <div className="row x-gap-20  items-center">
                     <div className="col-auto">
                       <h1 className="text-30 sm:text-25 fw-600">
-                        {hotel?.title?.slice(0, 30)}
+                        {packageDetail?.data?.pakageName}
                       </h1>
+                      
                     </div>
                     {/* End .col */}
                     <div className="col-auto">
@@ -208,16 +233,8 @@ const HotelSingleV2Dynamic = () => {
                     <div className="col-auto">
                       <div className="d-flex items-center text-15 text-light-1">
                         <i className="icon-location-2 text-16 mr-5" />
-                        {hotel?.location}
+                        {packageDetail?.data?.places}
                       </div>
-                    </div>
-                    <div className="col-auto">
-                      <button
-                        data-x-click="mapFilter"
-                        className="text-blue-1 text-15 underline"
-                      >
-                        Show on map
-                      </button>
                     </div>
                   </div>
                   {/* End .row */}
@@ -228,14 +245,14 @@ const HotelSingleV2Dynamic = () => {
                   <div className="text-14 text-md-end">
                     From{" "}
                     <span className="text-22 text-dark-1 fw-500">
-                      US${hotel?.price}
+                      Rs {packageDetail?.data?.basePricePerPerson * adults}
                     </span>
                   </div>
                   <a
                     href="#"
                     className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
                   >
-                    Select Room <div className="icon-arrow-top-right ml-15" />
+                    Book Now<div className="icon-arrow-top-right ml-15" />
                   </a>
                 </div>
                 {/* End .col */}
@@ -244,13 +261,13 @@ const HotelSingleV2Dynamic = () => {
 
               <div id="overview" className="row y-gap-40 pt-40 ">
                 <div className="col-12">
-                  <Overview />
+                  <Overview description={packageDetail?.data?.description} />
                 </div>
                 {/* End col-12 */}
 
                 <div className="col-12">
                   <h3 className="text-22 fw-500 pt-40 border-top-light">
-                    Most Popular Facilities
+                     Package Facilities
                   </h3>
                   <div className="row y-gap-10 pt-20">
                     <PopularFacilities />

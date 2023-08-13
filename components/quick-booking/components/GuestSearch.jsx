@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 const counters = [
   { name: "Adults", defaultValue: 2 },
   { name: "Children", defaultValue: 1 },
@@ -31,6 +31,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
         <div className="col-auto">
           <div className="d-flex items-center js-counter">
             <button
+              type="button"
               className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down"
               onClick={decrementCount}
             >
@@ -42,6 +43,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
             </div>
             {/* counter text  */}
             <button
+              type="button"
               className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up"
               onClick={incrementCount}
             >
@@ -58,7 +60,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
   );
 };
 
-const GuestSearch = (props) => {
+const GuestSearch = ({handleFormData}) => {
   const [guestCounts, setGuestCounts] = useState({
     Adults: 2,
     Children: 1,
@@ -66,8 +68,13 @@ const GuestSearch = (props) => {
   });
   const handleCounterChange = (name, value) => {
     setGuestCounts((prevState) => ({ ...prevState, [name]: value }));
-    props.handleCounterChange(guestCounts);
+    
   };
+  useEffect(()=>{
+    console.log(guestCounts);
+    handleFormData("guestCounts", guestCounts);
+  }, [guestCounts]);
+
   return (
     <div className="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters position-relative">
       <div

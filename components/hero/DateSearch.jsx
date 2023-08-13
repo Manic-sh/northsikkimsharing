@@ -11,7 +11,6 @@ const DateSearch = () => {
   const [date, setDates] = useState(new Date());
 
 
-
   return (
     <div className="custom_datepicker">
       {/* <DatePicker
