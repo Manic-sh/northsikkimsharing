@@ -5,8 +5,7 @@ import DefaultHeader from "../components/header/default-header";
 import DefaultFooter from "../components/footer/default";
 import TopDestinations2 from "../components/destinations/TopDestinations2";
 import Faq from "../components/faq/Faq";
-import TestimonialLeftCol from "../components/home/home-1/TestimonialLeftCol";
-import Testimonial from "../components/home/home-1/Testimonial";
+import Testimonial from "../components/home/home-2/Testimonial";
 import Link from "next/link";
 import Slights from "../components/block/Slights";
 import Blog from "../components/blog/Blog3";
@@ -321,7 +320,7 @@ const Destinations = () => {
         <div className="container">
           <div className="row y-gap-40 justify-between">
             <div className="col-xl-5 col-lg-6" data-aos="fade-up">
-              <TestimonialLeftCol />
+          
             </div>
             {/* End col */}
 

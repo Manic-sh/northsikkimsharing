@@ -3,14 +3,13 @@ import AddBanner from "../../components/add-banner/AddBanner";
 import Seo from "../../components/common/Seo";
 import PopularDestinations from "../../components/destinations/PopularDestinations";
 import DefaultFooter from "../../components/footer/default";
-import Header1 from "../../components/header/header-1";
-import Hero1 from "../../components/hero/hero-1";
+import Header2 from "../../components/header/header-2";
+import Hero2 from "../../components/hero/hero-2";
 import BlockGuide from "../../components/block/BlockGuide";
 import Blog from "../../components/blog/Blog3";
 import CallToActions from "../../components/common/CallToActions";
-import Destinations from "../../components/home/home-1/Destinations";
-import Testimonial from "../../components/home/home-1/Testimonial";
-import TestimonialLeftCol from "../../components/home/home-1/TestimonialLeftCol";
+import Testimonial from "../../components/home/home-2/Testimonial";
+
 import Hotels from "../../components/hotels/Hotels";
 import SelectFilter from "../../components/hotels/filter-tabs/SelectFilter";
 
@@ -20,10 +19,10 @@ const Home_1 = () => {
       <Seo pageTitle="Home-1" />
       {/* End Page Title */}
 
-      <Header1 />
+      <Header2 />
       {/* End Header 1 */}
 
-      <Hero1 />
+      <Hero2 />
       {/* End Hero 1 */}
 
       <section className="layout-pt-lg layout-pb-md" data-aos="fade-up">
@@ -108,7 +107,7 @@ const Home_1 = () => {
         <div className="container">
           <div className="row y-gap-40 justify-between">
             <div className="col-xl-5 col-lg-6" data-aos="fade-up">
-              <TestimonialLeftCol />
+    
             </div>
             {/* End col */}
 
@@ -167,7 +166,7 @@ const Home_1 = () => {
           {/* End .row */}
 
           <div className="tabs -pills pt-40 js-tabs">
-            <Destinations />
+  
           </div>
           {/* End tabs */}
         </div>
