@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import "photoswipe/dist/photoswipe.css";
 import carsData from "../../../data/cars";
 import Seo from "../../../components/common/Seo";
-import Header11 from "../../../components/header/header-11";
+import Header2 from "../../../components/header/header-2";
 import Overview from "../../../components/car-single/Overview";
 import PropertyHighlights from "../../../components/car-single/PropertyHighlights";
 import TopBreadCrumb from "../../../components/car-single/TopBreadCrumb";
@@ -39,7 +39,7 @@ const TourSingleV1Dynamic = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <Header11 />
+      <Header2 />
       {/* End Header 1 */}
 
       <TopBreadCrumb />

@@ -2,24 +2,15 @@ import { useSelector, useDispatch } from "react-redux";
 import React from "react";
 import { addCurrentTab } from "../../../features/hero/findPlaceSlice";
 import { Builder, builder } from '@builder.io/react'
-import QuickBookingMainForm from "@/components/quick-booking";
+
 
 import MainFilterSearchBox from './MainFilterSearchBox';
 
 const Index = (props) => {
-  const [width, setWidth] = React.useState(window.innerWidth);
-  const breakpoint = 620;
 
   const { tabs, currentTab } = useSelector((state) => state.hero) || {};
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    const handleWindowResize = () => setWidth(window.innerWidth)
-    window.addEventListener("resize", handleWindowResize);
-
-    // Return a function from the effect that removes the event listener
-    return () => window.removeEventListener("resize", handleWindowResize);
-  }, []);
 
   return (
     <section className="masthead -type-2 z-2">
@@ -59,7 +50,7 @@ const Index = (props) => {
                 {props.title ? props.title : 'Choose Your Package' }
               </h1>
               {/* <MainFilterSearchBox packageData={packageData} /> */}
-              { (width < breakpoint) ? <QuickBookingMainForm /> : <MainFilterSearchBox /> }
+              <MainFilterSearchBox />
               {/* End filter content */}
             </div>
             {/* End .col */}

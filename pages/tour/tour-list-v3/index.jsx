@@ -1,5 +1,5 @@
 import Seo from "../../../components/common/Seo";
-import Header11 from "../../../components/header/header-11";
+import Header2 from "../../../components/header/header-2";
 import DropdownSelelctBar from "../../../components/tour-list/common/DropdownSelelctBar";
 import MapPropertyFinder from "../../../components/tour-list/common/MapPropertyFinder";
 import Pagination from "../../../components/tour-list/common/Pagination";
@@ -16,7 +16,7 @@ const index = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <Header11 />
+      <Header2 />
       {/* End Header 1 */}
 
       <section className="halfMap">

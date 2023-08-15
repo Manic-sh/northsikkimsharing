@@ -1,7 +1,7 @@
 import Link from "next/link";
 import BookingDetails from "./sidebar/BookingDetails";
 
-const CustomerInfo = () => {
+const CustomerInfo = ({bookingInfo}) => {
   return (
     <>
       <div className="col-xl-7 col-lg-8 mt-30">
@@ -45,46 +45,6 @@ const CustomerInfo = () => {
 
           <div className="col-12">
             <div className="form-input ">
-              <input type="text" required />
-              <label className="lh-1 text-16 text-light-1">
-                Address line 1
-              </label>
-            </div>
-          </div>
-          {/* End col-12 */}
-
-          <div className="col-12">
-            <div className="form-input ">
-              <input type="text" required />
-              <label className="lh-1 text-16 text-light-1">
-                Address line 2
-              </label>
-            </div>
-          </div>
-          {/* End col-12 */}
-
-          <div className="col-md-6">
-            <div className="form-input ">
-              <input type="text" required />
-              <label className="lh-1 text-16 text-light-1">
-                State/Province/Region
-              </label>
-            </div>
-          </div>
-          {/* End col-12 */}
-
-          <div className="col-md-6">
-            <div className="form-input ">
-              <input type="text" required />
-              <label className="lh-1 text-16 text-light-1">
-                ZIP code/Postal code
-              </label>
-            </div>
-          </div>
-          {/* End col-12 */}
-
-          <div className="col-12">
-            <div className="form-input ">
               <textarea required rows={6} defaultValue={""} />
               <label className="lh-1 text-16 text-light-1">
                 Special Requests
@@ -112,7 +72,7 @@ const CustomerInfo = () => {
 
       <div className="col-xl-5 col-lg-4 mt-30">
         <div className="booking-sidebar">
-          <BookingDetails />
+          <BookingDetails  bookingInfo={bookingInfo} />
         </div>
       </div>
       {/*  */}

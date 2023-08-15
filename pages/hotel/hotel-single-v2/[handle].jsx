@@ -30,6 +30,7 @@ import StickyHeader2 from "../../../components/hotel-single/StickyHeader2";
 import RatingBox from "../../../components/hotel-single/RatingBox";
 import PropertyHighlights2 from "../../../components/hotel-single/PropertyHighlights2";
 import { builder } from "@builder.io/sdk";
+import Link from "next/link";
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
@@ -40,6 +41,9 @@ const HotelSingleV2Dynamic = () => {
   const [hotel, setHotel] = useState({});
   const handle = router.query.handle;
   const adults = router.query.adults;
+  const children = router.query.children;
+  const jdate = router.query.dateOfJourney;
+  const rooms = router.query.rooms;
   const [packageDetail, setPackageDetail] = useState(null);
   
   useEffect(() => {
@@ -86,19 +90,8 @@ const HotelSingleV2Dynamic = () => {
       <DefaultHeader />
       {/* End DefaultHeader */}
 
-      <div className="py-10 bg-dark-2">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <FilterBox2 />
-            </div>
-          </div>
-        </div>
-        {/* End .contaienr */}
-      </div>
       {/* End Search filter top */}
 
-      <StickyHeader2 hotel={hotel} />
       {/* End StickyHeader2 */}
 
       <TopBreadCrumb />
@@ -248,12 +241,21 @@ const HotelSingleV2Dynamic = () => {
                       Rs {packageDetail?.data?.basePricePerPerson * adults}
                     </span>
                   </div>
-                  <a
-                    href="#"
-                    className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
-                  >
-                    Book Now<div className="icon-arrow-top-right ml-15" />
-                  </a>
+                  <Link
+                      href={{
+                        pathname: `/hotel/booking-page/${handle}`,
+                        query: {
+                          'dateOfJourney': jdate,
+                          'adults': adults,
+                          'children': children,
+                          'rooms': rooms,
+                        }
+                      }}
+                      className="button -md -dark-1 bg-blue-1 text-white mt-24"
+                    >
+                      Book Now
+                      <div className="icon-arrow-top-right ml-15"></div>
+                    </Link>
                 </div>
                 {/* End .col */}
               </div>

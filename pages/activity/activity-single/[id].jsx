@@ -5,7 +5,7 @@ import ModalVideo from "react-modal-video";
 import "photoswipe/dist/photoswipe.css";
 import activityData from "../../../data/activity";
 import Seo from "../../../components/common/Seo";
-import Header11 from "../../../components/header/header-11";
+import Header2 from "../../../components/header/header-2";
 import Overview from "../../../components/activity-single/Overview";
 import TourSnapShot from "../../../components/activity-single/TourSnapShot";
 import TopBreadCrumb from "../../../components/activity-single/TopBreadCrumb";
@@ -52,7 +52,7 @@ const TourSingleV1Dynamic = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <Header11 />
+      <Header2 />
       {/* End Header 1 */}
 
       <TopBreadCrumb />

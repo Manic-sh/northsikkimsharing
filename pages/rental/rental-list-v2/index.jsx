@@ -1,6 +1,6 @@
 import CallToActions from "../../../components/common/CallToActions";
 import Seo from "../../../components/common/Seo";
-import Header11 from "../../../components/header/header-11";
+import Header2 from "../../../components/header/header-2";
 import DefaultFooter from "../../../components/footer/default";
 import TopHeaderFilter from "../../../components/rental-list/rental-list-v2/TopHeaderFilter";
 import RentalProperties from "../../../components/rental-list/rental-list-v2/RentalProperties";
@@ -16,7 +16,7 @@ const index = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <Header11 />
+      <Header2 />
       {/* End Header 1 */}
 
       <section className="layout-pt-md layout-pb-lg">

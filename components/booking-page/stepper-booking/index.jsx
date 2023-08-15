@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
+import UploadDocuments from "../UploadDocuments";
 
-const Index = () => {
+const Index = ({bookingInfo}) => {
+
   const [currentStep, setCurrentStep] = useState(0);
   const steps = [
     {
@@ -16,11 +18,23 @@ const Index = () => {
           </div>
         </>
       ),
-      content: <CustomerInfo />,
+      content: <CustomerInfo bookingInfo={bookingInfo} />,
+    },
+    {
+      title: "Upload Documents",
+      stepNo: "2",
+      stepBar: (
+        <>
+          <div className="col d-none d-sm-block">
+            <div className="w-full h-1 bg-border"></div>
+          </div>
+        </>
+      ),
+      content: <UploadDocuments bookingInfo={bookingInfo} />,
     },
     {
       title: "Payment Details",
-      stepNo: "2",
+      stepNo: "3",
       stepBar: (
         <>
           <div className="col d-none d-sm-block">
@@ -32,7 +46,7 @@ const Index = () => {
     },
     {
       title: "Final Step",
-      stepNo: "3",
+      stepNo: "4",
       stepBar: "",
       content: <OrderSubmittedInfo />,
     },

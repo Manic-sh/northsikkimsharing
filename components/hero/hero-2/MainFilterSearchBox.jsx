@@ -53,7 +53,7 @@ const MainFilterSearchBox = () => {
               href={{
                 pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
                 query: {
-                  'date-of-journey': jdate.toDateString(),
+                  'dateOfJourney': jdate.toDateString(),
                   'adults': guestCounts?.Adults,
                   'children': guestCounts?.Children,
                   'rooms': guestCounts?.Rooms,
