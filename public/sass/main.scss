@@ -49,22 +49,31 @@
 
 .nationality-switch{
     width: 120px;
+    align-items: center;
 }
 .nationality-switch label{
     line-height: 1.6;
     vertical-align: top;
 }
 .nationality-switch .nationality-switch-input{
-    width: 80px;
-    height: 30px;
+    width: 70px;
+    height: 30px;   
+    color: transparent;
+    border: 2px solid var(--color-blue-1);
 }
 .nationality-switch-input::before{
     content: 'Indian';
     font-size: 14px;
     padding: 4px;
-    color: #fff;
+
     z-index: -1;
 }
 .modal-body iframe{
     max-width: 340px;
+}
+
+.form-check-input.nationality-switch-input:checked{
+    background-color: var(--color-blue-1) !important;
+    border-color: var(--color-blue-1) !important;
+    color: #fff;
 }

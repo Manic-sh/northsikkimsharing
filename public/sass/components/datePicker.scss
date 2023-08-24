@@ -1,11 +1,15 @@
 .react-date-picker__wrapper{
     display: flex !important;
+    align-items: center;
+}
+.react-date-picker__inputGroup{
+    min-width: 170px;
 }
 .custom_datepicker input{
-    min-width: 20px !important;
+    width: 40px !important;
 }
 .react-date-picker__inputGroup__input.react-date-picker__inputGroup__year{
-    min-width: 60px !important;
+    width: 60px !important;
 }
 .react-date-picker__calendar.react-date-picker__calendar--open{
     z-index: 1 !important;

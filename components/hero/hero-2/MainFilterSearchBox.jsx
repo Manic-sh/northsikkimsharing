@@ -45,7 +45,7 @@ const MainFilterSearchBox = () => {
             <div>
               <h4 className="text-15 fw-500 ls-2 lh-16">Date of Journey</h4>
               <div className="custom_datepicker">
-                <DatePicker onChange={setDateOfJourney} value={dateOfJourney} closeCalendar required />
+                <DatePicker onChange={setDateOfJourney} value={dateOfJourney} clearIcon={null} closeCalendar required />
               </div>
             </div>
           </div>

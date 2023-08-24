@@ -79,6 +79,7 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
               className="js-search js-dd-focus"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
+              required
             />
           </div>
         </div>
