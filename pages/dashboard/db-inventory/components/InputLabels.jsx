@@ -10,7 +10,7 @@ const InputValues = ({packageItem, setSelectedPackage, selectedDate, ...props}) 
 
     const handleBasePriceInput = () => {
       if(packageItem?.pricingPeriods.length > 0){
-        const item = packageItem?.pricingPeriods.find(periods => {
+        const item = packageItem?.pricingPeriods?.find(periods => {
           console.log(periods.startDate);
           console.log(selectedDate);
           return periods.startDate == selectedDate;
@@ -20,9 +20,9 @@ const InputValues = ({packageItem, setSelectedPackage, selectedDate, ...props}) 
     }
     return (
       <div ref={inputRef} onClick={handleShowEditingCanvas}>
-            <span>{packageItem.availableSeats || "-"}</span>
+            <span>{packageItem?.availableSeats || "-"}</span>
             <br />
-            <span>{ packageItem.basePrice }</span>
+            <span>{ packageItem?.basePrice }</span>
       </div>
     )
   }

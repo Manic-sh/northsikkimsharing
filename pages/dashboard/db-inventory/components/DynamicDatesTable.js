@@ -67,7 +67,7 @@ function DynamicDateTable({ startDate, endDate, data, handleTableDataUpdate }) {
 
   const renderHeaderCells = () => {
     const dateHeaders = generateDateHeaders();
-    return dateHeaders.map((date, index) => <th key={index}>{date}</th>);
+    return dateHeaders?.map((date, index) => <th key={index}>{date}</th>);
   };
 
   const setSelectedPackage = (packageItem, selectedDate) => {
@@ -76,11 +76,11 @@ function DynamicDateTable({ startDate, endDate, data, handleTableDataUpdate }) {
   }
 
   const renderRows = () => {
-    return data.map((row, rowIndex) => (
+    return data?.map((row, rowIndex) => (
       <tr key={rowIndex}>
         <td key={row.handle}>{row.name}</td>
         {/* Render cells for each date in the dateHeaders */}
-        {generateDateHeaders().map((date, colIndex) => (
+        {generateDateHeaders()?.map((date, colIndex) => (
           <td key={colIndex} className="text-center">
               <InputValues packageItem={row} showEditingCanvas={toggleShow} setSelectedPackage={setSelectedPackage} selectedDate={date} />
           </td>

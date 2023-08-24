@@ -7,8 +7,8 @@ import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 
 function PackageCard({ editingPackage, data, selectedDate, handleTableDataUpdate }) {
-  const [availability, setAvailability] = useState(editingPackage.availableSeats);
-  const [basePrice, setBasePrice] = useState(editingPackage.basePrice);
+  const [availability, setAvailability] = useState(editingPackage?.availableSeats);
+  const [basePrice, setBasePrice] = useState(editingPackage?.basePrice);
   let dateSelected = moment(selectedDate);
 
 
@@ -18,7 +18,7 @@ function PackageCard({ editingPackage, data, selectedDate, handleTableDataUpdate
 
     const newState = data.map(obj => {
       // 👇️ if id equals 2, update country property
-      if (obj.handle === editingPackage.handle) {
+      if (obj.handle === editingPackage?.handle) {
         return {...obj, availableSeats: availability, basePrice: basePrice};
       }
 
@@ -43,7 +43,7 @@ function PackageCard({ editingPackage, data, selectedDate, handleTableDataUpdate
     <Form onSubmit={handlePackageUpdate}>
       <Card style={{ width: '18rem' }}>
         <Card.Body>
-          <Card.Title>{editingPackage.name}</Card.Title>
+          <Card.Title>{editingPackage?.name}</Card.Title>
           <Card.Text>
           </Card.Text>
         </Card.Body>
@@ -75,10 +75,10 @@ function PackageCard({ editingPackage, data, selectedDate, handleTableDataUpdate
             />
           </ListGroup.Item>
           <ListGroup.Item>Active Offers:
-            {editingPackage.offers.map((offer, idx) => {
+            {editingPackage?.offers?.map((offer, idx) => {
               return (
                 <Form.Group key={idx} className="mb-3" controlId="exampleForm.ControlInput1">
-                  <Form.Control type="text" placeholder={offer.name} value={offer.value} />
+                  <Form.Control type="text" placeholder={offer?.name} value={offer?.value} />
                 </Form.Group>
               )
             })}
