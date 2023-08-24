@@ -59,7 +59,7 @@ const Index = (props) => {
               <div className="masthead__images relative-1">
                 <div data-aos="fade" data-aos-delay="400">
                   <img
-                    src="/img/masthead/2/1.png"
+                    src="https://cdn.builder.io/api/v1/image/assets%2F02508b9173c94715834f124a5247ac79%2F84f2cc860c3b46ee9ceb30787145a532"
                     alt="image"
                     className="js-mouse-move"
                   />
@@ -68,7 +68,7 @@ const Index = (props) => {
 
                 <div data-aos="fade" data-aos-delay="600">
                   <img
-                    src="/img/masthead/2/2.png"
+                    src="https://cdn.builder.io/api/v1/image/assets%2F02508b9173c94715834f124a5247ac79%2F3b774f97c0a54a968528af965f7bc318?format=webp"
                     alt="image"
                     className="js-mouse-move"
                   />
@@ -77,7 +77,7 @@ const Index = (props) => {
 
                 <div data-aos="fade" data-aos-delay="800">
                   <img
-                    src="/img/masthead/2/3.png"
+                    src="https://cdn.builder.io/api/v1/image/assets%2F02508b9173c94715834f124a5247ac79%2F84f2cc860c3b46ee9ceb30787145a532"
                     alt="image"
                     className="js-mouse-move"
                   />

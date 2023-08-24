@@ -5,7 +5,7 @@ import PaymentSchedule from "./sidebar/PaymentSchedule";
 import PromoCode from "./sidebar/PromoCode";
 import RatingInfo from "./RatingInfo";
 
-const PaymentInfo = () => {
+const PaymentInfo = ({totalPrice}) => {
   const [itemsTabs, setItemsTabs] = useState(1);
   const cardTabs = [
     { id: 1, name: "Credit/Debit Card" },
@@ -152,8 +152,8 @@ const PaymentInfo = () => {
 
       <div className="col-xl-5 col-lg-4">
         <div className="booking-sidebar">
-          <PricingSummary />
-          <PaymentSchedule />
+          <PricingSummary totalPrice={totalPrice} />
+          <PaymentSchedule totalPrice={totalPrice} />
           <PromoCode />
         </div>
       </div>

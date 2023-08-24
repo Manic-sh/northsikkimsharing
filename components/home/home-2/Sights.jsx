@@ -3,7 +3,9 @@ import { Navigation, Pagination } from "swiper";
 import { destinations3 } from "../../../data/desinations";
 import Link from "next/link";
 
-const Travellers = () => {
+const Sights = ({destinations}) => {
+  console.log(destinations);
+  
   return (
     <div className="pt-40 overflow-hidden js-section-slider">
       <Swiper
@@ -34,27 +36,27 @@ const Travellers = () => {
           },
         }}
       >
-        {destinations3.map((item) => (
-          <SwiperSlide key={item.id}>
+        {destinations?.map((item, idx) => (
+          <SwiperSlide key={idx}>
             <Link
               href="/tour/tour-list-v3"
               className="citiesCard -type-2"
               data-aos="fade"
-              data-aos-delay={item.delayAnimation}
+              data-aos-delay={100 * idx}
             >
               <div className="citiesCard__image rounded-4 ratio ratio-3:4">
                 <img
                   className="img-ratio rounded-4 js-lazy"
-                  src={item.img}
-                  alt="image"
+                  src={item?.data?.image}
+                  alt={item?.data?.title}
                 />
               </div>
               <div className="citiesCard__content mt-10">
                 <h4 className="text-18 lh-13 fw-500 text-dark-1">
-                  {item.title}
+                  {item?.data?.title}
                 </h4>
                 <div className="text-14 text-light-1">
-                  {item.travellers} travellers
+                  {item?.shortDescription}
                 </div>
               </div>
             </Link>
@@ -65,4 +67,4 @@ const Travellers = () => {
   );
 };
 
-export default Travellers;
+export default Sights;

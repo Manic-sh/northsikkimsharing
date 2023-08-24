@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import Blog4 from "../../components/blog/Blog4";
 import Brand2 from "../../components/brand/Brand2";
@@ -6,17 +6,38 @@ import Seo from "../../components/common/Seo";
 import Footer2 from "../../components/footer/footer-2";
 import Header2 from "../../components/header/header-2";
 import Hero2 from "../../components/hero/hero-2";
-import AppBanner from "../../components/home/home-2/AppBanner";
 import BlockGuide from "../../components/home/home-2/BlockGuide";
 import CallToActions from "../../components/home/home-2/CallToActions";
 import Subscribe from "../../components/home/home-2/Subscribe";
 import Testimonial from "../../components/home/home-2/Testimonial";
 import TestimonialRating from "../../components/home/home-2/TestimonialRating";
-import Travellers from "../../components/home/home-2/Travellers";
-import FilterHotelsTabs from "../../components/hotels/filter-tabs/FilterHotelsTabs";
-import FilterHotels from "../../components/hotels/FilterHotels";
+import Sights from "../../components/home/home-2/Sights";
+
+import Destinations from "../../components/home/home-2/Destinations";
+
+import { builder } from "@builder.io/sdk";
+
+builder.init("02508b9173c94715834f124a5247ac79");
 
 const Home = () => {
+  const [sights, setSights] = useState();
+  const [destinations, setDestinations] = useState();
+
+  useEffect(() => {
+    async function fetchContent() {
+      const data = await builder.getAll("sights", {
+        fields: "data", // Currently this only gets one level of nested references
+      });
+      setSights(data);
+
+      const dest = await builder.getAll("destinations", {
+        fields: "data", // Currently this only gets one level of nested references
+      });
+      setDestinations(dest);
+
+    }
+    fetchContent();
+  }, []);
 
   return (
     <>
@@ -42,7 +63,7 @@ const Home = () => {
             <div className="col-auto">
               <div className="sectionTitle -md">
                 <h2 className="sectionTitle__title">
-                  Connect With Other Travellers
+                  Connect With Destinations
                 </h2>
                 <p className=" sectionTitle__text mt-5 sm:mt-0">
                   These popular destinations have a lot to offer
@@ -77,7 +98,7 @@ const Home = () => {
           </div>
           {/* End .row */}
 
-          <Travellers />
+          <Sights destinations={destinations} />
           {/* End travellers component */}
         </div>
         {/* End .container */}
@@ -89,7 +110,7 @@ const Home = () => {
           <div className="row y-gap-10 justify-between items-end">
             <div className="col-auto">
               <div className="sectionTitle -md">
-                <h2 className="sectionTitle__title">Best Seller</h2>
+                <h2 className="sectionTitle__title">Sights</h2>
                 <p className=" sectionTitle__text mt-5 sm:mt-0">
                   Interdum et malesuada fames ac ante ipsum
                 </p>
@@ -97,16 +118,16 @@ const Home = () => {
             </div>
             {/* End .col-auto */}
 
-            <div className="col-auto tabs -pills-2 ">
+            {/* <div className="col-auto tabs -pills-2 ">
               <FilterHotelsTabs />
-            </div>
+            </div> */}
             {/* End .col-auto */}
           </div>
           {/* End .row */}
 
           <div className="relative overflow-hidden pt-40 sm:pt-20">
-            <div className="row y-gap-30">
-              <FilterHotels />
+            <div className="row y-gap-30 pt-40 sm:pt-20 item_gap-x30">
+              <Destinations sights={sights} />
             </div>
           </div>
           {/* End relative */}
@@ -174,7 +195,6 @@ const Home = () => {
       <Subscribe />
       {/* End Subscribe Section */}
 
-      <AppBanner />
       {/* End AppBanner Section */}
 
       <CallToActions />

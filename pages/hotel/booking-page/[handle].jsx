@@ -4,18 +4,56 @@ import Header2 from "../../../components/header/header-2";
 import DefaultFooter from "../../../components/footer/default";
 import StepperBooking from "../../../components/booking-page/stepper-booking";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { builder } from "@builder.io/sdk";
+
+
+builder.init("02508b9173c94715834f124a5247ac79");
 
 const Booking = () => {
   const router = useRouter();
-  const [bookingInfo, setBookingInfo] = useState({
-    "handle": router.query.handle,
-    "adults": router.query.adults,
-    "noOfChildren": router.query.children,
-    "rooms": router.query.rooms,
-    "jdate": router.query.dateOfJourney,
-  })
-  console.log(bookingInfo);
+  const [bookingInfo, setBookingInfo] = useState();
+  const [packageDetail, setPackageDetail] = useState(null);
+
+  useEffect(() => {
+    if (router.isReady) {
+
+      const { handle } = router.query;
+
+      if (!handle) <h1>Loading...</h1>;
+      else { 
+        async function fetchPackage() {
+          const data = await builder.get("package", {
+            fields: "data",
+            includeRefs: true, // Currently this only gets one level of nested references
+            cachebust: true,
+            query: {
+              // Get the specific article by handle
+              "data.handle": handle,
+            },
+          }).promise() || null;
+          setPackageDetail(data);
+    
+        }
+    
+        if (!router.query.handle) <h1>Loading...</h1>;
+        else fetchPackage();
+
+        setBookingInfo({
+          "handle": handle,
+          "adults": router.query.adults,
+          "noOfChildren": router.query.children,
+          "rooms": router.query.rooms,
+          "jdate": router.query.dateOfJourney,
+          'ptype': router.query.ptype,
+        });
+
+      }
+    }
+  },[router.isReady]);
+
+
+  console.log("🚀 ~ file: index.jsx:14 ~ Index ~ packageDetail:", packageDetail);
 
   return (
     <>
@@ -30,7 +68,7 @@ const Booking = () => {
 
       <section className="pt-40 layout-pb-md">
         <div className="container">
-          <StepperBooking bookingInfo={bookingInfo}/>
+          <StepperBooking bookingInfo={bookingInfo} packageDetail={packageDetail} />
         </div>
         {/* End container */}
       </section>

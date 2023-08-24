@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import ModalVideo from "react-modal-video";
 import "photoswipe/dist/photoswipe.css";
 import { Gallery, Item } from "react-photoswipe-gallery";
-import { hotelsData } from "../../../data/hotels";
 import Seo from "../../../components/common/Seo";
 import DefaultHeader from "../../../components/header/header-2";
 import Overview from "../../../components/hotel-single/Overview";
@@ -12,7 +11,6 @@ import PopularFacilities from "../../../components/hotel-single/PopularFacilitie
 import RatingTag from "../../../components/hotel-single/RatingTag";
 import TopBreadCrumb from "../../../components/hotel-single/TopBreadCrumb";
 import SidebarRight2 from "../../../components/hotel-single/SidebarRight2";
-import AvailableRooms2 from "../../../components/hotel-single/AvailableRooms2";
 import ReviewProgress2 from "../../../components/hotel-single/guest-reviews/ReviewProgress2";
 import DetailsReview2 from "../../../components/hotel-single/guest-reviews/DetailsReview2";
 import ReplyForm from "../../../components/hotel-single/ReplyForm";
@@ -25,33 +23,44 @@ import Faq from "../../../components/faq/Faq";
 import Hotels2 from "../../../components/hotels/Hotels2";
 import CallToActions from "../../../components/common/CallToActions";
 import DefaultFooter from "../../../components/footer/default";
-import FilterBox2 from "../../../components/hotel-single/filter-box-2";
-import StickyHeader2 from "../../../components/hotel-single/StickyHeader2";
-import RatingBox from "../../../components/hotel-single/RatingBox";
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
+
 import PropertyHighlights2 from "../../../components/hotel-single/PropertyHighlights2";
 import { builder } from "@builder.io/sdk";
 import Link from "next/link";
+import GuestSearch from '../../../components/hero/hero-2/GuestSearch';
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
 
 const HotelSingleV2Dynamic = () => {
-  const [isOpen, setOpen] = useState(false);
   const router = useRouter();
-  const [hotel, setHotel] = useState({});
-  const handle = router.query.handle;
-  const adults = router.query.adults;
-  const children = router.query.children;
-  const jdate = router.query.dateOfJourney;
-  const rooms = router.query.rooms;
+  const [isOpen, setOpen] = useState(false);
   const [packageDetail, setPackageDetail] = useState(null);
-  
-  useEffect(() => {
-    if (!handle) <h1>Loading...</h1>;
-    else fetchPackage();
-    //setHotel(hotelsData.find((item) => item.handle == handle));
+  const [packageType, setPackageType] = useState('Standard');
+  const [basePrice, setBasePrice] = useState();
+  const [isSolo, setIsSolo] = useState(false);
+  const [guestCounts, setGuestCounts] = useState({});
 
-    async function fetchPackage() {
+  const handleSetPackageType = (value, basePrice) => {
+    setPackageType(value);
+    setBasePrice(basePrice);
+  }
+  useEffect(() => {
+
+    if (router.isReady) {
+
+      const { handle, adults } = router.query;
+
+      if (!handle) <h1>Loading...</h1>;
+      else fetchPackage(handle);
+    }
+    async function fetchPackage(handle) {
+
       const data = await builder.get("package", {
         fields: "data",
         includeRefs: true, // Currently this only gets one level of nested references
@@ -61,16 +70,32 @@ const HotelSingleV2Dynamic = () => {
           "data.handle": handle,
         },
       }).promise() || null;
-      setHotel(data);
-      setPackageDetail(data)
-      console.log(data);
+      setPackageDetail(data);
+      setBasePrice(data?.data?.availablePackageType[0]?.typeName?.value?.data?.basePrice);
+      setGuestCounts({
+        'Adults': router?.query?.adults,
+        'Children': router?.query?.children,
+        'Rooms': router?.query?.rooms,
+      })
+
+      if(router?.query?.adults == 1){
+        setIsSolo(true);
+      }else{
+        setIsSolo(false);
+      }
     }
 
-    return () => {};
-  }, [handle]);
+    return () => { };
+  }, [router.isReady]);
 
-  console.log(hotel);
-
+  const getTotalPrice = () => {
+    const totalPrice = (basePrice * guestCounts?.Adults) + ((guestCounts?.Rooms - 1) * 2000);
+    if(guestCounts.Adults == 1){
+      return totalPrice + 1000;
+    }
+    return totalPrice;
+  }
+  
   return (
     <>
       <ModalVideo
@@ -105,14 +130,14 @@ const HotelSingleV2Dynamic = () => {
                 <div className="galleryGrid -type-2">
                   <div className="galleryGrid__item relative d-flex justify-end">
                     <Item
-                      original={packageDetail?.data?.images[0].image}
-                      thumbnail={packageDetail?.data?.images[0].image}
+                      original={packageDetail?.data?.images[0]?.image}
+                      thumbnail={packageDetail?.data?.images[0]?.image}
                       width={660}
                       height={660}
                     >
                       {({ ref, open }) => (
                         <img
-                          src={packageDetail?.data?.images[0].image}
+                          src={packageDetail?.data?.images[0]?.image}
                           ref={ref}
                           onClick={open}
                           alt="image"
@@ -131,8 +156,8 @@ const HotelSingleV2Dynamic = () => {
 
                   <div className="galleryGrid__item">
                     <Item
-                      original="/img/gallery/1/2.png"
-                      thumbnail="/img/gallery/1/2.png"
+                      original={packageDetail?.data?.images[1]?.image}
+                      thumbnail={packageDetail?.data?.images[1]?.image}
                       width={450}
                       height={375}
                     >
@@ -140,7 +165,7 @@ const HotelSingleV2Dynamic = () => {
                         <img
                           ref={ref}
                           onClick={open}
-                          src="/img/gallery/1/2.png"
+                          src={packageDetail?.data?.images[1]?.image}
                           alt="image"
                           className="rounded-4"
                           role="button"
@@ -152,8 +177,8 @@ const HotelSingleV2Dynamic = () => {
 
                   <div className="galleryGrid__item">
                     <Item
-                      original="/img/gallery/1/3.png"
-                      thumbnail="/img/gallery/1/3.png"
+                      original={packageDetail?.data?.images[2]?.image}
+                      thumbnail={packageDetail?.data?.images[2]?.image}
                       width={450}
                       height={375}
                     >
@@ -161,7 +186,7 @@ const HotelSingleV2Dynamic = () => {
                         <img
                           ref={ref}
                           onClick={open}
-                          src="/img/gallery/1/3.png"
+                          src={packageDetail?.data?.images[2]?.image}
                           alt="image"
                           className="rounded-4"
                           role="button"
@@ -201,15 +226,14 @@ const HotelSingleV2Dynamic = () => {
                 </div>
               </Gallery>
               {/* End gallery grid */}
-
-              <div className="row justify-between items-end pt-40">
+              <div className="row justify-between items-end pt-2">
                 <div className="col-auto">
                   <div className="row x-gap-20  items-center">
                     <div className="col-auto">
                       <h1 className="text-30 sm:text-25 fw-600">
                         {packageDetail?.data?.pakageName}
                       </h1>
-                      
+
                     </div>
                     {/* End .col */}
                     <div className="col-auto">
@@ -238,52 +262,106 @@ const HotelSingleV2Dynamic = () => {
                   <div className="text-14 text-md-end">
                     From{" "}
                     <span className="text-22 text-dark-1 fw-500">
-                      Rs {packageDetail?.data?.basePricePerPerson * adults}
+                      Rs {getTotalPrice()}
                     </span>
                   </div>
                   <Link
-                      href={{
-                        pathname: `/hotel/booking-page/${handle}`,
-                        query: {
-                          'dateOfJourney': jdate,
-                          'adults': adults,
-                          'children': children,
-                          'rooms': rooms,
-                        }
-                      }}
-                      className="button -md -dark-1 bg-blue-1 text-white mt-24"
-                    >
-                      Book Now
-                      <div className="icon-arrow-top-right ml-15"></div>
-                    </Link>
+                    href={{
+                      pathname: `/hotel/booking-page/${router?.query?.handle}`,
+                      query: {
+                        'dateOfJourney': router?.query?.dateOfJourney,
+                        'adults': router?.query?.adults,
+                        'children': router?.query?.children,
+                        'rooms': router?.query?.rooms,
+                        'ptype': packageType,
+                      }
+                    }}
+                    className="button -md -dark-1 bg-blue-1 text-white mt-24"
+                  >
+                    Book Now
+                    <div className="icon-arrow-top-right ml-15"></div>
+                  </Link>
                 </div>
                 {/* End .col */}
               </div>
-              {/* End .row */}
 
-              <div id="overview" className="row y-gap-40 pt-40 ">
-                <div className="col-12">
-                  <Overview description={packageDetail?.data?.description} />
-                </div>
-                {/* End col-12 */}
+              <div className="row justify-between items-end pt-40">
+                <div className="col-auto">
+                  <h3 className="text-18 fw-500">Select Package Type</h3>
+                  <ButtonGroup>
+                    {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
+                      <ToggleButton
+                        key={idx}
+                        id={`radio-${idx}`}
+                        type="radio"
+                        variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                        name="radio"
+                        value={elType?.typeName?.value?.data?.typeName}
+                        checked={packageType === elType?.typeName?.value?.data?.typeName}
+                        onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.value?.data?.basePrice)}
+                      >
+                        {elType?.typeName?.value?.data?.typeName}
+                      </ToggleButton>
+                    ))}
+                  </ButtonGroup>
 
-                <div className="col-12">
-                  <h3 className="text-22 fw-500 pt-40 border-top-light">
-                     Package Facilities
-                  </h3>
-                  <div className="row y-gap-10 pt-20">
-                    <PopularFacilities />
-                  </div>
                 </div>
-                {/* End .col-12  */}
+                <div className="col-auto">
+
+                </div>
+                <div className="col-auto">
+                <GuestSearch setSelectedGuestCount={setGuestCounts} />
+                </div>
+                <div className="col-auto">
+                </div>
               </div>
+              {/* End .row */}
+              <div className="row w-1000 items-end pt-40">
+                <div className="col-auto">
+                  <Tabs
+                    defaultActiveKey="itenary"
+                    id="fill-tab-example"
+                    className="mb-3"
+                    fill
+                  >
+                    <Tab eventKey="itenary" title="Itenary">
+                    Enjoy the cool breeze with intermittent rain showers in Goa. Explore secluded beaches with lush greens, visit architectural gems and grab off-season discounts!
+                    </Tab>
+                    <Tab eventKey="policy" title="Policy">
+                    These are non-refundable amounts as per the current components attached. In the case of component change/modifications, the policy will change accordingly.
+Please check the exact cancellation and date change policy on the review page before proceeding further.
+Please note, TCS once collected cannot be refunded in case of any cancellation / modification. You can claim the TCS amount as adjustment against Income Tax payable at the time of filing the return of income.
+Cancellation charges shown is exclusive of all taxes and taxes will be added as per applicable.
+                    </Tab>
+                    <Tab eventKey="overview" title="Overview">
+                      <div id="overview" className="row pt-40 ">
+                        <div className="col-12">
+                          <Overview description={packageDetail?.data?.description} />
+                        </div>
+                        {/* End col-12 */}
+
+                        <div className="col-12">
+                          <h3 className="text-22 fw-500 pt-40 border-top-light">
+                            Package Facilities
+                          </h3>
+                          <div className="row y-gap-10 pt-20">
+                            <PopularFacilities />
+                          </div>
+                        </div>
+                        {/* End .col-12  */}
+                      </div>
+                    </Tab>
+                  </Tabs>
+                </div>
+              </div>
+
               {/* End .col-12  Overview */}
             </div>
             {/* End left hotel galler  */}
 
             <div>
               <SidebarRight2 />
-              <RatingBox hotel={hotel} />
+              {/* <RatingBox hotel={hotel} /> */}
               <PropertyHighlights2 />
             </div>
             {/* End right content */}
@@ -315,7 +393,7 @@ const HotelSingleV2Dynamic = () => {
           </div>
           {/* End .row */}
 
-          <AvailableRooms2 hotel={hotel} />
+          {/* <AvailableRooms2 hotel={hotel} /> */}
         </div>
         {/* End .container */}
       </section>

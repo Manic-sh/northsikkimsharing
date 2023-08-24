@@ -3,10 +3,9 @@ import BookingDetails from "./sidebar/BookingDetails";
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
 
-const UploadDocuments = ({ bookingInfo }) => {
-
-    console.log(bookingInfo);
-    const accordionItems = (count) => {
+const UploadDocuments = ({ bookingInfo, packageDetail }) => {
+    
+    const accordionItemsIndian = (count) => {
         let item = [];
         for (let i = 0; i < count; i++) {
             item.push(<Accordion.Item eventKey="0" key={i}>
@@ -29,6 +28,39 @@ const UploadDocuments = ({ bookingInfo }) => {
         }
         return item;
     }
+    const accordionItemsForeigner = (count) => {
+        let item = [];
+        for (let i = 0; i < count; i++) {
+            item.push(<Accordion.Item eventKey="0" key={i}>
+                <Accordion.Header>Person #{i}</Accordion.Header>
+                <Accordion.Body>
+                    <Form.Group controlId="personName" className="mb-3">
+                        <Form.Label>Full Name</Form.Label>
+                        <Form.Control type="text" placeholder="Full Name" />
+                    </Form.Group>
+                    <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Label>Passport Size Photo</Form.Label>
+                        <Form.Control type="file" />
+                    </Form.Group>
+                    <Form.Group controlId="formFileMultiple" className="mb-3">
+                        <Form.Label> Passport</Form.Label>
+                        <Form.Control type="file" multiple />
+                    </Form.Group>
+                    <Form.Group controlId="formFileMultiple" className="mb-3">
+                        <Form.Label> Visa</Form.Label>
+                        <Form.Control type="file" multiple />
+                    </Form.Group>
+                </Accordion.Body>
+            </Accordion.Item>);
+        }
+        return item;
+    }
+
+    const forForeigeners =  packageDetail?.data?.forForeigeners[0].isAvailable ? true : false;
+
+    console.log("🚀 ~ file: UploadDocuments.jsx:61 ~ UploadDocuments ~ forForeigeners:", forForeigeners);
+
+
     return (
         <>
             <div className="col-xl-7 col-lg-8 mt-30">
@@ -48,7 +80,7 @@ const UploadDocuments = ({ bookingInfo }) => {
                     <div className="col-12">
                         <div className="text-14 fw-500 mb-30">Adults</div>
                         <Accordion defaultActiveKey="0">
-                            {accordionItems(bookingInfo?.adults)}
+                            {forForeigeners? accordionItemsForeigner(bookingInfo?.adults) : accordionItemsIndian(bookingInfo?.adults) }
                         </Accordion>
                     </div>
                 </div>
@@ -56,10 +88,10 @@ const UploadDocuments = ({ bookingInfo }) => {
                     <div className="col-12">
                         <div className="text-14 fw-500 mb-30">Children</div>
                         <Accordion defaultActiveKey="1">
-                            {accordionItems(bookingInfo?.noOfChildren)}
+                            {forForeigeners? accordionItemsForeigner(bookingInfo?.noOfChildren) : accordionItemsIndian(bookingInfo?.noOfChildren)}
                         </Accordion>
 
-                    </div>
+                    </div>  
                 </div>
                 <div className="col-12">
                     <div className="row y-gap-20 items-center justify-between">
@@ -78,7 +110,7 @@ const UploadDocuments = ({ bookingInfo }) => {
 
             <div className="col-xl-5 col-lg-4 mt-30">
                 <div className="booking-sidebar">
-                    <BookingDetails bookingInfo={bookingInfo} />
+                    <BookingDetails bookingInfo={bookingInfo} packageDetail={packageDetail} />
                 </div>
             </div>
         </>

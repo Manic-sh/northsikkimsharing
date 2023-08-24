@@ -1,7 +1,7 @@
 import Link from "next/link";
 import BookingDetails from "./sidebar/BookingDetails";
 
-const CustomerInfo = ({bookingInfo}) => {
+const CustomerInfo = ({bookingInfo, packageDetail}) => {
   return (
     <>
       <div className="col-xl-7 col-lg-8 mt-30">
@@ -72,7 +72,7 @@ const CustomerInfo = ({bookingInfo}) => {
 
       <div className="col-xl-5 col-lg-4 mt-30">
         <div className="booking-sidebar">
-          <BookingDetails  bookingInfo={bookingInfo} />
+          <BookingDetails  bookingInfo={bookingInfo} packageDetail={packageDetail} />
         </div>
       </div>
       {/*  */}

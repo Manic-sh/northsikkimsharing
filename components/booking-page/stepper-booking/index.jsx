@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
 import UploadDocuments from "../UploadDocuments";
 
-const Index = ({bookingInfo}) => {
+const Index = ({bookingInfo, packageDetail}) => {
+
+
+  console.log("🚀 ~ file: index.jsx:10 ~ Index ~ packageDetail:", packageDetail);
 
   const [currentStep, setCurrentStep] = useState(0);
+
+  const totalPrice = (packageDetail?.data?.basePricePerPerson * bookingInfo?.adults) + ((bookingInfo?.rooms - 1) * 2000)
+
   const steps = [
     {
       title: "Personal Details",
@@ -18,7 +24,7 @@ const Index = ({bookingInfo}) => {
           </div>
         </>
       ),
-      content: <CustomerInfo bookingInfo={bookingInfo} />,
+      content: <CustomerInfo bookingInfo={bookingInfo} packageDetail={packageDetail}  />,
     },
     {
       title: "Upload Documents",
@@ -30,7 +36,7 @@ const Index = ({bookingInfo}) => {
           </div>
         </>
       ),
-      content: <UploadDocuments bookingInfo={bookingInfo} />,
+      content: <UploadDocuments bookingInfo={bookingInfo} packageDetail={packageDetail} />,
     },
     {
       title: "Payment Details",
@@ -42,7 +48,7 @@ const Index = ({bookingInfo}) => {
           </div>
         </>
       ),
-      content: <PaymentInfo />,
+      content: <PaymentInfo totalPrice={totalPrice} />,
     },
     {
       title: "Final Step",
