@@ -47,33 +47,95 @@
 @import "./custom/custom-next";
 
 
-.nationality-switch{
+.nationality-switch {
     width: 120px;
     align-items: center;
 }
-.nationality-switch label{
+
+.nationality-switch label {
     line-height: 1.6;
     vertical-align: top;
 }
-.nationality-switch .nationality-switch-input{
+
+.nationality-switch .nationality-switch-input {
     width: 70px;
-    height: 30px;   
+    height: 30px;
     color: transparent;
     border: 2px solid var(--color-blue-1);
 }
-.nationality-switch-input::before{
+
+.nationality-switch-input::before {
     content: 'Indian';
     font-size: 14px;
     padding: 4px;
 
     z-index: -1;
 }
-.modal-body iframe{
+
+.modal-body iframe {
     max-width: 340px;
 }
 
-.form-check-input.nationality-switch-input:checked{
+.form-check-input.nationality-switch-input:checked {
     background-color: var(--color-blue-1) !important;
     border-color: var(--color-blue-1) !important;
     color: #fff;
 }
+
+.custom-switch {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: gray;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+}
+
+

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { builder } from "@builder.io/sdk";
+import CustomSwitch from "@/components/common/CustomSwitch";
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
@@ -64,7 +65,7 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
 
   return (
     <>
-      <div className="searchMenu-loc px-30 d-flex justify-content-between lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+      <div className="searchMenu-loc px-30 d-flex align-items-end lg:py-20 lg:px-0 js-form-dd js-liverSearch">
         <div
           data-bs-toggle="dropdown"
           data-bs-auto-close="true"
@@ -83,8 +84,8 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
             />
           </div>
         </div>
-        <div className="d-flex justify-content-end nationality-switch">
-              <div className="form-check form-switch">
+        <div className="d-flex">
+              {/* <div className="form-check form-switch">
                 <input
                   className="form-check-input nationality-switch-input"
                   onChange={handleIsIndianChange}
@@ -92,8 +93,10 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
                   role="switch"
                   checked={isIndian}
                 />
-              </div>
+              </div> */}
+              <CustomSwitch label1={"Indian"} label2={"Foreigner"} onChange={handleIsIndianChange} defaultChecked={true} />
         </div>
+
         <div className="shadow-2 dropdown-menu min-width-400">
           <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
             <ul className="y-gap-5 js-results">

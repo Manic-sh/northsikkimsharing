@@ -3,23 +3,30 @@ const BlockGuide = () => {
     {
       id: 1,
       icon: "/img/featureIcons/1/1.svg",
-      title: "Best Price Guarantee",
+      title: "Sikkim Certified",
       text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
       delayAnim: "100",
     },
     {
       id: 2,
       icon: "/img/featureIcons/1/2.svg",
-      title: "Easy & Quick Booking",
+      title: "Best Price Guarantee",
       text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
       delayAnim: "200",
     },
     {
       id: 3,
       icon: "/img/featureIcons/1/3.svg",
-      title: "Customer Care 24/7",
+      title: "Easy & Quick Booking",
       text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
       delayAnim: "300",
+    },
+    {
+      id: 4,
+      icon: "/img/featureIcons/1/3.svg",
+      title: "Local Offices",
+      text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+      delayAnim: "400",
     },
   ];
   return (

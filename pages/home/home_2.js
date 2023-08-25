@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Blog4 from "../../components/blog/Blog4";
 import Brand2 from "../../components/brand/Brand2";
@@ -6,13 +6,13 @@ import Seo from "../../components/common/Seo";
 import Footer2 from "../../components/footer/footer-2";
 import Header2 from "../../components/header/header-2";
 import Hero2 from "../../components/hero/hero-2";
-import BlockGuide from "../../components/home/home-2/BlockGuide";
 import CallToActions from "../../components/home/home-2/CallToActions";
 import Subscribe from "../../components/home/home-2/Subscribe";
 import Testimonial from "../../components/home/home-2/Testimonial";
 import TestimonialRating from "../../components/home/home-2/TestimonialRating";
 import Sights from "../../components/home/home-2/Sights";
-
+import WhyChoose from "../../components/block/BlockGuide";
+import BlockGuide from "@/components/home/home-2/BlockGuide";
 import Destinations from "../../components/home/home-2/Destinations";
 
 import { builder } from "@builder.io/sdk";
@@ -34,7 +34,6 @@ const Home = () => {
         fields: "data", // Currently this only gets one level of nested references
       });
       setDestinations(dest);
-
     }
     fetchContent();
   }, []);
@@ -50,10 +49,24 @@ const Home = () => {
       {/* End Hero 2 */}
       <section className="layout-pt-lg layout-pb-md">
         <div className="container">
-          <div className="row y-gap-40 sm:y-gap-10 justify-between">
-            <BlockGuide />
+          <div className="row justify-center text-center">
+            <div className="col-auto">
+              <div className="sectionTitle -md">
+                <h2 className="sectionTitle__title">Why Choose Us</h2>
+                <p className=" sectionTitle__text mt-5 sm:mt-0">
+                  These popular destinations have a lot to offer
+                </p>
+              </div>
+            </div>
           </div>
+          {/* End .row */}
+
+          <div className="row y-gap-40 justify-between pt-50">
+            <WhyChoose />
+          </div>
+          {/* End .row */}
         </div>
+        {/* End .container */}
       </section>
       {/* End travel block sections */}
 
@@ -98,7 +111,7 @@ const Home = () => {
           </div>
           {/* End .row */}
 
-          <Sights destinations={destinations} />
+          <Destinations destinations={destinations} />
           {/* End travellers component */}
         </div>
         {/* End .container */}
@@ -127,13 +140,34 @@ const Home = () => {
 
           <div className="relative overflow-hidden pt-40 sm:pt-20">
             <div className="row y-gap-30 pt-40 sm:pt-20 item_gap-x30">
-              <Destinations sights={sights} />
+              <Sights sights={sights} />
             </div>
           </div>
           {/* End relative */}
         </div>
       </section>
-      {/* End Best Seller Hotels Sections */}
+      <section className="layout-pt-lg layout-pb-md">
+        <div className="container">
+          <div className="row justify-center text-center">
+            <div className="col-auto">
+              <div className="sectionTitle -md">
+                <h2 className="sectionTitle__title">How North Sikkim Sharing Works</h2>
+                <p className=" sectionTitle__text mt-5 sm:mt-0">
+                  These popular destinations have a lot to offer
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* End .row */}
+
+          <div className="row y-gap-40 justify-between pt-50">
+            <BlockGuide />
+          </div>
+          {/* End .row */}
+        </div>
+        {/* End .container */}
+      </section>
+      {/* End travel block sections */}
 
       <section className="layout-pt-lg layout-pb-lg bg-dark-3">
         <div className="container">

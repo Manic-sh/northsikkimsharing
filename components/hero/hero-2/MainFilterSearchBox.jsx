@@ -5,6 +5,7 @@ import LocationSearch from "./LocationSearch";
 import { builder } from "@builder.io/sdk";
 import Link from "next/link";
 import 'react-calendar/dist/Calendar.css';
+import { Button } from "react-bootstrap";
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
@@ -16,8 +17,8 @@ const MainFilterSearchBox = () => {
 
   const jdate = new Date(dateOfJourney);
 
-  const handleSelectedPackage = (item) =>{
-    if(!item){
+  const handleSelectedPackage = (item) => {
+    if (!item) {
       console.log("Select Package...")
     }
     setSelectedPackage(item);
@@ -55,21 +56,25 @@ const MainFilterSearchBox = () => {
           {/* End guest */}
 
           <div className="button-item">
-            <Link
-              href={{
-                pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
-                query: {
-                  'dateOfJourney': jdate.toDateString(),
-                  'adults': guestCounts?.Adults,
-                  'children': guestCounts?.Children,
-                  'rooms': guestCounts?.Rooms,
-                }
-              }}
-              className="button -md -dark-1 bg-blue-1 text-white mt-24"
-            >
-              View
-              <div className="icon-arrow-top-right ml-15"></div>
-            </Link>
+            {selectedPackage ?
+              <Link
+                href={{
+                  pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
+                  query: {
+                    'dateOfJourney': jdate.toDateString(),
+                    'adults': guestCounts?.Adults,
+                    'children': guestCounts?.Children,
+                    'rooms': guestCounts?.Rooms,
+                  }
+                }}
+                className="button -md -dark-1 bg-blue-1 text-white mt-24"
+              >
+                View
+                <div className="icon-arrow-top-right ml-15"></div>
+              </Link>
+              :
+              <></>
+            }
           </div>
           {/* End search button_item */}
         </div>
