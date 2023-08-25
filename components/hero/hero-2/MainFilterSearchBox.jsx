@@ -5,7 +5,6 @@ import LocationSearch from "./LocationSearch";
 import { builder } from "@builder.io/sdk";
 import Link from "next/link";
 import 'react-calendar/dist/Calendar.css';
-import { Button } from "react-bootstrap";
 
 builder.init("02508b9173c94715834f124a5247ac79");
 

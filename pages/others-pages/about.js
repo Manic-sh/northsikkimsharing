@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import CallToActions from "../../components/common/CallToActions";
 import Seo from "../../components/common/Seo";
-import DefaultHeader from "../../components/header/default-header";
+import Header2 from "../../components/header/header-2";
 import DefaultFooter from "../../components/footer/default";
 import WhyChoose from "../../components/block/BlockGuide";
 import Block1 from "../../components/about/Block1";
@@ -21,7 +21,7 @@ const About = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <DefaultHeader />
+      <Header2 />
       {/* End Header 1 */}
 
       <section className="section-bg layout-pt-lg layout-pb-lg">

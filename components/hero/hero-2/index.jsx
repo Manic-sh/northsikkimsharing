@@ -1,16 +1,18 @@
-import { useSelector, useDispatch } from "react-redux";
 import React from "react";
-import { addCurrentTab } from "../../../features/hero/findPlaceSlice";
-import { Builder, builder } from '@builder.io/react'
-
-
 import MainFilterSearchBox from './MainFilterSearchBox';
+import Link from "next/link";
+
+const initialState = {
+  tabs: [
+    { id: 1, name: "Home", icon: "icon-home", linkUrl: '/' },
+    { id: 2, name: "About Us", icon: "icon-user", linkUrl: '/others-pages/about' },
+    { id: 3, name: "Packages", icon: "icon-ski", linkUrl: '/tour/tour-list-v2' },
+    { id: 4, name: "Contact Us", icon: "icon-tickets", linkUrl: '/contact' },
+  ],
+  currentTab: "Package",
+};
 
 const Index = (props) => {
-
-  const { tabs, currentTab } = useSelector((state) => state.hero) || {};
-  const dispatch = useDispatch();
-
 
   return (
     <section className="masthead -type-2 z-2">
@@ -23,17 +25,16 @@ const Index = (props) => {
         <div className="masthead__tabs border-bottom-light">
           <div className="tabs -bookmark-2 js-tabs">
             <div className="tabs__controls d-flex items-center js-tabs-controls justify-content-between">
-              {tabs?.map((tab) => (
-                <button
+              {initialState.tabs?.map((tab) => (
+                <Link
                   key={tab?.id}
-                  className={`tabs__button px-30 py-20 sm:px-15 sm:py-15 fw-600 text-white js-tabs-button ${
-                    tab?.name === currentTab ? "is-tab-el-active" : ""
-                  }`}
-                  onClick={() => dispatch(addCurrentTab(tab?.name))}
+                  href={{ pathname: `${tab.linkUrl}` }}
+                  className={`tabs__button px-30 py-20 sm:px-15 sm:py-15 fw-600 text-white js-tabs-button ${tab?.name === initialState.currentTab ? "is-tab-el-active" : ""
+                    }`}
                 >
                   <i className={`${tab.icon} text-20 mb-10 sm:mb-16`}></i>
                   {tab?.name}
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -47,7 +48,7 @@ const Index = (props) => {
               <h1 className="z-2 text-60 lg:text-40 md:text-30 text-white pt-40 xl:pt-0">
                 {/* <span className="text-yellow-1"></span>
                 <br /> */}
-                {props.title ? props.title : 'Choose Your Package' }
+                {props.title ? props.title : 'Choose Your Package'}
               </h1>
               {/* <MainFilterSearchBox packageData={packageData} /> */}
               <MainFilterSearchBox />
@@ -99,14 +100,3 @@ const Index = (props) => {
 };
 
 export default Index;
-
-// Register this component for use in the Visual Editor
-Builder.registerComponent(Index,{
-  name: 'Hero',
-  inputs: [
-    // 'name' is the name of your prop
-    { name: 'title', type: 'text', defaultValue: 'Choose Your Package' },
-    { name: 'description', type: 'text', defaultValue: 'Checkout Beautiful Places Arround North Sikkim.' },
-  ],
-} 
-);
