@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
-import UploadDocuments from "../UploadDocuments";
 
 const Index = ({bookingInfo, packageDetail}) => {
 
-
-  console.log("🚀 ~ file: index.jsx:10 ~ Index ~ packageDetail:", packageDetail);
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -27,20 +24,8 @@ const Index = ({bookingInfo, packageDetail}) => {
       content: <CustomerInfo bookingInfo={bookingInfo} packageDetail={packageDetail}  />,
     },
     {
-      title: "Upload Documents",
-      stepNo: "2",
-      stepBar: (
-        <>
-          <div className="col d-none d-sm-block">
-            <div className="w-full h-1 bg-border"></div>
-          </div>
-        </>
-      ),
-      content: <UploadDocuments bookingInfo={bookingInfo} packageDetail={packageDetail} />,
-    },
-    {
       title: "Payment Details",
-      stepNo: "3",
+      stepNo: "2",
       stepBar: (
         <>
           <div className="col d-none d-sm-block">
@@ -52,7 +37,7 @@ const Index = ({bookingInfo, packageDetail}) => {
     },
     {
       title: "Final Step",
-      stepNo: "4",
+      stepNo: "3",
       stepBar: "",
       content: <OrderSubmittedInfo />,
     },

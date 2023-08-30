@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import CallToActions from "../../components/common/CallToActions";
 import Seo from "../../components/common/Seo";
 import Faq from "../../components/faq/Faq";
-import DefaultHeader from "../../components/header/default-header";
-import DefaultFooter from "../../components/footer/default";
+import Header2 from "../../components/header/header-2";
+import Footer2 from "../../components/footer/footer-2";
 import HelpSearchBlock from "../../components/block/HelpSearchBlock";
 import HelpBlock from "../../components/block/HelpBlock";
 
@@ -16,7 +16,7 @@ const HelpCenter = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <DefaultHeader />
+      <Header2 />
       {/* End Header 1 */}
 
       <section className="layout-pt-md">
@@ -81,7 +81,7 @@ const HelpCenter = () => {
       <CallToActions />
       {/* End Call To Actions Section */}
 
-      <DefaultFooter />
+      <Footer2 />
       {/* End Call To Actions Section */}
     </>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from 'react-date-picker';
-import GuestSearch from "./GuestSearch";
+import RoomsCount from "@/components/hotels/RoomsCount";
 import LocationSearch from "./LocationSearch";
 import { builder } from "@builder.io/sdk";
 import Link from "next/link";
@@ -12,7 +12,7 @@ const MainFilterSearchBox = () => {
   const [packageData, setPackageData] = useState();
   const [dateOfJourney, setDateOfJourney] = useState(new Date());
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [guestCounts, setGuestCounts] = useState({});
+  const [roomCounts, setRoomCounts] = useState([]);
 
   const jdate = new Date(dateOfJourney);
 
@@ -51,7 +51,7 @@ const MainFilterSearchBox = () => {
           </div>
           {/* End check-in-out */}
 
-          <GuestSearch setSelectedGuestCount={setGuestCounts} />
+          <RoomsCount />
           {/* End guest */}
 
           <div className="button-item">
@@ -61,9 +61,7 @@ const MainFilterSearchBox = () => {
                   pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
                   query: {
                     'dateOfJourney': jdate.toDateString(),
-                    'adults': guestCounts?.Adults,
-                    'children': guestCounts?.Children,
-                    'rooms': guestCounts?.Rooms,
+                    'roomsCount': JSON.stringify(roomCounts),
                   }
                 }}
                 className="button -md -dark-1 bg-blue-1 text-white mt-24"

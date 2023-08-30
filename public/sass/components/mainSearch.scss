@@ -103,8 +103,10 @@
 
 .searchMenu-loc {
   position: relative;
-  min-width: 320px;
-
+  min-width: 380px;
+  @include media-below(lg) {
+    min-width: 300px;;
+  }
   &__field {
     position: absolute;
     margin-top: 30px;
@@ -235,7 +237,10 @@ div.btn-container{
   vertical-align: middle;
   text-align: center;
   width: 150px;
-  padding-right: 50px;
+  padding-right: 60px;
+  position: absolute;
+  top: 0px;
+  right: 25px;
 }
 
 label {

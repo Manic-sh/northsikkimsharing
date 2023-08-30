@@ -1,7 +1,7 @@
-import Link from "next/link";
 import BookingDetails from "./sidebar/BookingDetails";
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
+import Link from "next/link";
 
 const UploadDocuments = ({ bookingInfo, packageDetail }) => {
     

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 const counters = [
   { name: "Adults", defaultValue: 2 },
   { name: "Children", defaultValue: 1 },
@@ -64,6 +65,12 @@ const GuestSearch = ({setSelectedGuestCount}) => {
     Children: 1,
     Rooms: 1,
   });
+  const [rooms, setRooms] = useState([{
+    id: 1, guests: {
+      Adults: 2,
+      Children: 1
+    }
+  }]);
   const handleCounterChange = (name, value) => {
     setGuestCounts((prevState) => ({ ...prevState, [name]: value }));
   };

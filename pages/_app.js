@@ -9,6 +9,7 @@ import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
 import "../styles/index.scss";
 import { Provider } from "react-redux";
+import { RoomProvider } from "@/context/RoomContext";
 import { store } from "../app/store";
 
 if (typeof window !== "undefined") {
@@ -26,7 +27,9 @@ export default function App({ Component, pageProps }) {
   return (
     <main>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <RoomProvider>
+          <Component {...pageProps} />
+        </RoomProvider>
         <SrollTop />
       </Provider>
     </main>

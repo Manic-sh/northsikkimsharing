@@ -14,7 +14,7 @@ const Copyright = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ib-themes
+                northsikkimtravels.com
               </a>
               All rights reserved.
             </div>

@@ -27,12 +27,10 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-
-
+import RoomsCount from "@/components/hotels/RoomsCount";
 import PropertyHighlights2 from "../../../components/hotel-single/PropertyHighlights2";
 import { builder } from "@builder.io/sdk";
 import Link from "next/link";
-import GuestSearch from '../../../components/hero/hero-2/GuestSearch';
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
@@ -44,8 +42,16 @@ const HotelSingleV2Dynamic = () => {
   const [packageType, setPackageType] = useState('Standard');
   const [basePrice, setBasePrice] = useState();
   const [isSolo, setIsSolo] = useState(false);
-  const [guestCounts, setGuestCounts] = useState({});
+  const [roomType, setRoomType] = useState("Double Bed");
+  const [adults, setAdults] = useState();
+  const [children, setChildren] = useState();
 
+  const [rooms, setRooms] = useState([{
+    id: 1, guests: {
+      Adults: 2,
+      Children: 1
+    }
+  }]);
   const handleSetPackageType = (value, basePrice) => {
     setPackageType(value);
     setBasePrice(basePrice);
@@ -54,13 +60,22 @@ const HotelSingleV2Dynamic = () => {
 
     if (router.isReady) {
 
-      const { handle, adults } = router.query;
+      const { handle, adults, children, rooms } = router.query;
+      
+      // Get the value from local storage if it exists
+      let value = localStorage.setItem("Rooms",rooms);
 
+      setRooms(value);
+  
+      setAdults(adults);
+      setChildren(children);
+      setRooms(rooms);
+
+      getRoomType();
       if (!handle) <h1>Loading...</h1>;
       else fetchPackage(handle);
     }
     async function fetchPackage(handle) {
-
       const data = await builder.get("package", {
         fields: "data",
         includeRefs: true, // Currently this only gets one level of nested references
@@ -70,32 +85,58 @@ const HotelSingleV2Dynamic = () => {
           "data.handle": handle,
         },
       }).promise() || null;
-      setPackageDetail(data);
-      setBasePrice(data?.data?.availablePackageType[0]?.typeName?.value?.data?.basePrice);
-      setGuestCounts({
-        'Adults': router?.query?.adults,
-        'Children': router?.query?.children,
-        'Rooms': router?.query?.rooms,
-      })
 
-      if(router?.query?.adults == 1){
+      // Set Package Deatils 
+      setPackageDetail(data);
+
+      setBasePrice(data?.data?.availablePackageType[0]?.typeName?.value?.data?.basePrice);
+
+      if (adults == 1) {
         setIsSolo(true);
-      }else{
+      } else {
         setIsSolo(false);
       }
     }
 
     return () => { };
-  }, [router.isReady]);
+  }, [router.isReady, rooms]);
+
+
+  const getRoomType = () => {
+    if (adults == 1) {
+      setIsSolo(true);
+    } else {
+      setIsSolo(false);
+      if ((adults % 2) !== 0) {
+        setRoomType("tripe bed");
+      } else {
+        setRoomType("double bed");
+      }
+    }
+  }
 
   const getTotalPrice = () => {
-    const totalPrice = (basePrice * guestCounts?.Adults) + ((guestCounts?.Rooms - 1) * 2000);
-    if(guestCounts.Adults == 1){
+    console.log("packageDetail", packageDetail);
+    const totalPrice = (basePrice * adults) + ((rooms - 1) * 2000);
+
+    if (adults == 1) {
       return totalPrice + 1000;
     }
     return totalPrice;
   }
-  
+
+  const handleRoomTypeChange = e => {
+    e.persist();
+    console.log(e.target.value);
+
+    setRoomType(prevState => ({
+      ...prevState,
+      roomType: e.target.value
+    }));
+  };
+
+  console.log("🚀 ~ file: [handle].jsx:132 ~ guestCounts ~ guestCounts:", rooms);
+
   return (
     <>
       <ModalVideo
@@ -307,10 +348,9 @@ const HotelSingleV2Dynamic = () => {
 
                 </div>
                 <div className="col-auto">
-
                 </div>
                 <div className="col-auto">
-                <GuestSearch setSelectedGuestCount={setGuestCounts} />
+                  <RoomsCount />
                 </div>
                 <div className="col-auto">
                 </div>
@@ -325,13 +365,13 @@ const HotelSingleV2Dynamic = () => {
                     fill
                   >
                     <Tab eventKey="itenary" title="Itenary">
-                    Enjoy the cool breeze with intermittent rain showers in Goa. Explore secluded beaches with lush greens, visit architectural gems and grab off-season discounts!
+                      Enjoy the cool breeze with intermittent rain showers in Goa. Explore secluded beaches with lush greens, visit architectural gems and grab off-season discounts!
                     </Tab>
                     <Tab eventKey="policy" title="Policy">
-                    These are non-refundable amounts as per the current components attached. In the case of component change/modifications, the policy will change accordingly.
-Please check the exact cancellation and date change policy on the review page before proceeding further.
-Please note, TCS once collected cannot be refunded in case of any cancellation / modification. You can claim the TCS amount as adjustment against Income Tax payable at the time of filing the return of income.
-Cancellation charges shown is exclusive of all taxes and taxes will be added as per applicable.
+                      These are non-refundable amounts as per the current components attached. In the case of component change/modifications, the policy will change accordingly.
+                      Please check the exact cancellation and date change policy on the review page before proceeding further.
+                      Please note, TCS once collected cannot be refunded in case of any cancellation / modification. You can claim the TCS amount as adjustment against Income Tax payable at the time of filing the return of income.
+                      Cancellation charges shown is exclusive of all taxes and taxes will be added as per applicable.
                     </Tab>
                     <Tab eventKey="overview" title="Overview">
                       <div id="overview" className="row pt-40 ">

@@ -92,10 +92,10 @@
     }
 
     &__content {
-      padding-top: 120px;
+      padding-top: 20px;
 
       @include media-below(xl) {
-        padding-top: 120px;
+        padding-top: 40px;
         padding-bottom: 80px;
       }
 
