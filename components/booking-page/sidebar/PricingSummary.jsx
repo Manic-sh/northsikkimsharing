@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const PricingSummary = ({totalPrice}) => {
 
   const subTotal = totalPrice + (totalPrice/100) * 5;

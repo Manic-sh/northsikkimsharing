@@ -41,9 +41,6 @@ const Booking = () => {
 
         setBookingInfo({
           "handle": handle,
-          "adults": router.query.adults,
-          "noOfChildren": router.query.children,
-          "rooms": router.query.rooms,
           "jdate": router.query.dateOfJourney,
           'ptype': router.query.ptype,
         });
@@ -51,9 +48,6 @@ const Booking = () => {
       }
     }
   },[router.isReady]);
-
-
-  console.log("🚀 ~ file: index.jsx:14 ~ Index ~ packageDetail:", packageDetail);
 
   return (
     <>

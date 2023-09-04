@@ -1,21 +1,21 @@
-import React, { useReducer } from "react";
+import React from "react";
+import { useRoomContext } from '../../context/RoomContext';
 
-// Style import
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useRoomContext } from '../../context/RoomContext';
 
 const MAX_COUNT = 4;
 
 const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrement, dispatch }) => {
 
   const handleAdultIncrement = () => {
-    if (disableIncrement || adultsCount == 3) return;
-    dispatch({ type: 'INCREMENT_ADULTS', roomIndex });
+    if (!disableIncrement && adultsCount < 3) {
+      dispatch({ type: 'INCREMENT_ADULTS', roomIndex });
+    }
   };
 
   const handleAdultDecrement = () => {

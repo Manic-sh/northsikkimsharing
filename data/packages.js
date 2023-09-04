@@ -6,13 +6,13 @@ export const packageData = [
     availableSeats: 10,
     pricingPeriods: [
       {
-        startDate: "2023-12-15",
-        endDate: "2023-12-25",
+        startDate: "2023-09-01",
+        endDate: "2023-09-03",
         price: 2500,
       },
       {
-        startDate: "2024-06-01",
-        endDate: "2024-08-31",
+        startDate: "2023-09-04",
+        endDate: "2023-09-08",
         price: 3500,
       },
       // Add more pricing periods as needed
@@ -38,13 +38,13 @@ export const packageData = [
     availableSeats: 9,
     pricingPeriods: [
       {
-        startDate: "2024-01-15",
-        endDate: "2024-02-28",
+        startDate: "2023-09-01",
+        endDate: "2023-09-02",
         price: 3400,
       },
       {
-        startDate: "2024-10-01",
-        endDate: "2024-12-15",
+        startDate: "2023-09-04",
+        endDate: "2023-09-06",
         price: 3500,
       },
       // Add more pricing periods as needed

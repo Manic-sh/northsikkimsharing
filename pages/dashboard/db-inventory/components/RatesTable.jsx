@@ -11,6 +11,9 @@ const RatesTable = () => {
     const endDate = '2023-09-10';
 
     const handleTableDataUpdate = (data) => {
+
+        console.log("🚀 ~ file: RatesTable.jsx:15 ~ handleTableDataUpdate ~ data:", data);
+
         setTableData(data);
     }
 

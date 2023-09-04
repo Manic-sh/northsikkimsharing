@@ -31,47 +31,34 @@ import RoomsCount from "@/components/hotels/RoomsCount";
 import PropertyHighlights2 from "../../../components/hotel-single/PropertyHighlights2";
 import { builder } from "@builder.io/sdk";
 import Link from "next/link";
+import { calculateTotalPrice } from '@/utils/roomPriceCalculator';
+import { useRoomContext } from '@/context/RoomContext';
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
 
 const HotelSingleV2Dynamic = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
   const [packageDetail, setPackageDetail] = useState(null);
   const [packageType, setPackageType] = useState('Standard');
+  const [luxuryBasePrice, setLuxuryBasePrice] = useState(0);
   const [basePrice, setBasePrice] = useState();
   const [isSolo, setIsSolo] = useState(false);
-  const [roomType, setRoomType] = useState("Double Bed");
-  const [adults, setAdults] = useState();
-  const [children, setChildren] = useState();
+  const { state } = useRoomContext();
 
-  const [rooms, setRooms] = useState([{
-    id: 1, guests: {
-      Adults: 2,
-      Children: 1
-    }
-  }]);
-  const handleSetPackageType = (value, basePrice) => {
+  const room = state;
+
+  const handleSetPackageType = (value, basePrice) => {    
     setPackageType(value);
-    setBasePrice(basePrice);
+    setLuxuryBasePrice(basePrice);
   }
+
   useEffect(() => {
-
     if (router.isReady) {
+      const { handle } = router.query;
 
-      const { handle, adults, children, rooms } = router.query;
-      
-      // Get the value from local storage if it exists
-      let value = localStorage.setItem("Rooms",rooms);
-
-      setRooms(value);
-  
-      setAdults(adults);
-      setChildren(children);
-      setRooms(rooms);
-
-      getRoomType();
       if (!handle) <h1>Loading...</h1>;
       else fetchPackage(handle);
     }
@@ -88,55 +75,44 @@ const HotelSingleV2Dynamic = () => {
 
       // Set Package Deatils 
       setPackageDetail(data);
-
-      setBasePrice(data?.data?.availablePackageType[0]?.typeName?.value?.data?.basePrice);
-
-      if (adults == 1) {
+      setBasePrice(data?.data?.basePricePerPerson);  
+      if(getTotalGuests == 1){
         setIsSolo(true);
-      } else {
-        setIsSolo(false);
+        setBasePrice(basePrice + 1000);
       }
     }
-
     return () => { };
-  }, [router.isReady, rooms]);
+  }, [router.isReady, basePrice, isSolo]);
 
-
-  const getRoomType = () => {
-    if (adults == 1) {
-      setIsSolo(true);
-    } else {
-      setIsSolo(false);
-      if ((adults % 2) !== 0) {
-        setRoomType("tripe bed");
-      } else {
-        setRoomType("double bed");
-      }
-    }
+  
+  const getTotalGuests = () => {
+    let noGuests = room.reduce((accumulator, item) => {
+      return accumulator + item?.adults + item?.children ;
+    }, 0);
+    return noGuests;
   }
 
+  //Function to calculate the total price
   const getTotalPrice = () => {
-    console.log("packageDetail", packageDetail);
-    const totalPrice = (basePrice * adults) + ((rooms - 1) * 2000);
+    // Using forEach to calculate total Adults and Children
+    let noOfAdults = 0;
+    let noOfChildren = 0
 
-    if (adults == 1) {
-      return totalPrice + 1000;
+    room?.forEach(room => {
+      noOfAdults += room?.adults;
+      noOfChildren += room?.children;
+    });
+
+    let basePricePerAdult = 0;
+    
+    if(packageType == 'Luxury'){
+      basePricePerAdult = calculateTotalPrice(luxuryBasePrice, room.length, noOfAdults);
+    }else{
+      basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, noOfAdults): 0;
     }
-    return totalPrice;
+    return  basePricePerAdult;
   }
-
-  const handleRoomTypeChange = e => {
-    e.persist();
-    console.log(e.target.value);
-
-    setRoomType(prevState => ({
-      ...prevState,
-      roomType: e.target.value
-    }));
-  };
-
-  console.log("🚀 ~ file: [handle].jsx:132 ~ guestCounts ~ guestCounts:", rooms);
-
+  
   return (
     <>
       <ModalVideo
@@ -311,9 +287,6 @@ const HotelSingleV2Dynamic = () => {
                       pathname: `/hotel/booking-page/${router?.query?.handle}`,
                       query: {
                         'dateOfJourney': router?.query?.dateOfJourney,
-                        'adults': router?.query?.adults,
-                        'children': router?.query?.children,
-                        'rooms': router?.query?.rooms,
                         'ptype': packageType,
                       }
                     }}

@@ -11,17 +11,59 @@ function PackageCard({ editingPackage, data, selectedDate, handleTableDataUpdate
   const [basePrice, setBasePrice] = useState(editingPackage?.basePrice);
   let dateSelected = moment(selectedDate);
 
+  // Function to check if a date is within the range
+  const isWithinRange = (date, start, end) => {
+    const selected = new Date(date);
+    const rangeStart = new Date(start);
+    const rangeEnd = new Date(end);
+    return selected >= rangeStart && selected <= rangeEnd;
+  };
+
+  
+    // Function to update pricingPeriods
+    const updatePricingPeriods = (newPeriod) => {
+      const updatedPackageData = { ...editingPackage };
+      const existingPeriodIndex = updatedPackageData.pricingPeriods.findIndex(
+        (period) =>
+          period.startDate === newPeriod.startDate &&
+          period.endDate === newPeriod.endDate
+      );
+  
+      if (existingPeriodIndex !== -1) {
+        // If the period already exists, update the price
+        updatedPackageData.pricingPeriods[existingPeriodIndex] = newPeriod;
+      } else {
+        // If the period doesn't exist, add it to the array
+        updatedPackageData.pricingPeriods.push(newPeriod);
+      }
+  
+      return updatedPackageData;
+    };
 
   const handlePackageUpdate = (event) => {
     event.preventDefault();
-    console.log(editingPackage);
 
     const newState = data.map(obj => {
-      // 👇️ if id equals 2, update country property
+
+      console.log("🚀 ~ file: PackageCard.jsx:21 ~ newState ~ obj:", obj);
+      // Extract startDate values from pricingPeriods array
+      const startDateArray = obj.pricingPeriods.map((period) => period.startDate);
+
+      const newPricingPeriod = {
+        startDate: startDateArray[0],
+        endDate: startDateArray[1],
+        price: basePrice,
+      };
+
+      const updatedPackage = updatePricingPeriods(newPricingPeriod);
+
+      console.log("🚀 ~ file: PackageCard.jsx:60 ~ newState ~ updatedPackage:", updatedPackage);
+
+
+      
       if (obj.handle === editingPackage?.handle) {
         return {...obj, availableSeats: availability, basePrice: basePrice};
       }
-
       // 👇️ otherwise return the object as is
       return obj;
     });

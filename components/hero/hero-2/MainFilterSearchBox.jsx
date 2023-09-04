@@ -12,7 +12,6 @@ const MainFilterSearchBox = () => {
   const [packageData, setPackageData] = useState();
   const [dateOfJourney, setDateOfJourney] = useState(new Date());
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [roomCounts, setRoomCounts] = useState([]);
 
   const jdate = new Date(dateOfJourney);
 
@@ -61,7 +60,6 @@ const MainFilterSearchBox = () => {
                   pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
                   query: {
                     'dateOfJourney': jdate.toDateString(),
-                    'roomsCount': JSON.stringify(roomCounts),
                   }
                 }}
                 className="button -md -dark-1 bg-blue-1 text-white mt-24"

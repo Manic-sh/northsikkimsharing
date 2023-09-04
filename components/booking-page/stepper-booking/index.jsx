@@ -2,14 +2,56 @@ import React, { useState, useEffect } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
+import { useRoomContext } from '@/context/RoomContext';
+import { getTotalPrice } from '@/utils/totalPriceCalculator';
+
 
 const Index = ({bookingInfo, packageDetail}) => {
-
-
   const [currentStep, setCurrentStep] = useState(0);
+  const [basePrice, setBasePrice] = useState(packageDetail?.data?.basePricePerPerson);
+  const [luxuryBasePrice, setLuxuryBasePrice] = useState(0);
+  const [totalPackagePrice, setPackageTotalPrice] = useState(0);
 
-  const totalPrice = (packageDetail?.data?.basePricePerPerson * bookingInfo?.adults) + ((bookingInfo?.rooms - 1) * 2000)
+  const { state } = useRoomContext();
+  const room = state;
 
+  useEffect(() => {
+    setBasePrice(packageDetail?.data?.basePricePerPerson);
+    if (bookingInfo?.ptype == 'Luxury') {
+      const luxury = packageDetail?.data?.availablePackageType.find((ptype) => ptype?.typeName?.value?.name == 'Luxury');
+      setLuxuryBasePrice(luxury?.typeName?.value?.data?.basePrice);
+    }
+  }, [packageDetail?.data?.basePricePerPerson, bookingInfo?.ptype]);
+
+  const getTotalGuests = () => {
+    let noGuests = room.reduce((accumulator, item) => {
+      return accumulator + item?.adults + item?.children ;
+    }, 0);
+    return noGuests;
+  }
+
+  const getNumberOfAdults = () => {
+    let noOfAdults = 0;
+    room?.forEach(room => {
+      noOfAdults += room?.adults;
+    });
+    return noOfAdults;
+  }
+  const getTotalPriceW = () => {
+    // Using forEach to calculate total Adults and Children    
+    let basePricePerAdult = 0;
+    if (bookingInfo?.ptype == 'Luxury') {
+      basePricePerAdult = luxuryBasePrice?  getTotalPrice(room.length, luxuryBasePrice, getNumberOfAdults()) : 0;
+    } else {
+      basePricePerAdult = basePrice ? getTotalPrice(room.length, basePrice, getNumberOfAdults()) : 0;
+    }
+    return basePricePerAdult;
+  }
+
+  if (packageDetail === null || bookingInfo === null) {
+    return <div>Loading...</div>; // Handle the initial undefined state
+  }
+  
   const steps = [
     {
       title: "Personal Details",
@@ -33,7 +75,7 @@ const Index = ({bookingInfo, packageDetail}) => {
           </div>
         </>
       ),
-      content: <PaymentInfo totalPrice={totalPrice} />,
+      content: <PaymentInfo totalPrice={getTotalPriceW()} />,
     },
     {
       title: "Final Step",

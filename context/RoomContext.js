@@ -17,7 +17,7 @@ const reducer = (state, action) => {
       );
     case 'DECREMENT_ADULTS':
       return state.map((room, index) =>
-        index === action.roomIndex && room.adults > 0
+        index === action.roomIndex && room.adults > 1
           ? { ...room, adults: room.adults - 1 }
           : room
       );
