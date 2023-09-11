@@ -53,8 +53,6 @@
   position: relative;
 
   .mainSearch {
-    position: absolute;
-    bottom: 30px;
 
     @include media-below(xl) {
       position: relative;
@@ -84,23 +82,48 @@
     }
 
     &__tabs {
-      padding-top: 120px;
+      padding-top: 80px;
 
       @include media-below(md) {
-        padding-top: 100px;
+        padding-top: 80px;
       }
     }
 
     &__content {
-      padding-top: 20px;
+      padding-top: 0px;
+      padding-bottom: 50px;
+      .hero{
+        background-image: url('/img/backgrounds/hero-backaround.jpeg');
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        height: 100vh; // Adjust the height as needed
+        position: relative;
+      }
+      .form-container {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateY(-10%);        
+        padding: 20px;
+        width: 100%;
+        max-width: 600px;
+      }
+      // Create a separate rule for the background image without the filter
+
 
       @include media-below(xl) {
-        padding-top: 40px;
+        padding-top: 0px;
         padding-bottom: 80px;
       }
 
       @include media-below(md) {
-        padding-top: 40px;
+        padding-top: 0px;
+        .form-container {
+          top: 40%;
+          left: 50%;
+          transform: translate(-50%, -50%);        
+        }
       }
 
       @include media-below(sm) {

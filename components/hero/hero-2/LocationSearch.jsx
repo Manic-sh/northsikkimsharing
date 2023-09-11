@@ -72,7 +72,7 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
           data-bs-offset="0,22"
           className="w-100"
         >
-          <h4 className="text-15 fw-500 ls-2 lh-16">Packages</h4>
+          <h4 className="text-15 fw-500 ls-2 lh-16 text-black">Packages</h4>
           <div className=" d-flex text-15 text-light-1 ls-2 lh-16">
             <input
               autoComplete="off"

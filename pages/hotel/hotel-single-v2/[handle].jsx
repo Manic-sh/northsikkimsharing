@@ -33,6 +33,8 @@ import { builder } from "@builder.io/sdk";
 import Link from "next/link";
 import { calculateTotalPrice } from '@/utils/roomPriceCalculator';
 import { useRoomContext } from '@/context/RoomContext';
+import { updateDatePrice } from '@/utils/datePriceUpdater';
+
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
@@ -43,26 +45,28 @@ const HotelSingleV2Dynamic = () => {
   const [isOpen, setOpen] = useState(false);
   const [packageDetail, setPackageDetail] = useState(null);
   const [packageType, setPackageType] = useState('Standard');
-  const [luxuryBasePrice, setLuxuryBasePrice] = useState(0);
+  const [packageTypeId, setPackageTypeId] = useState('') 
   const [basePrice, setBasePrice] = useState();
+
+
   const [isSolo, setIsSolo] = useState(false);
   const { state } = useRoomContext();
 
   const room = state;
 
-  const handleSetPackageType = (value, basePrice) => {    
+  const handleSetPackageType = (value, typeId) => {    
     setPackageType(value);
-    setLuxuryBasePrice(basePrice);
+    setPackageTypeId(typeId);
   }
 
   useEffect(() => {
     if (router.isReady) {
-      const { handle } = router.query;
+      const { handle, dateOfJourney } = router.query;
 
       if (!handle) <h1>Loading...</h1>;
-      else fetchPackage(handle);
+      else fetchPackage(handle, dateOfJourney);
     }
-    async function fetchPackage(handle) {
+    async function fetchPackage(handle, dateOfJourney) {
       const data = await builder.get("package", {
         fields: "data",
         includeRefs: true, // Currently this only gets one level of nested references
@@ -75,14 +79,30 @@ const HotelSingleV2Dynamic = () => {
 
       // Set Package Deatils 
       setPackageDetail(data);
-      setBasePrice(data?.data?.basePricePerPerson);  
+
+      function getPackageTypeId(packageName) {
+        const availablePackageType = data?.data?.availablePackageType;      
+        const matchingPackage = availablePackageType.find((packageType) => {
+          return packageType?.typeName?.typeName?.value?.data?.name === packageName;
+        });
+      
+        if (matchingPackage) {
+          return matchingPackage.typeName?.typeName?.value?.id;
+        } else {
+          return null; // Return null if the package name is not found
+        }
+      }
+      const packageTid = getPackageTypeId(packageType);      
+      
+      setBasePrice(updateDatePrice(packageDetail, dateOfJourney, packageTid));
+      //setBasePrice(data?.data?.pricingPeriods?.value?.data?.basePrice?.standard);  
       if(getTotalGuests == 1){
         setIsSolo(true);
         setBasePrice(basePrice + 1000);
       }
     }
     return () => { };
-  }, [router.isReady, basePrice, isSolo]);
+  }, [router.isReady, basePrice, packageType]);  
 
   
   const getTotalGuests = () => {
@@ -105,14 +125,10 @@ const HotelSingleV2Dynamic = () => {
 
     let basePricePerAdult = 0;
     
-    if(packageType == 'Luxury'){
-      basePricePerAdult = calculateTotalPrice(luxuryBasePrice, room.length, noOfAdults);
-    }else{
-      basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, noOfAdults): 0;
-    }
+    basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, noOfAdults): 0;
+  
     return  basePricePerAdult;
   }
-  
   return (
     <>
       <ModalVideo
@@ -310,11 +326,11 @@ const HotelSingleV2Dynamic = () => {
                         type="radio"
                         variant={idx % 2 ? 'outline-success' : 'outline-danger'}
                         name="radio"
-                        value={elType?.typeName?.value?.data?.typeName}
-                        checked={packageType === elType?.typeName?.value?.data?.typeName}
-                        onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.value?.data?.basePrice)}
+                        value={elType?.typeName?.typeName?.value?.data?.name}
+                        checked={packageType === elType?.typeName?.typeName?.value?.data?.name}
+                        onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.typeName?.id)}
                       >
-                        {elType?.typeName?.value?.data?.typeName}
+                        {elType?.typeName?.typeName?.value?.data?.name}
                       </ToggleButton>
                     ))}
                   </ButtonGroup>

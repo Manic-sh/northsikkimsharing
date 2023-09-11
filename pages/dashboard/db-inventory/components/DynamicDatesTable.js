@@ -53,32 +53,36 @@ function DynamicDateTable({ startDate, endDate, data, handleTableDataUpdate }) {
   };
 
   const updateDataCallback = (packageHandle, selectedDate, newPrice) => {
+    const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
     // Find the package with the specified handle in your data
     const updatedData = data.map((packageItem) => {
-      if (packageItem.handle === packageHandle) {
+      if (packageItem?.data?.package?.value?.data?.handle === packageHandle) {
+        // Convert selectedDate to a Date object if it's not already
+        const selectedDateObj = selectedDate instanceof Date ? selectedDate : new Date(selectedDate);
+        
         // Find the pricing period for the selected date
-        const updatedPricingPeriods = packageItem.pricingPeriods.map((period) => {
-          if (selectedDate >= period.startDate && selectedDate <= period.endDate) {
+        const updatedPricingPeriods = packageItem?.data?.prices.map((period) => {
+          if (selectedDateObj >= new Date(period.startDate) && selectedDateObj <= new Date(period.endDate)) {
             // Calculate the mid-date of the matching period
-            const midDate = new Date(selectedDate);
-            midDate.setDate(midDate.getDate() + 1); // Add one day
+            const midDate = new Date(selectedDateObj);
+            midDate.setHours(12, 0, 0, 0); // Set time to noon for consistency
   
             // Split the matching period into two periods
             const period1 = {
-              startDate: period.startDate,
-              endDate: midDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
+              endDate: midDate.getTime() - oneDayInMilliseconds, // Timestamp in milliseconds
+              startDate: new Date(period.startDate).getTime(), // Timestamp in milliseconds
               price: period.price,
             };
   
             const period2 = {
-              startDate: midDate.toISOString().slice(0, 10), // Format as YYYY-MM-DD
-              endDate: period.endDate,
+              endDate: new Date(period.endDate).getTime(), // Timestamp in milliseconds
+              startDate: midDate.getTime() + oneDayInMilliseconds, // Timestamp in milliseconds
               price: period.price, // Update the price
             };
-
+  
             const newPeriod = {
-              startDate: selectedDate,
-              endDate: selectedDate,
+              endDate: selectedDateObj.getTime(), // Timestamp in milliseconds
+              startDate: selectedDateObj.getTime(), // Timestamp in milliseconds
               price: newPrice,
             };
   
@@ -89,10 +93,10 @@ function DynamicDateTable({ startDate, endDate, data, handleTableDataUpdate }) {
         }).flat(); // Flatten the array of periods
   
         // Check if the selected date didn't match any existing period, and add a new period
-        if (!updatedPricingPeriods.some((period) => period.startDate <= selectedDate && selectedDate <= period.endDate)) {
+        if (!updatedPricingPeriods.some((period) => period.startDate <= selectedDateObj && selectedDateObj <= period.endDate)) {
           const newPeriod = {
-            startDate: selectedDate,
-            endDate: selectedDate,
+            endDate: selectedDateObj.getTime(), // Timestamp in milliseconds
+            startDate: selectedDateObj.getTime(), // Timestamp in milliseconds
             price: newPrice,
           };
   
@@ -107,15 +111,17 @@ function DynamicDateTable({ startDate, endDate, data, handleTableDataUpdate }) {
       }
       return packageItem;
     });
-  
+    
     // Update the state with the modified data
     handleTableDataUpdate(updatedData);
   };
   
+  
+  
   const renderRows = () => {
     return data?.map((row, rowIndex) => (
       <tr key={rowIndex}>
-        <td key={row.handle}>{row.name}</td>
+        <td key={row?.data?.package?.value?.data?.handle}>{row?.data?.package?.value?.data?.pakageName}</td>
         {/* Render cells for each date in the dateHeaders */}
         {generateDateHeaders()?.map((date, colIndex) => (
           <td key={colIndex} className="text-center">

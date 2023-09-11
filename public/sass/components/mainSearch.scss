@@ -9,11 +9,11 @@
 
   .button-grid {
     display: grid;
-    grid-template-columns: 1fr 250px 290px auto;
+    grid-template-columns: 1fr;
 
-    > * + * {
-      border-left: 1px solid var(--color-border);
-    }
+    // > * + * {
+    //   border-left: 1px solid var(--color-border);
+    // }
 
     @include media-below(lg) {
       grid-template-columns: 1fr;

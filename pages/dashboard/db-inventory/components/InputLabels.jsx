@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
 
-const InputValues = ({
-  packageItem,
-  selectedDate,
-  updateDataCallback, // Add this prop for updating data
-}) => {
-  const [datePrice, setDatePrice] = useState(packageItem?.basePrice || null);
+const InputValues = ({ packageItem, selectedDate, updateDataCallback }) => {
+
+  const [datePrice, setDatePrice] = useState(
+    packageItem?.data?.package?.value?.data?.basePrice || null
+  );
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (packageItem?.pricingPeriods && selectedDate) {
-      const matchingPeriod = packageItem.pricingPeriods.find((period) =>
-        isWithinRange(selectedDate, period.startDate, period.endDate)
-      );
-      if (matchingPeriod) {
-        setDatePrice(matchingPeriod.price);
-      } else {
-        setDatePrice(packageItem.basePrice);
+    const updateDatePrice = () => {
+      if (packageItem?.data?.prices && selectedDate) {
+        const matchingPeriod = packageItem.data.prices.find((period) =>
+          isWithinRange(selectedDate, period.startDate, period.endDate)
+        );
+        if (matchingPeriod) {
+          setDatePrice(matchingPeriod.price);
+        } else {
+          setDatePrice(packageItem?.data?.package?.value?.data?.basePricePerPerson);
+        }
       }
-    }
-  }, [packageItem, selectedDate]);
+    };
+
+    updateDatePrice();
+  }, [selectedDate, packageItem]);
 
   const isWithinRange = (date, start, end) => {
     const selected = new Date(date);
@@ -32,7 +35,11 @@ const InputValues = ({
     if (isEditing) {
       // Save changes or perform any update logic here
       console.log("Save changes");
-      updateDataCallback(packageItem.handle, selectedDate, datePrice); // Update data here
+      updateDataCallback(
+        packageItem?.data?.package?.value?.data?.handle,
+        selectedDate,
+        datePrice
+      ); // Update data here
     }
     setIsEditing(!isEditing);
   };
@@ -48,10 +55,10 @@ const InputValues = ({
       handleToggleEditing();
     }
   };
-  
+
   return (
     <div onClick={handleToggleEditing}>
-      <span>{packageItem?.availableSeats || "-"}</span>
+      <span>{packageItem?.data?.availableSeats || "-"}</span>
       <br />
       {isEditing ? (
         <input

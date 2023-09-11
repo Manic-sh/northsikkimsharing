@@ -3,55 +3,41 @@ import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
 import { useRoomContext } from '@/context/RoomContext';
-import { getTotalPrice } from '@/utils/totalPriceCalculator';
+import { calculateTotalPrice } from '@/utils/roomPriceCalculator';
+import { updateDatePrice } from '@/utils/datePriceUpdater';
+import { getPackageTypeId } from '@/utils/getPackageTypeId';
 
-
-const Index = ({bookingInfo, packageDetail}) => {
+const Index = ({ bookingInfo, packageDetail }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [basePrice, setBasePrice] = useState(packageDetail?.data?.basePricePerPerson);
-  const [luxuryBasePrice, setLuxuryBasePrice] = useState(0);
-  const [totalPackagePrice, setPackageTotalPrice] = useState(0);
-
+  const [basePrice, setBasePrice] = useState();
+  const [selectedPackage, setSelectedPackage] = useState(packageDetail);
   const { state } = useRoomContext();
   const room = state;
 
   useEffect(() => {
-    setBasePrice(packageDetail?.data?.basePricePerPerson);
-    if (bookingInfo?.ptype == 'Luxury') {
-      const luxury = packageDetail?.data?.availablePackageType.find((ptype) => ptype?.typeName?.value?.name == 'Luxury');
-      setLuxuryBasePrice(luxury?.typeName?.value?.data?.basePrice);
-    }
-  }, [packageDetail?.data?.basePricePerPerson, bookingInfo?.ptype]);
+    setSelectedPackage(packageDetail);
+    const packageTid = getPackageTypeId(bookingInfo?.ptype, packageDetail);
+    const newBasePrice = updateDatePrice(packageDetail, bookingInfo?.jdate, packageTid);
+    setBasePrice(newBasePrice);
+  }, [packageDetail, bookingInfo?.ptype, bookingInfo?.jdate]);
 
   const getTotalGuests = () => {
-    let noGuests = room.reduce((accumulator, item) => {
-      return accumulator + item?.adults + item?.children ;
-    }, 0);
-    return noGuests;
-  }
+    return room.reduce((accumulator, item) => accumulator + (item?.adults || 0) + (item?.children || 0), 0);
+  };
 
   const getNumberOfAdults = () => {
-    let noOfAdults = 0;
-    room?.forEach(room => {
-      noOfAdults += room?.adults;
-    });
-    return noOfAdults;
-  }
-  const getTotalPriceW = () => {
-    // Using forEach to calculate total Adults and Children    
-    let basePricePerAdult = 0;
-    if (bookingInfo?.ptype == 'Luxury') {
-      basePricePerAdult = luxuryBasePrice?  getTotalPrice(room.length, luxuryBasePrice, getNumberOfAdults()) : 0;
-    } else {
-      basePricePerAdult = basePrice ? getTotalPrice(room.length, basePrice, getNumberOfAdults()) : 0;
-    }
+    return room?.reduce((accumulator, room) => accumulator + (room?.adults || 0), 0);
+  };
+
+  const getTotalPrice = () => {
+    const basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, getNumberOfAdults()) : 0;
     return basePricePerAdult;
+  };
+
+  if (!packageDetail || !bookingInfo) {
+    return <div>Loading...</div>;
   }
 
-  if (packageDetail === null || bookingInfo === null) {
-    return <div>Loading...</div>; // Handle the initial undefined state
-  }
-  
   const steps = [
     {
       title: "Personal Details",
@@ -75,7 +61,7 @@ const Index = ({bookingInfo, packageDetail}) => {
           </div>
         </>
       ),
-      content: <PaymentInfo totalPrice={getTotalPriceW()} />,
+      content: <PaymentInfo totalPrice={getTotalPrice()} />,
     },
     {
       title: "Final Step",

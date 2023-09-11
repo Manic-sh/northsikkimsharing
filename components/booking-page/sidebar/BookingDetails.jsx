@@ -2,21 +2,20 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { calculateTotalPrice } from '@/utils/roomPriceCalculator';
 import { useRoomContext } from '@/context/RoomContext';
-
+import { updateDatePrice } from '@/utils/datePriceUpdater';
+import { getPackageTypeId } from '@/utils/getPackageTypeId';
 
 const BookingDetails = ({ bookingInfo, packageDetail }) => {
-  const [basePrice, setBasePrice] = useState(packageDetail?.data?.basePricePerPerson);
-  const [luxuryBasePrice, setLuxuryBasePrice] = useState(0);
+  const [basePrice, setBasePrice] = useState();
   const { state } = useRoomContext();
   const room = state;
 
   useEffect(() => {
-    setBasePrice(packageDetail?.data?.basePricePerPerson);
-    if (bookingInfo?.ptype == 'Luxury') {
-      const luxury = packageDetail?.data?.availablePackageType.find((ptype) => ptype?.typeName?.value?.name == 'Luxury');
-      setLuxuryBasePrice(luxury?.typeName?.value?.data?.basePrice);
-    }
-  }, [packageDetail?.data?.basePricePerPerson, bookingInfo?.ptype]);
+    const packageTid = getPackageTypeId(bookingInfo?.ptype, packageDetail);
+    const newBasePrice = updateDatePrice(packageDetail, bookingInfo?.jdate, packageTid);
+    setBasePrice(newBasePrice);
+
+  }, [packageDetail, bookingInfo?.ptype, basePrice]);
 
   const getTotalGuests = () => {
     let noGuests = room.reduce((accumulator, item) => {
@@ -24,6 +23,10 @@ const BookingDetails = ({ bookingInfo, packageDetail }) => {
     }, 0);
     return noGuests;
   }
+
+  const getNumberOfAdults = () => {
+    return room?.reduce((accumulator, room) => accumulator + (room?.adults || 0), 0);
+  };
 
   //Function to calculate the total price
   const getTotalPrice = () => {
@@ -36,13 +39,7 @@ const BookingDetails = ({ bookingInfo, packageDetail }) => {
       noOfChildren += room?.children;
     });
 
-    let basePricePerAdult = 0;
-
-    if (bookingInfo?.ptype == 'Luxury') {
-      basePricePerAdult = calculateTotalPrice(luxuryBasePrice || 0, room.length, noOfAdults);
-    } else {
-      basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, noOfAdults) : 0;
-    }
+    const basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, getNumberOfAdults()) : 0;
     return basePricePerAdult;
   }
 
