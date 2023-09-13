@@ -18,12 +18,11 @@ const Index = (props) => {
   return (
     <section className="masthead -type-2 z-2">
       <div className="masthead__bg bg-dark-2">
-        <img alt="image" src="/img/masthead/2/bg.png" className="js-lazy" />
       </div>
       {/* End bg image */}
 
       
-        <div className="masthead__tabs border-bottom-light">
+        <div className="masthead__tabs">
           <div className="container">
             <div className="tabs -bookmark-2 js-tabs">
               <div className="tabs__controls d-flex items-center js-tabs-controls justify-content-between">

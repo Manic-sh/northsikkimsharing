@@ -83,15 +83,16 @@
 
     &__tabs {
       padding-top: 80px;
-
+      display: none !important;
       @include media-below(md) {
         padding-top: 80px;
+        display: block !important;
       }
     }
 
     &__content {
       padding-top: 0px;
-      padding-bottom: 50px;
+      padding-bottom: 0px;
       .hero{
         background-image: url('/img/backgrounds/hero-backaround.jpeg');
         background-size: cover;
@@ -102,19 +103,20 @@
       }
       .form-container {
         position: absolute;
-        top: 10%;
+        top: 20%;
         left: 50%;
         transform: translateY(-10%);        
         padding: 20px;
         width: 100%;
         max-width: 600px;
+        
       }
       // Create a separate rule for the background image without the filter
 
 
       @include media-below(xl) {
         padding-top: 0px;
-        padding-bottom: 80px;
+        padding-bottom: 0px;
       }
 
       @include media-below(md) {
@@ -127,7 +129,7 @@
       }
 
       @include media-below(sm) {
-        padding-bottom: 20px;
+        padding-bottom: 0px;
       }
     }
 
