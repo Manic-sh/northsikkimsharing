@@ -18,6 +18,12 @@
     }
   }
 
+  .guest-count-dropdown, .package-items-dropdown{
+    max-height: 350px;
+    overflow-y: scroll;
+    overscroll-behavior: auto;
+  }
+
   /* custom radio style */
   .middle {
     width: 100%;

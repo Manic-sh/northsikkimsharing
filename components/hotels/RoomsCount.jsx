@@ -67,7 +67,7 @@ const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrem
       <div className="row y-gap-10 justify-between items-center">
         <div className="col-auto">
           <div className="text-15 lh-12 fw-500">Children</div>
-          <div className="text-14 lh-12 text-light-1 mt-5">Ages 0 - 5</div>
+          <div className="text-14 lh-12 text-light-1 mt-5">Ages 0 - 4</div>
         </div>
         {/* End .col-auto */}
         <div className="col-auto">
@@ -155,7 +155,7 @@ const RoomsCount = () => {
       </div>
       {/* End guest */}
 
-      <div className="shadow-2 dropdown-menu min-width-400">
+      <div className="shadow-2 dropdown-menu min-width-400 guest-count-dropdown">
         <div className="bg-white px-6 py-30 rounded-4 counter-box">
           <Accordion defaultActiveKey="0" flush>
             {room?.map((roomItem, index) => (

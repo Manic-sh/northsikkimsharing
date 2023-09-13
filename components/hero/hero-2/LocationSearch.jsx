@@ -91,7 +91,7 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
         {/* <CustomSwitch label1={"Indian"} label2={"Foreigner"} onChange={handleIsIndianChange} defaultChecked={true} /> */}
        
 
-        <div className="shadow-2 dropdown-menu min-width-400">
+        <div className="shadow-2 dropdown-menu min-width-400 package-items-dropdown">
           <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
             <ul className="y-gap-5 js-results">
               {packages?.map((item, idx) => (

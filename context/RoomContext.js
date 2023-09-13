@@ -4,7 +4,7 @@ import React, { createContext, useReducer, useContext } from 'react';
 const RoomContext = createContext();
 
 const initialState = [
-  { adults: 2, children: 1 },
+  { adults: 2, children: 0 },
 ];
 
 const reducer = (state, action) => {
@@ -34,7 +34,7 @@ const reducer = (state, action) => {
           : room
       );
     case 'ADD_ROOM':
-      return [...state, { adults: 2, children: 1 }];
+      return [...state, { adults: 2, children: 0 }];
     case 'REMOVE_ROOM':
       if (state.length > 1) {
         return state.filter((_, index) => index !== action.roomIndex);
