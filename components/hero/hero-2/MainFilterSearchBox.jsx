@@ -57,6 +57,7 @@ const MainFilterSearchBox = () => {
     } else {
       setIsIndian(false);
     }
+    setSelectedPackage(null);
   };
 
   const jdate = new Date(dateOfJourney);
@@ -73,7 +74,7 @@ const MainFilterSearchBox = () => {
             Choose Your Package
           </h1>
           <div className="button-grid items-center">
-            <LocationSearch packages={filteredList} setSelectedPackage={handleSelectedPackage} />
+            <LocationSearch packages={filteredList} setSelectedPackage={handleSelectedPackage} isIndian={isIndian} />
             {/* End Location */}
 
             <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar py-20">

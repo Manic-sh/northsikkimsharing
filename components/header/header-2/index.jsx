@@ -5,7 +5,7 @@ import LanguageMegaMenu from "../LanguageMegaMenu";
 import LocationSearch from "./LocationSearch";
 import MobileMenu from "../MobileMenu";
 
-const Header1 = () => {
+const Header = ({destinations}) => {
   const [navbar, setNavbar] = useState(false);
 
   const changeBackground = () => {
@@ -64,7 +64,7 @@ const Header1 = () => {
                 {/* End logo */}
 
                 <div className="relative xl:d-none">
-                  <LocationSearch />
+                  <LocationSearch destinations={destinations} />
                 </div>
                 {/* End Search box */}
               </div>
@@ -75,16 +75,16 @@ const Header1 = () => {
             <div className="col-auto">
               <div className="d-flex items-center">
                 <div className="row x-gap-20 items-center xxl:d-none">
-                  <CurrenctyMegaMenu textClass="text-white" />
+                  {/* <CurrenctyMegaMenu textClass="text-white" /> */}
                   {/* End Megamenu for Currencty */}
 
                   {/* Start vertical devider*/}
-                  <div className="col-auto">
+                  {/* <div className="col-auto">
                     <div className="w-1 h-20 bg-white-20" />
-                  </div>
+                  </div> */}
                   {/* End vertical devider*/}
 
-                  <LanguageMegaMenu textClass="text-white" />
+                  {/* <LanguageMegaMenu textClass="text-white" /> */}
                   {/* End Megamenu for Language */}
                 </div>
                 {/* End language and currency selector */}
@@ -117,4 +117,4 @@ const Header1 = () => {
   );
 };
 
-export default Header1;
+export default Header;

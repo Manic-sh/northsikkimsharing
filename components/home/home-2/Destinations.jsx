@@ -3,8 +3,10 @@ import { Navigation, Pagination } from "swiper";
 import Link from "next/link";
 
 const Destinations = ({destinations}) => {
+
   console.log(destinations);
-  
+
+
   return (
     <div className="pt-40 overflow-hidden js-section-slider">
       <Swiper

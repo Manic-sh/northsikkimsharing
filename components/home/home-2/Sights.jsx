@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import ShowMoreText from "@/components/common/ShowMoreText";
 
 const Sights = ({ sights }) => {
-  console.log(sights);
+
   var settings = {
     dots: true,
     infinite: true,

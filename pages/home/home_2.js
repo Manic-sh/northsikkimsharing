@@ -4,7 +4,7 @@ import Blog4 from "../../components/blog/Blog4";
 import Brand2 from "../../components/brand/Brand2";
 import Seo from "../../components/common/Seo";
 import Footer2 from "../../components/footer/footer-2";
-import Header2 from "../../components/header/header-2";
+import Header from "../../components/header/header-2";
 import Hero2 from "../../components/hero/hero-2";
 import CallToActions from "../../components/home/home-2/CallToActions";
 import Subscribe from "../../components/home/home-2/Subscribe";
@@ -20,22 +20,26 @@ import { builder } from "@builder.io/sdk";
 builder.init("02508b9173c94715834f124a5247ac79");
 
 const Home = () => {
-  const [sights, setSights] = useState();
-  const [destinations, setDestinations] = useState();
-
+  const [sights, setSights] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+  
   useEffect(() => {
-    async function fetchContent() {
+    async function fetchSights() {
       const data = await builder.getAll("sights", {
-        fields: "data", // Currently this only gets one level of nested references
+        fields: "data",
       });
-      setSights(data);
-
-      const dest = await builder.getAll("destinations", {
-        fields: "data", // Currently this only gets one level of nested references
-      });
-      setDestinations(dest);
+      setSights(data || []); // Use an empty array as a fallback if data is undefined
     }
-    fetchContent();
+  
+    async function fetchDestinations() {
+      const dest = await builder.getAll("destinations", {
+        fields: "data",
+      });
+      setDestinations(dest || []); // Use an empty array as a fallback if dest is undefined
+    }
+  
+    fetchSights();
+    fetchDestinations();
   }, []);
 
   return (
@@ -43,10 +47,33 @@ const Home = () => {
       <Seo pageTitle="Home" />
       {/* End Page Title */}
 
-      <Header2 />
+      <Header destinations={destinations} />
       {/* End Header 2 */}
       <Hero2 />
       {/* End Hero 2 */}
+
+      <section className="layout-pt-lg layout-pb-md">
+        <div className="container">
+          <div className="row justify-center text-center">
+            <div className="col-auto">
+              <div className="sectionTitle -md">
+                <h2 className="sectionTitle__title">How North Sikkim Sharing Works</h2>
+                <p className=" sectionTitle__text mt-5 sm:mt-0">
+                  These popular destinations have a lot to offer
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* End .row */}
+
+          <div className="row y-gap-40 justify-between pt-50">
+            <BlockGuide />
+          </div>
+          {/* End .row */}
+        </div>
+        {/* End .container */}
+      </section>
+
       <section className="layout-pt-lg layout-pb-md">
         <div className="container">
           <div className="row justify-center text-center">
@@ -145,27 +172,6 @@ const Home = () => {
           </div>
           {/* End relative */}
         </div>
-      </section>
-      <section className="layout-pt-lg layout-pb-md">
-        <div className="container">
-          <div className="row justify-center text-center">
-            <div className="col-auto">
-              <div className="sectionTitle -md">
-                <h2 className="sectionTitle__title">How North Sikkim Sharing Works</h2>
-                <p className=" sectionTitle__text mt-5 sm:mt-0">
-                  These popular destinations have a lot to offer
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* End .row */}
-
-          <div className="row y-gap-40 justify-between pt-50">
-            <BlockGuide />
-          </div>
-          {/* End .row */}
-        </div>
-        {/* End .container */}
       </section>
       {/* End travel block sections */}
 

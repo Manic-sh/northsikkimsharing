@@ -1,67 +1,24 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { builder } from "@builder.io/sdk";
-import CustomSwitch from "@/components/common/CustomSwitch";
 
 builder.init("02508b9173c94715834f124a5247ac79");
 
-const LocationSearch = ({ packages, setSelectedPackage }) => {
+const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // const locationSearchContent = [
-  //   {
-  //     id: 1,
-  //     name: "1 Night 2 Days",
-  //     address: "Lachung, Yumtahng & Zero Points",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "2 Night 3 Days",
-  //     address: "Lachung, Yumtahng & Zero Points",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "1 Night Gurudongmer",
-  //     address: "Gurudongmer",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "1 Night transport only",
-  //     address: "Lachung",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "2 Night 3 days transport only",
-  //     address: "Lachung, Yumtahng & Zero Points",
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "1 Day trip",
-  //     address: "Lachung, Yumtahng & Zero Points",
-  //   },
-  // ];
+  
+  useEffect(() => {
+    setSearchValue("");
+  }, [isIndian]);
 
+  
   const handleOptionClick = (item) => {
     setSearchValue(item?.data?.pakageName);
     setSelectedItem(item);
     setSelectedPackage(item);
   };
 
-  // const handleIsIndianChange = () => {
-  //   setIsIndian(!isIndian);
-  // };
-  // function getFilteredPckg() {
-  //   if (!isIndian) {
-  //     const filterPackage = packages.filter(pckg => (
-  //       pckg.data?.forForeigeners[0]?.isAvailable
-  //     ));
-  //     return filterPackage;
-  //   }
-  //   return packages?.filter(pckg => (
-  //     !pckg.data?.forForeigeners[0]?.isAvailable
-  //   ));
-  // }
-  // var filteredList = useMemo(getFilteredPckg, [isIndian, packages]);
 
   return (
     <>
@@ -85,11 +42,7 @@ const LocationSearch = ({ packages, setSelectedPackage }) => {
               required
             />
           </div>
-        </div>
-    
-
-        {/* <CustomSwitch label1={"Indian"} label2={"Foreigner"} onChange={handleIsIndianChange} defaultChecked={true} /> */}
-       
+        </div>       
 
         <div className="shadow-2 dropdown-menu min-width-400 package-items-dropdown">
           <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
