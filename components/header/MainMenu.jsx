@@ -1,17 +1,11 @@
 import Link from "next/link";
+import CategoriesMegaMenu from "./CategoriesMegaMenu";
 
 import {
-  homeItems,
-  blogItems,
-  pageItems,
-  dashboardItems,
-} from "../../data/mainMenuData";
-import CategoriesMegaMenu from "./CategoriesMegaMenu";
-import {
-  isActiveParent,
   isActiveLink,
   isActiveParentChaild,
 } from "../../utils/linkActiveChecker";
+
 import { useRouter } from "next/router";
 
 const MainMenu = ({ style = "" }) => {
@@ -26,21 +20,10 @@ const MainMenu = ({ style = "" }) => {
           } menu-item-has-children`}
         >
           <a href="#">
-            <span className="mr-10">Home</span>
-            <i className="icon icon-chevron-sm-down" />
+            <span className="mr-10">
+              <Link href='/'>Home</Link>
+            </span>
           </a>
-          <ul className="subnav">
-            {homeItems.map((menu, i) => (
-              <li
-                key={i}
-                className={
-                  isActiveLink(menu.routePath, router.asPath) ? "current" : ""
-                }
-              >
-                <Link href={menu.routePath}>{menu.name}</Link>
-              </li>
-            ))}
-          </ul>
         </li>
         {/* End home page menu */}
 

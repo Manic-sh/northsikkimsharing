@@ -6,21 +6,9 @@ import {
   ProSidebarProvider,
   Sidebar,
   Menu,
-  MenuItem,
-  SubMenu,
+  MenuItem
 } from "react-pro-sidebar";
-import {
-  homeItems,
-  blogItems,
-  pageItems,
-  dashboardItems,
-  categorieMobileItems,
-} from "../../data/mainMenuData";
-import {
-  isActiveLink,
-  isActiveParent,
-  isActiveParentChaild,
-} from "../../utils/linkActiveChecker";
+
 import Social from "../common/social/Social";
 import ContactInfo from "./ContactInfo";
 
@@ -47,58 +35,33 @@ const MobileMenu = () => {
       {/* End pro-header */}
 
       <ProSidebarProvider>
-        <Sidebar width="400" backgroundColor="#fff">
+        <Sidebar width="400" backgroundColor="#0d2857">
           <Menu>
-            <SubMenu label="Home">
-              {homeItems.map((item, i) => (
-                <MenuItem
-                  key={i}
-                  component={
-                    <Link
-                      href={item.routePath}
-                      className={
-                        isActiveLink(item.routePath, router.asPath)
-                          ? "menu-active-link"
-                          : ""
-                      }
-                    />
+          <MenuItem
+              component={
+                <Link
+                  href="/"
+                  className={
+                    router.pathname === "/" ? "menu-active-link" : ""
                   }
-                >
-                  {item.name}
-                </MenuItem>
-              ))}
-            </SubMenu>
+                />
+              }
+            >
+              Home
+            </MenuItem>
             {/* End  All Home Menu */}
-
-            <SubMenu label="Categories">
-              {categorieMobileItems.map((item) => (
-                <SubMenu label={item.title} key={item.id}>
-                  {item.menuItems.map((single) => (
-                    <SubMenu label={single.title} key={single.id}>
-                      {single.menuList.map((menu, i) => (
-                        <MenuItem
-                          key={i}
-                          component={
-                            <Link
-                              href={menu.routePath}
-                              className={
-                                isActiveLink(menu.routePath, router.asPath)
-                                  ? "menu-active-link"
-                                  : ""
-                              }
-                            />
-                          }
-                        >
-                          {menu.name}
-                        </MenuItem>
-                      ))}
-                    </SubMenu>
-                  ))}
-                </SubMenu>
-              ))}
-            </SubMenu>
-            {/* End  All Categories Menu */}
-
+            <MenuItem
+              component={
+                <Link
+                  href="/packages"
+                  className={
+                    router.pathname === "/packages" ? "menu-active-link" : ""
+                  }
+                />
+              }
+            >
+              Packages
+            </MenuItem>
             <MenuItem
               component={
                 <Link
@@ -115,49 +78,22 @@ const MobileMenu = () => {
             </MenuItem>
             {/* End  Desitinations Menu */}
 
-            <SubMenu label="Blog">
-              {blogItems.map((item, i) => (
-                <MenuItem
-                  key={i}
-                  component={
-                    <Link
-                      href={item.routePath}
-                      className={
-                        isActiveLink(item.routePath, router.asPath)
-                          ? "menu-active-link"
-                          : ""
-                      }
-                    />
+            <MenuItem
+              component={
+                <Link
+                  href="/sights"
+                  className={
+                    router.pathname === "/sights"
+                      ? "menu-active-link"
+                      : ""
                   }
-                >
-                  {item.name}
-                </MenuItem>
-              ))}
-            </SubMenu>
-            {/* End  All Blog Menu */}
+                />
+              }
+            >
+              Sights
+            </MenuItem>
 
-            <SubMenu label="Pages">
-              {pageItems.map((item, i) => (
-                <MenuItem
-                  key={i}
-                  component={
-                    <Link
-                      href={item.routePath}
-                      className={
-                        isActiveLink(item.routePath, router.asPath)
-                          ? "menu-active-link"
-                          : ""
-                      }
-                    />
-                  }
-                >
-                  {item.name}
-                </MenuItem>
-              ))}
-            </SubMenu>
-            {/* End  All Pages Menu */}
-
-            <SubMenu label="Dashboard">
+            {/* <SubMenu label="Dashboard">
               {dashboardItems.map((item, i) => (
                 <MenuItem
                   key={i}
@@ -175,7 +111,7 @@ const MobileMenu = () => {
                   {item.name}
                 </MenuItem>
               ))}
-            </SubMenu>
+            </SubMenu> */}
             {/* End  All Dashboard Menu */}
 
             <MenuItem
@@ -204,14 +140,6 @@ const MobileMenu = () => {
           <div className="d-flex x-gap-20 items-center">
             <Social />
           </div>
-        </div>
-        <div className="mt-20">
-          <Link
-            className=" button -dark-1 px-30 fw-400 text-14 bg-blue-1 h-50 text-white"
-            href="/others-pages/login"
-          >
-            Become An Expert
-          </Link>
         </div>
       </div>
       {/* End pro-footer */}

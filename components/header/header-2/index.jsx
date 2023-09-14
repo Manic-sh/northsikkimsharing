@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import CurrenctyMegaMenu from "../CurrenctyMegaMenu";
-import LanguageMegaMenu from "../LanguageMegaMenu";
 import LocationSearch from "./LocationSearch";
 import MobileMenu from "../MobileMenu";
 
@@ -50,6 +48,7 @@ const Header = ({destinations}) => {
                     id="mobile-sidebar_menu"
                     aria-labelledby="offcanvasMenuLabel"
                     data-bs-scroll="true"
+                    style={{backgroundColor: '#0d2857', color: '#fff'}}
                   >
                     <MobileMenu />
                     {/* End MobileMenu */}

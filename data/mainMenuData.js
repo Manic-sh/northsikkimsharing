@@ -1,43 +1,7 @@
 export const homeItems = [
   {
-    name: "Home 01",
+    name: "Home",
     routePath: "/",
-  },
-  {
-    name: "Home 02",
-    routePath: "/home/home_2",
-  },
-  {
-    name: "Home 03",
-    routePath: "/home/home_3",
-  },
-  {
-    name: "Home 04",
-    routePath: "/home/home_4",
-  },
-  {
-    name: "Home 05",
-    routePath: "/home/home_5",
-  },
-  {
-    name: "Home 06",
-    routePath: "/home/home_6",
-  },
-  {
-    name: "Home 07",
-    routePath: "/home/home_7",
-  },
-  {
-    name: "Home 08",
-    routePath: "/home/home_8",
-  },
-  {
-    name: "Home 09",
-    routePath: "/home/home_9",
-  },
-  {
-    name: "Home 10",
-    routePath: "/home/home_10",
   },
 ];
 export const blogItems = [

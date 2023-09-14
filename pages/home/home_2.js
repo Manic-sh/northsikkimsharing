@@ -189,21 +189,6 @@ const Home = () => {
             {/* End .col */}
           </div>
           {/* End .row */}
-
-          <div className="row justify-center text-center pt-60">
-            <div className="col-auto">
-              <div className="text-15 lh-1 text-white">
-                Trusted by the world’s best
-              </div>
-            </div>
-          </div>
-          {/* End .row */}
-
-          <div className="px-40 md:px-0">
-            <div className="row y-gap-30 justify-between items-center pt-60 lg:pt-40">
-              <Brand2 />
-            </div>
-          </div>
         </div>
       </section>
       {/* End testimonial and brand sections Section */}

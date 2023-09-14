@@ -2,7 +2,7 @@ import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
-import { testimonial2 } from "../../../data/testimonialData";
+import { testimonial1 } from "../../../data/testimonialData";
 import { EffectCards } from "swiper";
 
 const Testimonial = () => {
@@ -22,7 +22,7 @@ const Testimonial = () => {
             clickable: true,
           }}
         >
-          {testimonial2.slice(0, 3).map((item) => (
+          {testimonial1.slice(0, 3).map((item) => (
             <SwiperSlide key={item.id}>
               <div className="testimonials -type-1 bg-white rounded-4 pt-40 pb-30 px-40 shadow-2">
                 <div>
