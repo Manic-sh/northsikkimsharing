@@ -1,6 +1,6 @@
 import Link from "next/link";
 import CategoriesMegaMenu from "./CategoriesMegaMenu";
-
+import { homeItems, blogItems, pageItems, dashboardItems } from "@/data/mainMenuData";
 import {
   isActiveLink,
   isActiveParentChaild,
