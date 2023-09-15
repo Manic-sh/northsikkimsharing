@@ -131,68 +131,74 @@ const RoomsCount = () => {
   }
 
   return (
-    <div className="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters position-relative">
-      <div
-        data-bs-toggle="dropdown"
-        data-bs-auto-close="outside"
-        aria-expanded="false"
-        data-bs-offset="0,22"
-      >
-        <div className="d-flex">
-          <i className="icon-compass text-20 text-light-1 mt-5"></i>
-          <div className="ml-10">
-            <h4 className="text-15 fw-500 ls-2 lh-16 text-black">Guest Count</h4>
-            <div className="text-15 text-light-1 ls-2 lh-16">
-              <span className="js-count-adult">{noOfAdults}</span>{" "}
-              adults -{" "}
-              <span className="js-count-child">{noOfChildren}</span>{" "}
-              childeren -{" "}
-              <span className="js-count-room">{room?.length}</span> room
-            </div>
-          </div>
-          {/* End ml-10 */}
-        </div>
-      </div>
-      {/* End guest */}
+    <>
+      <h4 className="text-15 fw-500 ls-2 lh-16 text-black mb-10">
+        <i className="icon-compass text-20 text-light-1 mr-10"></i>
+        Guest Count
+      </h4>
 
-      <div className="shadow-2 dropdown-menu min-width-400 guest-count-dropdown">
-        <div className="bg-white px-6 py-30 rounded-4 counter-box">
-          <Accordion defaultActiveKey="0" flush>
-            {room?.map((roomItem, index) => (
-              <Accordion.Item eventKey={index} key={index}>
-                <Accordion.Header>
-                  <Container>
-                    <Row>
-                      <Col>
-                        <div>Room {index + 1}</div>
-                      </Col>
-                      <Col>
-                        <div>{roomItem?.adults} Adults, and {roomItem?.children}</div>
-                      </Col>
-                    </Row>
-                  </Container></Accordion.Header>
-                <Accordion.Body>
-                  <Alert variant='warning' className="py-5">
-                    Maximum 4 guests are allowed in a room
-                  </Alert>
-                  <div key={index}>
-                    <RoomGuestCounter roomIndex={index} adultsCount={roomItem?.adults} childrenCount={roomItem?.children} disableIncrement={disableGuestIncrement(roomItem?.adults + roomItem?.children)} dispatch={dispatch}  />
-                  </div>
-                  {room.length > 1 &&
-                    (<div className="d-flex w-100 justify-content-end py-2 mt-24 border-top-light">
-                      <Button type="button" variant="outline-danger" size="sm" onClick={() => handleRoomRemove(index)}>Remove</Button>
-                    </div>)
-                  }
-                </Accordion.Body>
-              </Accordion.Item>
-            ))}
-          </Accordion>
+      <div className="searchMenu-guests px-30 py-10 lg:px-0 js-form-dd js-form-counters position-relative">
+        <div
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+          aria-expanded="false"
+          data-bs-offset="0,22"
+        >
+          <div className="d-flex">
+            <div className="">
+
+              <div className="text-15 text-light-1 ls-2 lh-16 pl-20 ml-5">
+                <span className="js-count-adult">{noOfAdults}</span>{" "}
+                adults -{" "}
+                <span className="js-count-child">{noOfChildren}</span>{" "}
+                childeren -{" "}
+                <span className="js-count-room">{room?.length}</span> room
+              </div>
+            </div>
+            {/* End ml-10 */}
+          </div>
         </div>
-        <div className="bg-white px-30 py-10 rounded-4 text-center">
-          <Button variant="warning" onClick={handleRoomAdd} disabled={room.length == 5}>+Add Room</Button>{' '}
+        {/* End guest */}
+
+        <div className="shadow-2 dropdown-menu min-width-400 guest-count-dropdown">
+          <div className="bg-white px-6 py-30 rounded-4 counter-box">
+            <Accordion defaultActiveKey="0" flush>
+              {room?.map((roomItem, index) => (
+                <Accordion.Item eventKey={index} key={index}>
+                  <Accordion.Header>
+                    <Container>
+                      <Row>
+                        <Col>
+                          <div>Room {index + 1}</div>
+                        </Col>
+                        <Col>
+                          <div>{roomItem?.adults} Adults, and {roomItem?.children}</div>
+                        </Col>
+                      </Row>
+                    </Container></Accordion.Header>
+                  <Accordion.Body>
+                    <Alert variant='warning' className="py-5">
+                      Maximum 4 guests are allowed in a room
+                    </Alert>
+                    <div key={index}>
+                      <RoomGuestCounter roomIndex={index} adultsCount={roomItem?.adults} childrenCount={roomItem?.children} disableIncrement={disableGuestIncrement(roomItem?.adults + roomItem?.children)} dispatch={dispatch} />
+                    </div>
+                    {room.length > 1 &&
+                      (<div className="d-flex w-100 justify-content-end py-2 mt-24 border-top-light">
+                        <Button type="button" variant="outline-danger" size="sm" onClick={() => handleRoomRemove(index)}>Remove</Button>
+                      </div>)
+                    }
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          </div>
+          <div className="bg-white px-30 py-10 rounded-4 text-center">
+            <Button variant="warning" onClick={handleRoomAdd} disabled={room.length == 5}>+Add Room</Button>{' '}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

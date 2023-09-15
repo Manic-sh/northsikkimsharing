@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Blog4 from "../../components/blog/Blog4";
-import Brand2 from "../../components/brand/Brand2";
 import Seo from "../../components/common/Seo";
 import Footer2 from "../../components/footer/footer-2";
 import Header from "../../components/header/header-2";
 import Hero2 from "../../components/hero/hero-2";
 import CallToActions from "../../components/home/home-2/CallToActions";
-import Subscribe from "../../components/home/home-2/Subscribe";
 import Testimonial from "../../components/home/home-2/Testimonial";
 import TestimonialRating from "../../components/home/home-2/TestimonialRating";
 import Sights from "../../components/home/home-2/Sights";
@@ -193,34 +190,7 @@ const Home = () => {
       </section>
       {/* End testimonial and brand sections Section */}
 
-      <section className="layout-pt-lg layout-pb-md">
-        <div className="container">
-          <div className="row justify-center text-center">
-            <div className="col-auto">
-              <div className="sectionTitle -md">
-                <h2 className="sectionTitle__title">
-                  Get inspiration for your next trip
-                </h2>
-                <p className=" sectionTitle__text mt-5 sm:mt-0">
-                  Interdum et malesuada fames
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* End .row  */}
-          <div className="row y-gap-30 pt-40">
-            <Blog4 />
-          </div>
-          {/* End .row */}
-        </div>
-        {/* End .container */}
-      </section>
       {/* End blog Section */}
-
-      <Subscribe />
-      {/* End Subscribe Section */}
-
-      {/* End AppBanner Section */}
 
       <CallToActions />
       {/* End CallToActions Section */}

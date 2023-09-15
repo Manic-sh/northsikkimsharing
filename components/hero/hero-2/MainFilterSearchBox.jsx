@@ -71,16 +71,17 @@ const MainFilterSearchBox = () => {
         </div>
         <div className="mainSearch-form">
           <h1 className="z-2 text-42 lg:text-40 md:text-26 text-black xl:pt-0 pb-20">
+
             Choose Your Package
           </h1>
           <div className="button-grid items-center">
             <LocationSearch packages={filteredList} setSelectedPackage={handleSelectedPackage} isIndian={isIndian} />
             {/* End Location */}
-
-            <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar py-20">
+            <h4 className="text-15 fw-500 ls-2 lh-16 text-black mb-10">
+                  <i class="icomoon icon-calendar text-20 text-light-1 mr-5"></i>Date of Journey</h4>
+            <div className="searchMenu-date px-30 py-5 lg:px-0 js-form-dd js-calendar mb-20">
               <div>
-                <h4 className="text-15 fw-500 ls-2 lh-16 text-black">Date of Journey</h4>
-                <div className="custom_datepicker">
+                <div className="custom_datepicker pl-20 ml-5">
                   <DatePicker onChange={setDateOfJourney} value={dateOfJourney} clearIcon={null} closeCalendar required disabledKeyboardNavigation />
                 </div>
               </div>
@@ -91,18 +92,18 @@ const MainFilterSearchBox = () => {
             {/* End guest */}
 
             <div className="button-item py-20">
-                <LinkWrapper
-                  href={{
-                    pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
-                    query: {
-                      'dateOfJourney': timestampInMilliseconds,
-                    }
-                  }}
-                  disabled={!selectedPackage ? true : false} 
-                  className="button -md -dark-1 bg-blue-1 text-white mt-24 w-100"
-                >
-                  View
-                </LinkWrapper>
+              <LinkWrapper
+                href={{
+                  pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
+                  query: {
+                    'dateOfJourney': timestampInMilliseconds,
+                  }
+                }}
+                disabled={!selectedPackage ? true : false}
+                className="button -md -dark-1 bg-blue-1 text-white mt-24 w-100"
+              >
+                View
+              </LinkWrapper>
             </div>
             {/* End search button_item */}
           </div>

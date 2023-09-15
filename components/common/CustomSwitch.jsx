@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const CustomSwitch = ({ label1, label2, onChange, defaultChecked }) => {
   const [isChecked, setIsChecked] = useState(defaultChecked || false);

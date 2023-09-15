@@ -22,15 +22,15 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
 
   return (
     <>
-      <div className="searchMenu-loc px-30 d-flex align-items-end lg:pt-20 lg:pb-20 lg:px-0 js-form-dd js-liverSearch">
+      <h4 className="text-15 fw-500 ls-2 lh-16 text-black mb-10"><i class="icomoon icon-ticket text-20 text-light-1 mr-10"></i>Packages</h4>
+      <div className="searchMenu-loc px-30 d-flex align-items-end lg:pb-10 lg:px-0 js-form-dd js-liverSearch mb-20">
         <div
           data-bs-toggle="dropdown"
           data-bs-auto-close="true"
           data-bs-offset="0,22"
           className="w-100"
         >
-          <h4 className="text-15 fw-500 ls-2 lh-16 text-black">Packages</h4>
-          <div className=" d-flex text-15 text-light-1 ls-2 lh-16">
+          <div className=" d-flex text-15 text-light-1 ls-2 lh-16 ml-5 pl-20">
             <input
               autoComplete="off"
               type="search"
@@ -44,7 +44,7 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
           </div>
         </div>       
 
-        <div className="shadow-2 dropdown-menu min-width-400 package-items-dropdown">
+        <div className="shadow-2 dropdown-menu min-width-300 package-items-dropdown">
           <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
             <ul className="y-gap-5 js-results">
               {packages?.map((item, idx) => (

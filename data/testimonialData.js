@@ -19,7 +19,7 @@ export const testimonial1 = [
   {
     id: 3,
     avatar: "/img/avatars/testimonials/3.png",
-    name: "Afrad Emon",
+    name: "Uday Prakash",
     designation: "Local Guide",
     text: `The support we received was unforgatable from the owner of sunflower travels Mr ketan goyal and his friends Ashish ,itbp jawans ,army people ,Sikkim police and Sikkim goverment who had provided emple vehicles from their side for tourists more than 2500  people while we were stucked in landslide of chungthang valley`,
     dealyAnimation: "300",
