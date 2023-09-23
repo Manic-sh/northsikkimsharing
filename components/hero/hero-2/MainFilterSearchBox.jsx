@@ -77,11 +77,11 @@ const MainFilterSearchBox = () => {
           <div className="button-grid items-center">
             <LocationSearch packages={filteredList} setSelectedPackage={handleSelectedPackage} isIndian={isIndian} />
             {/* End Location */}
-            <h4 className="text-15 fw-500 ls-2 lh-16 text-black mb-10">
+            <h4 className="text-15 fw-500 ls-2 lh-16 text-black">
                   <i class="icomoon icon-calendar text-20 text-light-1 mr-5"></i>Date of Journey</h4>
-            <div className="searchMenu-date px-30 py-5 lg:px-0 js-form-dd js-calendar mb-20">
+            <div className="searchMenu-date  px-10 py-5 lg:px-0 js-form-dd js-calendar mb-20">
               <div>
-                <div className="custom_datepicker pl-20 ml-5">
+                <div className="custom_datepicker sm:pl-20 sm:ml-5">
                   <DatePicker onChange={setDateOfJourney} value={dateOfJourney} clearIcon={null} closeCalendar required disabledKeyboardNavigation />
                 </div>
               </div>
@@ -91,16 +91,16 @@ const MainFilterSearchBox = () => {
             <RoomsCount />
             {/* End guest */}
 
-            <div className="button-item py-20">
+            <div className="button-item">
               <LinkWrapper
                 href={{
-                  pathname: `/hotel/hotel-single-v2/${selectedPackage?.data?.handle}`,
+                  pathname: `/packages/package-item/${selectedPackage?.data?.handle}`,
                   query: {
                     'dateOfJourney': timestampInMilliseconds,
                   }
                 }}
                 disabled={!selectedPackage ? true : false}
-                className="button -md -dark-1 bg-blue-1 text-white mt-24 w-100"
+                className="button -md -dark-1 bg-dark-1 text-white mt-24 w-100"
               >
                 View
               </LinkWrapper>

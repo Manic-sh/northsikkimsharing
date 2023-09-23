@@ -142,3 +142,17 @@ input:checked+.slider:before {
 .css-16jkw2k >.ps-menu-button:hover{
     color: #051036;
 }
+
+.hotelSingleGrid .icon-compass{
+    display: none;
+}
+
+.hotelSingleGrid .searchMenu-guests::after {
+    content: '\002B'; /* Unicode for plus sign (+) */
+    display: inline-block;
+    margin-left: 5px; /* Adjust the spacing as needed */
+    font-weight: bold; /* Make the plus sign bold if desired */
+    position: absolute;
+    top: 5px;
+    right: 0;
+}

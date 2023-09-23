@@ -1,7 +1,4 @@
 export function updateDatePrice(packageItem, selectedDate, packageTid) {
-
-  console.log("🚀 ~ file: datePriceUpdater.js:3 ~ updateDatePrice ~ packageTid:", packageTid);
-
   const data = packageItem?.data?.pricingPeriods?.value?.data;
 
   let basePrice = 0;

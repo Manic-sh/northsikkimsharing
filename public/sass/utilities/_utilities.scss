@@ -1830,6 +1830,12 @@ table.table-5 {
   @include media-below(lg) {
     grid-template-columns: 1fr;
   }
+  .swiper-wrapper{
+    width: 100% !important;
+  }
+  .swiper-slide{
+    width: 100% !important;
+  }
 }
 
 .border-test {

@@ -43,6 +43,8 @@ const Booking = () => {
           "handle": handle,
           "jdate": router.query.dateOfJourney,
           'ptype': router.query.ptype,
+          'adults': router.query.adults,
+          'children': router.query.children
         });
 
       }

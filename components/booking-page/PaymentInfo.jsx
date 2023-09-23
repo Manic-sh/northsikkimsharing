@@ -4,13 +4,25 @@ import PricingSummary from "./sidebar/PricingSummary";
 import PaymentSchedule from "./sidebar/PaymentSchedule";
 import PromoCode from "./sidebar/PromoCode";
 import RatingInfo from "./RatingInfo";
+import axios from 'axios';
 
 const PaymentInfo = ({totalPrice}) => {
+  const [paymentForm, setPaymentForm] = useState(null);
+
   const [itemsTabs, setItemsTabs] = useState(1);
   const cardTabs = [
     { id: 1, name: "Credit/Debit Card" },
     { id: 2, name: "Digital Payment" },
   ];
+
+  const initiatePayment = async () => {
+    try {
+      const response = await axios.post('/api/payment');
+      setPaymentForm(response.data.paymentForm);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -155,6 +167,11 @@ const PaymentInfo = ({totalPrice}) => {
           <PricingSummary totalPrice={totalPrice} />
           <PaymentSchedule totalPrice={totalPrice} />
           <PromoCode />
+          {paymentForm ? (
+        <div dangerouslySetInnerHTML={{ __html: paymentForm }} />
+        ) : (
+          <button onClick={initiatePayment}>Initiate Payment</button>
+        )}
         </div>
       </div>
       {/* payment sidebar info */}

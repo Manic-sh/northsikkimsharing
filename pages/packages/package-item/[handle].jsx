@@ -3,14 +3,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ModalVideo from "react-modal-video";
 import "photoswipe/dist/photoswipe.css";
-import { Gallery, Item } from "react-photoswipe-gallery";
 import Seo from "../../../components/common/Seo";
 import DefaultHeader from "../../../components/header/header-2";
 import Overview from "../../../components/hotel-single/Overview";
 import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
-
 import TopBreadCrumb from "../../../components/hotel-single/TopBreadCrumb";
-import SidebarRight2 from "../../../components/hotel-single/SidebarRight2";
 import CallToActions from "../../../components/common/CallToActions";
 import DefaultFooter from "../../../components/footer/default";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -24,6 +21,7 @@ import Link from "next/link";
 import { calculateTotalPrice } from '@/utils/roomPriceCalculator';
 import { useRoomContext } from '@/context/RoomContext';
 import { updateDatePrice } from '@/utils/datePriceUpdater';
+import SlideGallery from '@/components/hotel-single/SlideGallery';
 
 
 builder.init("02508b9173c94715834f124a5247ac79");
@@ -35,7 +33,7 @@ const HotelSingleV2Dynamic = () => {
   const [isOpen, setOpen] = useState(false);
   const [packageDetail, setPackageDetail] = useState(null);
   const [packageType, setPackageType] = useState('Standard');
-  const [packageTypeId, setPackageTypeId] = useState('') 
+  const [packageTypeId, setPackageTypeId] = useState('')
   const [basePrice, setBasePrice] = useState();
 
 
@@ -44,7 +42,7 @@ const HotelSingleV2Dynamic = () => {
 
   const room = state;
 
-  const handleSetPackageType = (value, typeId) => {    
+  const handleSetPackageType = (value, typeId) => {
     setPackageType(value);
     setPackageTypeId(typeId);
   }
@@ -71,36 +69,44 @@ const HotelSingleV2Dynamic = () => {
       setPackageDetail(data);
 
       function getPackageTypeId(packageName) {
-        const availablePackageType = data?.data?.availablePackageType;      
+        const availablePackageType = data?.data?.availablePackageType;
         const matchingPackage = availablePackageType.find((packageType) => {
           return packageType?.typeName?.typeName?.value?.data?.name === packageName;
         });
-      
+
         if (matchingPackage) {
           return matchingPackage.typeName?.typeName?.value?.id;
         } else {
           return null; // Return null if the package name is not found
         }
       }
-      const packageTid = getPackageTypeId(packageType);      
-      
+      const packageTid = getPackageTypeId(packageType);
+
       setBasePrice(updateDatePrice(packageDetail, dateOfJourney, packageTid));
       //setBasePrice(data?.data?.pricingPeriods?.value?.data?.basePrice?.standard);  
-      if(getTotalGuests == 1){
+      if (getTotalGuests == 1) {
         setIsSolo(true);
         setBasePrice(basePrice + 1000);
       }
     }
     return () => { };
-  }, [router.isReady, basePrice, packageType]);  
+  }, [router.isReady, basePrice, packageType]);
 
-  
+
   const getTotalGuests = () => {
     let noGuests = room.reduce((accumulator, item) => {
-      return accumulator + item?.adults + item?.children ;
+      return accumulator + item?.adults + item?.children;
     }, 0);
     return noGuests;
   }
+
+  const getNumberOfAdults = () => {
+    return room?.reduce((accumulator, room) => accumulator + (room?.adults || 0), 0);
+  };
+  const getNumberOfChildren = () => {
+    return room?.reduce((accumulator, room) => accumulator + (room?.children || 0), 0);
+  };
+
 
   //Function to calculate the total price
   const getTotalPrice = () => {
@@ -114,10 +120,10 @@ const HotelSingleV2Dynamic = () => {
     });
 
     let basePricePerAdult = 0;
-    
-    basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, noOfAdults): 0;
-  
-    return  basePricePerAdult;
+
+    basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, noOfAdults) : 0;
+
+    return basePricePerAdult;
   }
   return (
     <>
@@ -142,114 +148,14 @@ const HotelSingleV2Dynamic = () => {
 
       {/* End StickyHeader2 */}
 
-      <TopBreadCrumb />
+      <TopBreadCrumb title={packageDetail?.data?.pakageName} />
       {/* End top breadcrumb */}
 
       <section className="pt-40">
         <div className="container">
           <div className="hotelSingleGrid">
-            <div>
-              <Gallery>
-                <div className="galleryGrid -type-2">
-                  <div className="galleryGrid__item relative d-flex justify-end">
-                    <Item
-                      original={packageDetail?.data?.images[0]?.image}
-                      thumbnail={packageDetail?.data?.images[0]?.image}
-                      width={660}
-                      height={660}
-                    >
-                      {({ ref, open }) => (
-                        <img
-                          src={packageDetail?.data?.images[0]?.image}
-                          ref={ref}
-                          onClick={open}
-                          alt="image"
-                          role="button"
-                          className="rounded-4"
-                        />
-                      )}
-                    </Item>
-                    <div className="absolute px-20 py-20">
-                      <button className="button -blue-1 size-40 rounded-full bg-white">
-                        <i className="icon-heart text-16" />
-                      </button>
-                    </div>
-                  </div>
-                  {/* End .galleryGrid__item */}
-
-                  <div className="galleryGrid__item">
-                    <Item
-                      original={packageDetail?.data?.images[1]?.image}
-                      thumbnail={packageDetail?.data?.images[1]?.image}
-                      width={450}
-                      height={375}
-                    >
-                      {({ ref, open }) => (
-                        <img
-                          ref={ref}
-                          onClick={open}
-                          src={packageDetail?.data?.images[1]?.image}
-                          alt="image"
-                          className="rounded-4"
-                          role="button"
-                        />
-                      )}
-                    </Item>
-                  </div>
-                  {/* End .galleryGrid__item */}
-
-                  <div className="galleryGrid__item">
-                    <Item
-                      original={packageDetail?.data?.images[2]?.image}
-                      thumbnail={packageDetail?.data?.images[2]?.image}
-                      width={450}
-                      height={375}
-                    >
-                      {({ ref, open }) => (
-                        <img
-                          ref={ref}
-                          onClick={open}
-                          src={packageDetail?.data?.images[2]?.image}
-                          alt="image"
-                          className="rounded-4"
-                          role="button"
-                        />
-                      )}
-                    </Item>
-                  </div>
-                  {/* End .galleryGrid__item */}
-
-                  <div className="galleryGrid__item relative d-flex justify-end items-end">
-                    <img
-                      src="/img/gallery/1/4.png"
-                      alt="image"
-                      className="rounded-4"
-                    />
-                    <div className="absolute px-10 py-10 col-12 h-full d-flex justify-end items-end">
-                      <Item
-                        original="/img/gallery/1/4.png"
-                        thumbnail="/img/gallery/1/4.png"
-                        width={362}
-                        height={302}
-                      >
-                        {({ ref, open }) => (
-                          <div
-                            className="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery"
-                            ref={ref}
-                            onClick={open}
-                            role="button"
-                          >
-                            See All Photos
-                          </div>
-                        )}
-                      </Item>
-                    </div>
-                  </div>
-                  {/* End .galleryGrid__item */}
-                </div>
-              </Gallery>
-              {/* End gallery grid */}
-              <div className="row justify-between items-end pt-2">
+            <div className="d-flex flex-column">
+              <div className="row justify-between items-end pb-2">
                 <div className="col-auto">
                   <div className="row x-gap-20  items-center">
                     <div className="col-auto">
@@ -259,13 +165,6 @@ const HotelSingleV2Dynamic = () => {
 
                     </div>
                     {/* End .col */}
-                    <div className="col-auto">
-                      <i className="icon-star text-10 text-yellow-1" />
-                      <i className="icon-star text-10 text-yellow-1" />
-                      <i className="icon-star text-10 text-yellow-1" />
-                      <i className="icon-star text-10 text-yellow-1" />
-                      <i className="icon-star text-10 text-yellow-1" />
-                    </div>
                   </div>
                   {/* End .row */}
 
@@ -279,33 +178,6 @@ const HotelSingleV2Dynamic = () => {
                   </div>
                   {/* End .row */}
                 </div>
-                {/* End .col */}
-
-                <div className="col-auto">
-                  <div className="text-14 text-md-end">
-                    From{" "}
-                    <span className="text-22 text-dark-1 fw-500">
-                      Rs {getTotalPrice()}
-                    </span>
-                  </div>
-                  <Link
-                    href={{
-                      pathname: `/hotel/booking-page/${router?.query?.handle}`,
-                      query: {
-                        'dateOfJourney': router?.query?.dateOfJourney,
-                        'ptype': packageType,
-                      }
-                    }}
-                    className="button -md -dark-1 bg-blue-1 text-white mt-24"
-                  >
-                    Book Now
-                    <div className="icon-arrow-top-right ml-15"></div>
-                  </Link>
-                </div>
-                {/* End .col */}
-              </div>
-
-              <div className="row justify-between items-end pt-40">
                 <div className="col-auto">
                   <h3 className="text-18 fw-500">Select Package Type</h3>
                   <ButtonGroup>
@@ -326,15 +198,13 @@ const HotelSingleV2Dynamic = () => {
                   </ButtonGroup>
 
                 </div>
-                <div className="col-auto">
-                </div>
-                <div className="col-auto">
-                  <RoomsCount />
-                </div>
-                <div className="col-auto">
+                {/* End .col */}
+              </div>
+              <div className="row">
+                <div className="col">
+                  <SlideGallery sliderImg={packageDetail?.data?.images} />
                 </div>
               </div>
-              {/* End .row */}
               <div className="row w-1000 items-end pt-40">
                 <div className="col-auto">
                   <Tabs
@@ -379,7 +249,55 @@ const HotelSingleV2Dynamic = () => {
             {/* End left hotel galler  */}
 
             <div>
-              <SidebarRight2 />
+              <div className="border-light rounded-4">
+                <div className="mb-15">
+                  <div className="pt-2">
+                    <div className="w-100 border-bottom-light pb-2">
+                      <div className="text-14 px-20">
+                        from{" "}
+                        <span className="text-14 text-dark-1 fw-500">
+                          Rs {basePrice}/per person
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-100 border-bottom-light pb-2">
+                      <div className="mt-24 px-20 relative">
+                        <RoomsCount />
+                      </div>
+                    </div>
+                    <div className="w-100 border-bottom-light pb-2">
+                      <div className="text-14 mt-10 px-20">
+                        Amount{" "}
+                        <span className="text-22 text-dark-1 fw-500">
+                          Rs {getTotalPrice()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-100">
+                      <div className="px-20">
+                        <Link
+                          href={{
+                            pathname: `/packages/booking-page/${router?.query?.handle}`,
+                            query: {
+                              'dateOfJourney': router?.query?.dateOfJourney,
+                              'ptype': packageType,
+                              'adults': getNumberOfAdults(),
+                              'children': getNumberOfChildren(),
+                            }
+                          }}
+                          className="button -md -dark-1 bg-blue-1 text-white mt-10"
+                        >
+                          Book Now
+                          <div className="icon-arrow-top-right ml-15"></div>
+                        </Link>
+                      </div>
+                    </div>
+                    {/* End .col */}
+                  </div>
+                  {/* End .row */}
+                </div>
+              </div>
+
               {/* <RatingBox hotel={hotel} /> */}
               <PropertyHighlights2 />
             </div>

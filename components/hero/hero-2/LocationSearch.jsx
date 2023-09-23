@@ -7,12 +7,12 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
-  
+
   useEffect(() => {
     setSearchValue("");
   }, [isIndian]);
 
-  
+
   const handleOptionClick = (item) => {
     setSearchValue(item?.data?.pakageName);
     setSelectedItem(item);
@@ -22,15 +22,15 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
 
   return (
     <>
-      <h4 className="text-15 fw-500 ls-2 lh-16 text-black mb-10"><i class="icomoon icon-ticket text-20 text-light-1 mr-10"></i>Packages</h4>
-      <div className="searchMenu-loc px-30 d-flex align-items-end lg:pb-10 lg:px-0 js-form-dd js-liverSearch mb-20">
+      <h4 className="text-15 fw-500 ls-2 lh-16 text-black"><i class="icomoon icon-ticket text-20 text-light-1 mr-10"></i>Packages</h4>
+      <div className={`searchMenu-loc px-10 d-flex align-items-center pb-0 lg:px-0 js-form-dd js-liverSearch mb-20 ${searchValue === "" ? 'border border-danger' : ''}`}>
         <div
           data-bs-toggle="dropdown"
           data-bs-auto-close="true"
           data-bs-offset="0,22"
           className="w-100"
         >
-          <div className=" d-flex text-15 text-light-1 ls-2 lh-16 ml-5 pl-20">
+          <div className=" d-flex text-15 text-light-1 ls-2 lh-16 sm:ml-5 sm:pl-20">
             <input
               autoComplete="off"
               type="search"
@@ -42,16 +42,15 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
               required
             />
           </div>
-        </div>       
+        </div>
 
         <div className="shadow-2 dropdown-menu min-width-300 package-items-dropdown">
           <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
             <ul className="y-gap-5 js-results">
               {packages?.map((item, idx) => (
                 <li
-                  className={`-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option mb-1 ${
-                    selectedItem && selectedItem.id === idx ? "active" : ""
-                  }`}
+                  className={`-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option mb-1 ${selectedItem && selectedItem.id === idx ? "active" : ""
+                    }`}
                   key={idx}
                   role="button"
                   onClick={() => handleOptionClick(item)}
