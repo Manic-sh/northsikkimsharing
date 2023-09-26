@@ -7,11 +7,11 @@ const PaymentInfo = ({ totalPrice }) => {
   const [paymentForm, setPaymentForm] = useState(null);
   const [formData, setFormData] = useState({
     merchantId: 2642500,
-    orderID: "",
-    currency: "",
-    amount: 0.0,
-    redirectURL: 'http://127.0.0.1:3002/ccavResponseHandler', // Default redirect URL
-    cancelURL: 'http://127.0.0.1:3002/ccavResponseHandler',     // Default cancel URL
+    orderID: "1",
+    currency: "INR",
+    amount: 10.0,
+    redirectURL: 'https://nss-backend-services.onrender.com/ccavResponseHandler', // Default redirect URL
+    cancelURL: 'https://nss-backend-services.onrender.com/ccavResponseHandler',     // Default cancel URL
     language: 'en',
 
   });
