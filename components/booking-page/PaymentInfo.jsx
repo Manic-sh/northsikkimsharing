@@ -29,7 +29,7 @@ const PaymentInfo = ({ totalPrice }) => {
     // e.preventDefault();
 
     try {
-      const response = await fetch("https://nss-backend-services.onrender.com/iframe/ccavRequestHandler", {
+      const response = await fetch("https://nss-backend-services.onrender.com/ccavRequestHandler", {
         method: "post",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
