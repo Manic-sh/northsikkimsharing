@@ -205,6 +205,58 @@ const HotelSingleV2Dynamic = () => {
                   <SlideGallery sliderImg={packageDetail?.data?.images} />
                 </div>
               </div>
+              <div className="row mt-10 d-sm-none">
+                <div className="col">
+                  <div className="border-light rounded-4">
+                    <div className="mb-15">
+                      <div className="pt-2">
+                        <div className="w-100 border-bottom-light pb-2">
+                          <div className="text-14 px-20">
+                            from{" "}
+                            <span className="text-14 text-dark-1 fw-500">
+                              Rs {basePrice}/per person
+                            </span>
+                          </div>
+                        </div>
+                        <div className="w-100 border-bottom-light pb-2">
+                          <div className="mt-24 px-20 relative">
+                            <RoomsCount />
+                          </div>
+                        </div>
+                        <div className="w-100 border-bottom-light pb-2">
+                          <div className="text-14 mt-10 px-20">
+                            Amount{" "}
+                            <span className="text-22 text-dark-1 fw-500">
+                              Rs {getTotalPrice()}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="w-100">
+                          <div className="px-20">
+                            <Link
+                              href={{
+                                pathname: `/packages/booking-page/${router?.query?.handle}`,
+                                query: {
+                                  'dateOfJourney': router?.query?.dateOfJourney,
+                                  'ptype': packageType,
+                                  'adults': getNumberOfAdults(),
+                                  'children': getNumberOfChildren(),
+                                }
+                              }}
+                              className="button -md -dark-1 bg-blue-1 text-white mt-10"
+                            >
+                              Book Now
+                              <div className="icon-arrow-top-right ml-15"></div>
+                            </Link>
+                          </div>
+                        </div>
+                        {/* End .col */}
+                      </div>
+                      {/* End .row */}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="row w-1000 items-end pt-40">
                 <div className="col-auto">
                   <Tabs
@@ -248,7 +300,7 @@ const HotelSingleV2Dynamic = () => {
             </div>
             {/* End left hotel galler  */}
 
-            <div>
+            <div className="d-none d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block">
               <div className="border-light rounded-4">
                 <div className="mb-15">
                   <div className="pt-2">

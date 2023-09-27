@@ -6,38 +6,28 @@ import axios from 'axios';
 const PaymentInfo = ({ totalPrice }) => {
   const [paymentForm, setPaymentForm] = useState(null);
   const [formData, setFormData] = useState({
-    merchantId: 2642500,
-    orderID: "1",
+    merchant_id: 2642500,
+    order_id: "1",
     currency: "INR",
     amount: 10.0,
-    redirectURL: 'https://nss-backend-services.onrender.com/ccavResponseHandler', // Default redirect URL
-    cancelURL: 'https://nss-backend-services.onrender.com/ccavResponseHandler',     // Default cancel URL
+    redirect_url: 'https://nss-backend-services.onrender.com/ccavResponseHandler', // Default redirect URL
+    cancel_url: 'https://nss-backend-services.onrender.com/ccavResponseHandler',     // Default cancel URL
     language: 'en',
 
   });
-
-  const [htmlResponse, setHtmlResponse] = useState('');
   const [showIframe, setShowIframe] = useState(false); // State to control iframe visibility
-
   const initiatePayment = async () => {
-    // try {
-    //   const response = await axios.post('/api/payment');
-    //   setPaymentForm(response.data.paymentForm);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    // e.preventDefault();
-
     try {
+      const formDataEncoded = new URLSearchParams(formData).toString();
+      
       const response = await fetch("https://nss-backend-services.onrender.com/ccavRequestHandler", {
-        method: "post",
+        method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(formData),
+        body: formDataEncoded,
       });
-
-
+  
       if (response.ok) {
         const htmlres = await response.text();
         setPaymentForm(htmlres);

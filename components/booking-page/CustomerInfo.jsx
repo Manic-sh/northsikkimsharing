@@ -4,7 +4,7 @@ import BookingDetails from "./sidebar/BookingDetails";
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-
+//import { uploadFile } from '@/utils/fileUpload';
 const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -18,6 +18,10 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     passportPhoto: null, // Initialize with null
     otherDoc: [], // Initialize as an empty array for multiple files
   });
+
+  const [isUploading, setIsUploading] = useState(false);
+
+
 
   const handleCustomerDetailChange = (e) => {
     const { name, value } = e.target;
@@ -73,58 +77,223 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       console.error('Error:', error);
     }
   };
-  const handleUploadFormInputChange = (e) => {
-    const { name, value, type, files } = e.target;
-
-    console.log("🚀 ~ file: CustomerInfo.jsx:79 ~ handleUploadFormInputChange ~ value:", value);
-
-
-    console.log("🚀 ~ file: CustomerInfo.jsx:79 ~ handleUploadFormInputChange ~ name:", name);
-
+  const handleUploadFormInputChange = async (e) => {
+    const { name, type, files, value } = e.target;
+  
     if (type === 'file') {
       // Handle file inputs separately
       if (name === 'passportPhoto') {
-        setUploadFormData({ ...uploadFormData, [name]: files[0] || null });
-      } else {
-        setUploadFormData({ ...uploadFormData, [name]: files });
+        // Read the selected file and set binary data in state
+        if (files[0]) {
+          const reader = new FileReader();
+  
+          reader.onload = async (e) => {
+            try {
+              // Read the binary data from the file
+              const binaryData = e.target.result;
+  
+              // Determine the content type based on the file extension
+              const contentType = getFileContentType(files[0].name);
+  
+              // Check if the content type is valid (image or PDF)
+              if (isValidContentType(contentType)) {
+                // Disable the upload button
+                setIsUploading(true);
+                // Send a POST request to Builder Upload API
+                const response = await fetch('https://builder.io/api/v1/upload?name=' + name, {
+                  method: 'POST',
+                  body: binaryData, // binary data of the file
+                  headers: {
+                    // Replace 'builder-private-key' with your actual private key
+                    'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
+                    'Content-Type': contentType, // Use the determined content type
+                  },
+                });
+  
+                if (response.ok) {
+                  const jsonResponse = await response.json();
+                  console.log(jsonResponse);
+  
+                  // Set the URL from jsonResponse to the passportPhoto state
+                  setUploadFormData({ ...uploadFormData, passportPhoto: jsonResponse.url });
+                } else {
+                  throw new Error('File upload failed.');
+                }
+              } else {
+                setIsUploading(false);
+                // Invalid content type, display an error message
+                console.error('Invalid file type selected.');
+              }
+            } catch (error) {
+              throw error;
+            }
+          };
+  
+          reader.readAsBinaryString(files[0]);
+        } else {
+          // Handle the case where no file is selected
+          setFileData(null);
+          setUploadFormData({ ...uploadFormData, [name]: null });
+        }
+      } else if (name === 'otherDoc') {
+        // Handle multiple file uploads for 'otherDoc' field
+        const uploadedFiles = Array.from(files || []);
+  
+        // Process each uploaded file and send POST requests
+        const uploadedImages = await Promise.all(
+          uploadedFiles.map(async (file) => {
+            const reader = new FileReader();
+  
+            reader.onload = async (e) => {
+              try {
+                // Read the binary data from the file
+                const binaryData = e.target.result;
+  
+                // Determine the content type based on the file extension
+                const contentType = getFileContentType(file.name);
+  
+                // Check if the content type is valid (image or PDF)
+                if (isValidContentType(contentType)) {
+                    // Disable the upload button
+                    setIsUploading(true);
+                  // Send a POST request to Builder Upload API
+                  const response = await fetch('https://builder.io/api/v1/upload?name=' + file.name, {
+                    method: 'POST',
+                    body: binaryData,
+                    headers: {
+                      'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
+                      'Content-Type': contentType,
+                    },
+                  });
+  
+                  if (response.ok) {
+                    const jsonResponse = await response.json();
+                    console.log(jsonResponse);
+                    setIsUploading(false);
+                    return jsonResponse.url;
+                  } else {
+                    throw new Error('File upload failed.');
+                  }
+                } else {
+                  // Invalid content type, display an error message
+                  console.error('Invalid file type selected.');
+                }
+              } catch (error) {
+                throw error;
+              }
+            };
+  
+            reader.readAsBinaryString(file);
+          })
+        );
+  
+        // Set the uploaded file URLs in the otherDoc state
+        setUploadFormData({ ...uploadFormData, otherDoc: uploadedImages });
       }
     } else {
-      // Handle other inputs
+      // Handle non-file inputs
       setUploadFormData({ ...uploadFormData, [name]: value });
     }
   };
-
+  
+  // Function to determine content type based on file extension
+  const getFileContentType = (fileName) => {
+    const extension = fileName.split('.').pop().toLowerCase();
+  
+    switch (extension) {
+      case 'pdf':
+        return 'application/pdf';
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return 'image/jpeg';
+      default:
+        return 'application/octet-stream';
+    }
+  };
+  
+  // Function to check if the content type is valid (image or PDF)
+  const isValidContentType = (contentType) => {
+    return contentType.startsWith('image/') || contentType === 'application/pdf';
+  };
+  
   const handleUploadFormSubmit = async (e) => {
     e.preventDefault();
-
-    // Create a new FormData instance
-    const formDataToSend = new FormData();
-
-    // Append form fields to the formDataToSend
-    formDataToSend.append('fullName', uploadFormData.fullName);
     
-    // Append uploaded files to formDataToSend
-    if (formData.passportPhoto) {
-      formDataToSend.append('passportPhoto', uplaodFormData.passportPhoto[0]);
-    }
+    console.log("uploadFormData", uploadFormData);
+    
+    // Define the URL for the POST request
+    const apiUrl = 'https://builder.io/api/v1/write/users';
+  
+    try {
+      // Create an array to hold document objects for otherDoc
+      const otherDocList = Array.isArray(uploadFormData.otherDoc)
+        ? uploadFormData.otherDoc.map((url) => ({
+            documentType: 'OtherDoc',
+            documentUrl: url,
+          }))
+        : [
+            {
+              documentType: 'OtherDoc',
+              documentUrl: uploadFormData.otherDoc,
+            },
+          ];
+  
+      // Create the formatted data structure
+      const formattedData = {
+        documentList: [
+          ...otherDocList,
+          {
+            documentType: 'passportPhoto',
+            documentUrl: uploadFormData.passportPhoto,
+          },
+        ],
+        fullName: uploadFormData.fullName,
+      };
 
-    if (formData.otherDoc) {
-      for (let i = 0; i < uplaodFormData.otherDoc.length; i++) {
-        formDataToSend.append(`otherDoc${i + 1}`, uploadFormData.otherDoc[i]);
+      console.log("🚀 ~ file: CustomerInfo.jsx:254 ~ handleUploadFormSubmit ~ formattedData:", formattedData);
+
+  
+      // Send a POST request to the specified URL
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Set the content type of the request
+          // Add any other headers as needed
+        },
+        body: JSON.stringify(
+          {
+            data: {
+              "uploadedDocuments": formattedData
+            },
+          }
+          ), // Convert the formatted data to JSON
+      });
+  
+      if (response.ok) {
+        // Request was successful, handle the response as needed
+        const jsonResponse = await response.json();
+        console.log('Success:', jsonResponse);
+  
+        // Clear the form or perform any other actions upon successful submission
+        // For example, you can reset the form by setting the form data to its initial state
+        setUploadFormData({
+          fullName: '',
+          passportPhoto: null,
+          otherDoc: [],
+        });
+      } else {
+        // Request failed, handle the error
+        console.error('Request failed:', response.statusText);
+        // You can display an error message to the user or take other appropriate actions
       }
+    } catch (error) {
+      // Handle any network or other errors
+      console.error('Error:', error.message);
+      // You can display an error message to the user or take other appropriate actions
     }
-
-    console.log("🚀 ~ file: CustomerInfo.jsx:97 ~ handleUploadFormSubmit ~ formDataToSend:", formDataToSend);
-
-    // Now, you can send formDataToSend to your server using fetch or another method
-    // Example:
-    // const response = await fetch('/api/upload', {
-    //   method: 'POST',
-    //   body: formDataToSend,
-    // });
-
-    // Handle the response from the server as needed
   };
+    
 
 
   const accordionItemsIndian = (count) => {
@@ -146,9 +315,8 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
               <Form.Label>Voter ID/ Adhaar/ Passport</Form.Label>
               <Form.Control type="file" name="otherDoc" multiple onChange={handleUploadFormInputChange} />
             </Form.Group>
-            <Button type="submit">Upload</Button>
+            <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
           </Form>
-
         </Accordion.Body>
       </Accordion.Item>);
     }
@@ -177,7 +345,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
               <Form.Label> Visa</Form.Label>
               <Form.Control type="file" multiple onChange={handleUploadFormInputChange} />
             </Form.Group>
-            <Button type="submit">Upload</Button>
+            <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
           </Form>
         </Accordion.Body>
       </Accordion.Item>);

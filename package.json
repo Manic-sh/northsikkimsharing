@@ -29,6 +29,7 @@
     "immer": "^10.0.2",
     "moment": "^2.29.4",
     "next": "13.2.3",
+    "node-fetch": "^3.3.2",
     "photoswipe": "^5.3.5",
     "react": "18.2.0",
     "react-awesome-reveal": "^4.2.5",
