@@ -10,8 +10,8 @@ const PaymentInfo = ({ totalPrice }) => {
     order_id: "1",
     currency: "INR",
     amount: 10.0,
-    redirect_url: 'https://nss-backend-services.onrender.com/ccavResponseHandler', // Default redirect URL
-    cancel_url: 'https://nss-backend-services.onrender.com/ccavResponseHandler',     // Default cancel URL
+    redirect_url: 'https://www.northsikkimsharing.com/', // Default redirect URL
+    cancel_url: 'https://www.northsikkimsharing.com/404',     // Default cancel URL
     language: 'en',
 
   });
