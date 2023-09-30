@@ -23,7 +23,7 @@ const PaymentInfo = ({ totalPrice, onPaymentSuccess }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: 1, // You can use the 'totalPrice' prop here if needed
+          amount: totalPrice, // You can use the 'totalPrice' prop here if needed
           email: "mash.pro666@gmail.com",
         }),
       });
