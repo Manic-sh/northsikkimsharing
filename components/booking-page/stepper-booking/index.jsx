@@ -25,6 +25,7 @@ const Index = ({ bookingInfo, packageDetail }) => {
     return room.reduce((accumulator, item) => accumulator + (item?.adults || 0) + (item?.children || 0), 0);
   };
 
+
   const getNumberOfAdults = () => {
     return room?.reduce((accumulator, room) => accumulator + (room?.adults || 0), 0);
   };
@@ -32,6 +33,11 @@ const Index = ({ bookingInfo, packageDetail }) => {
   const getTotalPrice = () => {
     const basePricePerAdult = basePrice ? calculateTotalPrice(basePrice, room.length, getNumberOfAdults()) : 0;
     return basePricePerAdult;
+  };
+
+  // Function to handle payment success and move to the next step
+  const handlePaymentSuccess = () => {
+      setCurrentStep(currentStep + 1); // Move to the next step
   };
 
   if (!packageDetail || !bookingInfo) {
@@ -61,7 +67,7 @@ const Index = ({ bookingInfo, packageDetail }) => {
           </div>
         </>
       ),
-      content: <PaymentInfo totalPrice={getTotalPrice()} />,
+      content: <PaymentInfo totalPrice={getTotalPrice()} onPaymentSuccess={handlePaymentSuccess} />,
     },
     {
       title: "Final Step",
