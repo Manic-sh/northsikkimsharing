@@ -6,17 +6,19 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 //import { uploadFile } from '@/utils/fileUpload';
 const CustomerInfo = ({ bookingInfo, packageDetail }) => {
+  // Define the initial form state
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    specialRequests: '',
-    passportPhoto: null, // Initialize with null
-    otherDoc: [], // Initialize as an empty array for multiple files
+    guestDetails: [],
+    customerName: '', 
+    email: '', 
+    phoneNumber: '', 
+    alternateNumber: '', 
+    nationality: '',
+    specialRequests: '', 
   });
-
   const [isUploading, setIsUploading] = useState(false);
 
+  // Function to handle changes in the form fields
   const handleCustomerDetailChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,6 +26,58 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       [name]: value,
     }));
   };
+
+  // Function to handle changes in guest details (inside guestDetails array)
+  const handleGuestDetailChange = (e, guestIndex) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedGuestDetails = [...prevData.guestDetails];
+      updatedGuestDetails[guestIndex] = {
+        ...updatedGuestDetails[guestIndex],
+        [name]: value,
+      };
+      return {
+        ...prevData,
+        guestDetails: updatedGuestDetails,
+      };
+    });
+  };
+
+  // Function to add a new guest detail section
+  const addGuestDetail = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      guestDetails: [
+        ...prevData.guestDetails,
+        {
+          documentList: [],
+          guestName: '',
+          age: 20, // You can set the default age here
+        },
+      ],
+    }));
+  };
+
+  // Function to remove a guest detail section
+  const removeGuestDetail = (guestIndex) => {
+    setFormData((prevData) => {
+      const updatedGuestDetails = [...prevData.guestDetails];
+      updatedGuestDetails.splice(guestIndex, 1);
+      return {
+        ...prevData,
+        guestDetails: updatedGuestDetails,
+      };
+    });
+  };
+
+  // // Handle form submission
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Perform form submission with formData
+  //   // You can send formData to your API or perform any other actions here
+  //   console.log('Form Data:', formData);
+  // };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +110,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
           },
         }),
       };
-      const url = `https://builder.io/api/v1/write/users`;
+      const url = `https://builder.io/api/v1/write/customer-info`;
 
       const response = await fetch(url, requestOptions);
 
@@ -69,124 +123,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       }
     } catch (error) {
       console.error('Error:', error);
-    }
-  };
-  const handleUploadFormInputChange = async (e) => {
-    const { name, type, files, value } = e.target;
-
-    if (type === 'file') {
-      // Handle file inputs separately
-      if (name === 'passportPhoto') {
-        // Read the selected file and set binary data in state
-        if (files[0]) {
-          const reader = new FileReader();
-
-          reader.onload = async (e) => {
-            try {
-              // Read the binary data from the file
-              const binaryData = e.target.result;
-
-              // Determine the content type based on the file extension
-              const contentType = getFileContentType(files[0].name);
-
-              // Check if the content type is valid (image or PDF)
-              if (isValidContentType(contentType)) {
-                // Disable the upload button
-                setIsUploading(true);
-                // Send a POST request to Builder Upload API
-                const response = await fetch('https://builder.io/api/v1/upload?name=' + name, {
-                  method: 'POST',
-                  body: binaryData, // binary data of the file
-                  headers: {
-                    // Replace 'builder-private-key' with your actual private key
-                    'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
-                    'Content-Type': contentType, // Use the determined content type
-                  },
-                });
-
-                if (response.ok) {
-                  const jsonResponse = await response.json();
-                  console.log(jsonResponse);
-
-                  // Set the URL from jsonResponse to the passportPhoto state
-                  setFormData({ ...formData, passportPhoto: jsonResponse.url });
-                } else {
-                  throw new Error('File upload failed.');
-                }
-              } else {
-                setIsUploading(false);
-                // Invalid content type, display an error message
-                console.error('Invalid file type selected.');
-              }
-            } catch (error) {
-              throw error;
-            }
-          };
-
-          reader.readAsBinaryString(files[0]);
-        } else {
-          // Handle the case where no file is selected
-          setFileData(null);
-          setFormData({ ...formData, [name]: null });
-        }
-      } else if (name === 'otherDoc') {
-        // Handle multiple file uploads for 'otherDoc' field
-        const uploadedFiles = Array.from(files || []);
-
-        // Process each uploaded file and send POST requests
-        const uploadedImages = await Promise.all(
-          uploadedFiles.map(async (file) => {
-            const reader = new FileReader();
-
-            reader.onload = async (e) => {
-              try {
-                // Read the binary data from the file
-                const binaryData = e.target.result;
-
-                // Determine the content type based on the file extension
-                const contentType = getFileContentType(file.name);
-
-                // Check if the content type is valid (image or PDF)
-                if (isValidContentType(contentType)) {
-                  // Disable the upload button
-                  setIsUploading(true);
-                  // Send a POST request to Builder Upload API
-                  const response = await fetch('https://builder.io/api/v1/upload?name=' + file.name, {
-                    method: 'POST',
-                    body: binaryData,
-                    headers: {
-                      'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
-                      'Content-Type': contentType,
-                    },
-                  });
-
-                  if (response.ok) {
-                    const jsonResponse = await response.json();
-                    console.log(jsonResponse);
-                    setIsUploading(false);
-                    return jsonResponse.url;
-                  } else {
-                    throw new Error('File upload failed.');
-                  }
-                } else {
-                  // Invalid content type, display an error message
-                  console.error('Invalid file type selected.');
-                }
-              } catch (error) {
-                throw error;
-              }
-            };
-
-            reader.readAsBinaryString(file);
-          })
-        );
-
-        // Set the uploaded file URLs in the otherDoc state
-        setFormData({ ...formData, otherDoc: uploadedImages });
-      }
-    } else {
-      // Handle non-file inputs
-      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -217,7 +153,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     console.log("uploadFormData", formData);
 
     // Define the URL for the POST request
-    const apiUrl = 'https://builder.io/api/v1/write/users';
+    const apiUrl = 'https://builder.io/api/v1/write/customer-details';
 
     try {
       // Create an array to hold document objects for otherDoc
@@ -289,6 +225,105 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   };
 
 
+  const handleFileUpload = async (name, files, guestIndex) => {
+    const fileArray = Array.isArray(files) ? files : [files]; // Ensure files is an array
+  
+    if (!fileArray || fileArray.length === 0) {
+      // Handle the case where no files are selected
+      console.error('No files selected.');
+      return;
+    }
+  
+    try {
+      setIsUploading(true);
+  
+      const uploadedFiles = await Promise.all(
+        fileArray.map(async (file) => {
+          try {
+            const formDataCopy = { ...formData };
+  
+            const binaryData = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+  
+              reader.onload = () => {
+                // Resolve with ArrayBuffer
+                resolve(reader.result);
+              };
+  
+              reader.onerror = (error) => {
+                reject(error);
+              };
+  
+              reader.readAsArrayBuffer(file);
+            });
+  
+            const byteArray = new Uint8Array(binaryData);
+  
+            const contentType = getFileContentType(file.name);
+  
+            if (isValidContentType(contentType)) {
+              // Convert the binary data to a binary string
+              const binaryString = byteArray.reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ''
+              );
+  
+              const response = await fetch('https://builder.io/api/v1/upload?name=' + name, {
+                method: 'POST',
+                body: binaryString,
+                headers: {
+                  'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
+                  'Content-Type': contentType,
+                },
+              });
+  
+              if (response.ok) {
+                const jsonResponse = await response.json();
+                console.log(jsonResponse);
+  
+                // Ensure that documentList is initialized as an array for the specific guest
+                if (!formDataCopy.guestDetails[guestIndex].documentList) {
+                  formDataCopy.guestDetails[guestIndex].documentList = [];
+                }
+  
+                if (name === 'passportPhoto') {
+                  // Update the passportPhoto for the specific guest
+                  formDataCopy.guestDetails[guestIndex].documentList.push({
+                    documentType: name,
+                    documentUrl: jsonResponse.url,
+                  });
+                } else if (name === 'otherDoc') {
+                  // Update the otherDoc for the specific guest
+                  formDataCopy.guestDetails[guestIndex].documentList.push({
+                    documentType: 'OtherDoc',
+                    documentUrl: jsonResponse.url,
+                  });
+                }
+  
+                // Update the state with the modified formData
+                setFormData(formDataCopy);
+  
+                setIsUploading(false);
+              } else {
+                throw new Error('File upload failed.');
+              }
+            } else {
+              console.error('Invalid file type selected.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        })
+      );
+  
+      setIsUploading(false);
+    } catch (error) {
+      console.error('Error:', error);
+      setIsUploading(false);
+    }
+  };
+  
+  
 
   const accordionItemsIndian = (count) => {
     let item = [];
@@ -296,18 +331,22 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       item.push(<Accordion.Item eventKey={i} key={i}>
         <Accordion.Header>Person #{i}</Accordion.Header>
         <Accordion.Body>
-          <Form onSubmit={handleUploadFormSubmit}>
-            <Form.Group controlId="personName" className="mb-3">
+          <Form>
+            <Form.Group controlId="guestName" className="mb-3">
               <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" placeholder="Full Name" name="fullName" onChange={handleUploadFormInputChange} />
+              <Form.Control type="text" placeholder="Full Name" name="guestName" onChange={(e) => handleGuestDetailChange(e, i)} />
+            </Form.Group>
+            <Form.Group controlId="age" className="mb-3">
+              <Form.Label>Age</Form.Label>
+              <Form.Control type="text" placeholder="Age" name="age" onChange={(e) => handleGuestDetailChange(e, i)} />
             </Form.Group>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Passport Size Photo</Form.Label>
-              <Form.Control type="file" name="passportPhoto" onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="passportPhoto" onChange={(e) => handleFileUpload('passportPhoto', e.target.files[0], i)} />
             </Form.Group>
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label>Voter ID/ Adhaar/ Passport</Form.Label>
-              <Form.Control type="file" name="otherDoc" multiple onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
             <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
           </Form>
@@ -348,6 +387,10 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   }
 
   const forForeigeners = packageDetail?.data?.forForeigeners[0].isAvailable ? true : false;
+
+
+  console.log("🚀 ~ file: CustomerInfo.jsx:494 ~ CustomerInfo ~ formData:", formData);
+
   return (
     <>
       <div className="col-xl-7 col-lg-8 mt-30">
@@ -387,14 +430,14 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
           </div>
           <div className='col-12'>
             <h2 className="text-22 fw-500 mt-40 md:mt-24">
-              Let us know who you are
+              Enter contact details
             </h2>
 
             <form onSubmit={handleSubmit}>
               <div className='row x-gap-20 y-gap-20 pt-20'>
                 <div className="col-12">
                   <div className="form-input ">
-                    <input type="text" name='fullName' onChange={handleCustomerDetailChange} required />
+                    <input type="text" name='customerName' onChange={handleCustomerDetailChange} required />
                     <label className="lh-1 text-16 text-light-1">Full Name</label>
                   </div>
                 </div>
