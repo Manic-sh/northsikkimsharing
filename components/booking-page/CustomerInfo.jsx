@@ -95,7 +95,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   
       if (response.ok) {
         const result = await response.text();
-        console.log(result);
       } else {
         const errorText = await response.text();
         console.error('Error:', errorText);
@@ -130,8 +129,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   const handleUploadFormSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("uploadFormData", formData);
-
     // Define the URL for the POST request
     const apiUrl = 'https://builder.io/api/v1/write/customer-details';
 
@@ -161,8 +158,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
         fullName: uploadFormData.fullName,
       };
 
-      console.log("🚀 ~ file: CustomerInfo.jsx:254 ~ handleUploadFormSubmit ~ formattedData:", formattedData);
-
 
       // Send a POST request to the specified URL
       const response = await fetch(apiUrl, {
@@ -183,7 +178,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       if (response.ok) {
         // Request was successful, handle the response as needed
         const jsonResponse = await response.json();
-        console.log('Success:', jsonResponse);
 
         // Clear the form or perform any other actions upon successful submission
         // For example, you can reset the form by setting the form data to its initial state
@@ -254,7 +248,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
               if (response.status === 200) {
                 // Assuming the response contains the URL
                 const jsonResponse = response.data;
-                console.log(jsonResponse);
+      
   
                 // Ensure that guestDetails array exists for the specific guest
                 if (!formDataCopy.guestDetails[guestIndex]) {
@@ -370,9 +364,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   }
 
   const forForeigeners = packageDetail?.data?.forForeigeners[0].isAvailable ? true : false;
-
-
-  console.log("🚀 ~ file: CustomerInfo.jsx:494 ~ CustomerInfo ~ formData:", formData);
 
   return (
     <>
