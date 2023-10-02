@@ -3,20 +3,22 @@ import Link from "next/link";
 import BookingDetails from "./sidebar/BookingDetails";
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import axios from 'axios';
 //import { uploadFile } from '@/utils/fileUpload';
 const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   // Define the initial form state
   const [formData, setFormData] = useState({
     guestDetails: [],
-    customerName: '', 
-    email: '', 
-    phoneNumber: '', 
-    alternateNumber: '', 
+    customerName: '',
+    email: '',
+    phoneNumber: '',
+    alternateNumber: '',
     nationality: '',
-    specialRequests: '', 
+    specialRequests: '',
   });
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   // Function to handle changes in the form fields
   const handleCustomerDetailChange = (e) => {
@@ -32,10 +34,21 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const updatedGuestDetails = [...prevData.guestDetails];
+
+      // Ensure the array has enough elements for the guestIndex
+      while (updatedGuestDetails.length <= guestIndex) {
+        updatedGuestDetails.push({
+          guestName: '',
+          age: 0,
+          documentList: [], // Initialize as an empty array
+        });
+      }
+
       updatedGuestDetails[guestIndex] = {
         ...updatedGuestDetails[guestIndex],
         [name]: value,
       };
+
       return {
         ...prevData,
         guestDetails: updatedGuestDetails,
@@ -43,77 +56,43 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     });
   };
 
-  // Function to add a new guest detail section
-  const addGuestDetail = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      guestDetails: [
-        ...prevData.guestDetails,
-        {
-          documentList: [],
-          guestName: '',
-          age: 20, // You can set the default age here
-        },
-      ],
-    }));
-  };
-
-  // Function to remove a guest detail section
-  const removeGuestDetail = (guestIndex) => {
-    setFormData((prevData) => {
-      const updatedGuestDetails = [...prevData.guestDetails];
-      updatedGuestDetails.splice(guestIndex, 1);
-      return {
-        ...prevData,
-        guestDetails: updatedGuestDetails,
-      };
-    });
-  };
-
-  // // Handle form submission
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Perform form submission with formData
-  //   // You can send formData to your API or perform any other actions here
-  //   console.log('Form Data:', formData);
-  // };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const title = formData.fullName || '';
-      const name = formData.fullName || "";
-      const published = "draft";
-      const fullName = formData.fullName || '';
-      const email = formData.email || '';
-      const phoneNumber = formData.phoneNumber || '';
-      const specialRequests = formData.specialRequests || '';
-
+      const customerData = {
+        "name": formData.customerName,
+        "published": 'draft',   
+        data: {
+          guestDetails: formData.guestDetails.map((guest) => ({
+            documentList: guest.documentList,
+            guestName: guest.guestName,
+            age: guest.age,
+          })),
+          customerName: formData.customerName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          alternateNumber: formData.alternateNumber,
+          nationality: formData.nationality,
+          specialRequests: formData.specialRequests,
+        },
+      };
+  
       const requestOptions = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Set the appropriate content type
+          'Content-Type': 'application/json',
           Authorization: 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
-          // Add other headers here if needed
         },
-        body: JSON.stringify({
-          title,
-          name,
-          published,
-          data: {
-            userName: fullName,
-            email,
-            phoneNumber,
-            specialRequests,
-          },
-        }),
+        body: JSON.stringify(customerData),
       };
-      const url = `https://builder.io/api/v1/write/customer-info`;
-
+  
+      const url = `https://builder.io/api/v1/write/customer-details`;
+  
       const response = await fetch(url, requestOptions);
-
+  
       if (response.ok) {
         const result = await response.text();
         console.log(result);
@@ -125,6 +104,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       console.error('Error:', error);
     }
   };
+  
 
   // Function to determine content type based on file extension
   const getFileContentType = (fileName) => {
@@ -224,9 +204,8 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     }
   };
 
-
   const handleFileUpload = async (name, files, guestIndex) => {
-    const fileArray = Array.isArray(files) ? files : [files]; // Ensure files is an array
+    const fileArray = name === "otherDoc" ? Array.from(files) : [files].flat(); // Ensure files is an array
   
     if (!fileArray || fileArray.length === 0) {
       // Handle the case where no files are selected
@@ -238,7 +217,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       setIsUploading(true);
   
       const uploadedFiles = await Promise.all(
-        fileArray.map(async (file) => {
+        fileArray?.map(async (file, index) => { // Added an index parameter
           try {
             const formDataCopy = { ...formData };
   
@@ -257,53 +236,55 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
               reader.readAsArrayBuffer(file);
             });
   
-            const byteArray = new Uint8Array(binaryData);
-  
-            const contentType = getFileContentType(file.name);
+            let contentType = getFileContentType(file.name);
   
             if (isValidContentType(contentType)) {
-              // Convert the binary data to a binary string
-              const binaryString = byteArray.reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ''
-              );
-  
-              const response = await fetch('https://builder.io/api/v1/upload?name=' + name, {
-                method: 'POST',
-                body: binaryString,
+              const response = await axios.post('https://builder.io/api/v1/upload?name=' + name, binaryData, {
                 headers: {
                   'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
                   'Content-Type': contentType,
                 },
+                // Add this option to track upload progress
+                onUploadProgress: (progressEvent) => {
+                  const progress = (progressEvent.loaded / progressEvent.total) * 100;
+                  setUploadProgress(progress); // Update the progress state
+                },
               });
   
-              if (response.ok) {
-                const jsonResponse = await response.json();
+              if (response.status === 200) {
+                // Assuming the response contains the URL
+                const jsonResponse = response.data;
                 console.log(jsonResponse);
   
+                // Ensure that guestDetails array exists for the specific guest
+                if (!formDataCopy.guestDetails[guestIndex]) {
+                  formDataCopy.guestDetails[guestIndex] = {
+                    guestName: '', // Initialize other properties as needed
+                    age: 0,
+                    documentList: [],
+                  };
+                }
                 // Ensure that documentList is initialized as an array for the specific guest
-                if (!formDataCopy.guestDetails[guestIndex].documentList) {
+                if (!formDataCopy?.guestDetails[guestIndex]?.documentList) {
                   formDataCopy.guestDetails[guestIndex].documentList = [];
                 }
   
                 if (name === 'passportPhoto') {
                   // Update the passportPhoto for the specific guest
-                  formDataCopy.guestDetails[guestIndex].documentList.push({
+                  formDataCopy?.guestDetails[guestIndex]?.documentList.push({
                     documentType: name,
                     documentUrl: jsonResponse.url,
                   });
                 } else if (name === 'otherDoc') {
                   // Update the otherDoc for the specific guest
-                  formDataCopy.guestDetails[guestIndex].documentList.push({
-                    documentType: 'OtherDoc',
+                  formDataCopy?.guestDetails[guestIndex]?.documentList.push({
+                    documentType: name,
                     documentUrl: jsonResponse.url,
                   });
                 }
   
                 // Update the state with the modified formData
                 setFormData(formDataCopy);
-  
-                setIsUploading(false);
               } else {
                 throw new Error('File upload failed.');
               }
@@ -323,13 +304,11 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     }
   };
   
-  
-
   const accordionItemsIndian = (count) => {
     let item = [];
-    for (let i = 1; i <= count; i++) {
+    for (let i = 0; i < count; i++) {
       item.push(<Accordion.Item eventKey={i} key={i}>
-        <Accordion.Header>Person #{i}</Accordion.Header>
+        <Accordion.Header>Person #{i + 1}</Accordion.Header>
         <Accordion.Body>
           <Form>
             <Form.Group controlId="guestName" className="mb-3">
@@ -348,7 +327,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
               <Form.Label>Voter ID/ Adhaar/ Passport</Form.Label>
               <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
-            <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
+            <ProgressBar className={isUploading? 'd-block': 'd-none'} now={uploadProgress} label={`${uploadProgress}%`} />
           </Form>
         </Accordion.Body>
       </Accordion.Item>);
@@ -362,23 +341,27 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
         <Accordion.Header>Person #{i}</Accordion.Header>
         <Accordion.Body>
           <Form onSubmit={handleUploadFormSubmit}>
-            <Form.Group controlId="personName" className="mb-3">
+            <Form.Group controlId="guestName" className="mb-3">
               <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" name="fullName" placeholder="Full Name" onChange={handleUploadFormInputChange} />
+              <Form.Control type="text" name="guestName" placeholder="Full Name" onChange={(e) => handleGuestDetailChange(e, i)} />
+            </Form.Group>
+            <Form.Group controlId="age" className="mb-3">
+              <Form.Label>Age</Form.Label>
+              <Form.Control type="text" placeholder="Age" name="age" onChange={(e) => handleGuestDetailChange(e, i)} />
             </Form.Group>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Passport Size Photo</Form.Label>
-              <Form.Control type="file" onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="passportPhoto" onChange={(e) => handleFileUpload('passportPhoto', e.target.files[0], i)} />
             </Form.Group>
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label> Passport</Form.Label>
-              <Form.Control type="file" multiple onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label> Visa</Form.Label>
-              <Form.Control type="file" multiple onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
-            <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
+            <ProgressBar className={isUploading? 'd-block': 'd-none'} now={uploadProgress} label={`${uploadProgress}%`} />
           </Form>
         </Accordion.Body>
       </Accordion.Item>);

@@ -9,8 +9,6 @@ import { getPackageTypeId } from '@/utils/getPackageTypeId';
 
 const Index = ({ bookingInfo, packageDetail }) => {
 
-  console.log("🚀 ~ file: index.jsx:12 ~ Index ~ bookingInfo:", bookingInfo);
-
   const [currentStep, setCurrentStep] = useState(0);
   const [basePrice, setBasePrice] = useState();
   const [selectedPackage, setSelectedPackage] = useState(packageDetail);
