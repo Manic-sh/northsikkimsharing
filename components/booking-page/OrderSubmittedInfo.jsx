@@ -1,4 +1,13 @@
-const OrderSubmittedInfo = () => {
+import React, { useState, useEffect } from "react";
+
+
+const OrderSubmittedInfo = ({razorpayResponse}) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+
+  // Format the current date and time as per your requirements
+  const formattedDate = currentDate.toLocaleDateString();
+  const formattedTime = currentDate.toLocaleTimeString();
   return (
     <>
       <div className="col-xl-8 col-lg-8">
@@ -21,14 +30,14 @@ const OrderSubmittedInfo = () => {
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Order Number</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                  13119
+                  {razorpayResponse.orderCreationId}
                 </div>
               </div>
               {/* End .col */}
               <div className="col-lg-3 col-md-6">
                 <div className="text-15 lh-12">Date</div>
                 <div className="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                  27/07/2021
+                <p>Payment Date: {formattedDate} {formattedTime}</p>
                 </div>
               </div>
               {/* End .col */}

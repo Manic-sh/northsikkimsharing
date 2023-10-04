@@ -3,20 +3,24 @@ import Link from "next/link";
 import BookingDetails from "./sidebar/BookingDetails";
 import Accordion from 'react-bootstrap/Accordion';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import axios from 'axios';
 //import { uploadFile } from '@/utils/fileUpload';
 const CustomerInfo = ({ bookingInfo, packageDetail }) => {
+  // Define the initial form state
   const [formData, setFormData] = useState({
-    fullName: '',
+    guestDetails: [],
+    customerName: '',
     email: '',
     phoneNumber: '',
+    alternateNumber: '',
+    nationality: '',
     specialRequests: '',
-    passportPhoto: null, // Initialize with null
-    otherDoc: [], // Initialize as an empty array for multiple files
   });
-
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
+  // Function to handle changes in the form fields
   const handleCustomerDetailChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -25,44 +29,72 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     }));
   };
 
+  // Function to handle changes in guest details (inside guestDetails array)
+  const handleGuestDetailChange = (e, guestIndex) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedGuestDetails = [...prevData.guestDetails];
+
+      // Ensure the array has enough elements for the guestIndex
+      while (updatedGuestDetails.length <= guestIndex) {
+        updatedGuestDetails.push({
+          guestName: '',
+          age: 0,
+          documentList: [], // Initialize as an empty array
+        });
+      }
+
+      updatedGuestDetails[guestIndex] = {
+        ...updatedGuestDetails[guestIndex],
+        [name]: value,
+      };
+
+      return {
+        ...prevData,
+        guestDetails: updatedGuestDetails,
+      };
+    });
+  };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const title = formData.fullName || '';
-      const name = formData.fullName || "";
-      const published = "draft";
-      const fullName = formData.fullName || '';
-      const email = formData.email || '';
-      const phoneNumber = formData.phoneNumber || '';
-      const specialRequests = formData.specialRequests || '';
-
+      const customerData = {
+        "name": formData.customerName,
+        "published": 'draft',   
+        data: {
+          guestDetails: formData.guestDetails.map((guest) => ({
+            documentList: guest.documentList,
+            guestName: guest.guestName,
+            age: guest.age,
+          })),
+          customerName: formData.customerName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          alternateNumber: formData.alternateNumber,
+          nationality: formData.nationality,
+          specialRequests: formData.specialRequests,
+        },
+      };
+  
       const requestOptions = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Set the appropriate content type
+          'Content-Type': 'application/json',
           Authorization: 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
-          // Add other headers here if needed
         },
-        body: JSON.stringify({
-          title,
-          name,
-          published,
-          data: {
-            userName: fullName,
-            email,
-            phoneNumber,
-            specialRequests,
-          },
-        }),
+        body: JSON.stringify(customerData),
       };
-      const url = `https://builder.io/api/v1/write/users`;
-
+  
+      const url = `https://builder.io/api/v1/write/customer-details`;
+  
       const response = await fetch(url, requestOptions);
-
+  
       if (response.ok) {
         const result = await response.text();
-        console.log(result);
       } else {
         const errorText = await response.text();
         console.error('Error:', errorText);
@@ -71,124 +103,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       console.error('Error:', error);
     }
   };
-  const handleUploadFormInputChange = async (e) => {
-    const { name, type, files, value } = e.target;
-
-    if (type === 'file') {
-      // Handle file inputs separately
-      if (name === 'passportPhoto') {
-        // Read the selected file and set binary data in state
-        if (files[0]) {
-          const reader = new FileReader();
-
-          reader.onload = async (e) => {
-            try {
-              // Read the binary data from the file
-              const binaryData = e.target.result;
-
-              // Determine the content type based on the file extension
-              const contentType = getFileContentType(files[0].name);
-
-              // Check if the content type is valid (image or PDF)
-              if (isValidContentType(contentType)) {
-                // Disable the upload button
-                setIsUploading(true);
-                // Send a POST request to Builder Upload API
-                const response = await fetch('https://builder.io/api/v1/upload?name=' + name, {
-                  method: 'POST',
-                  body: binaryData, // binary data of the file
-                  headers: {
-                    // Replace 'builder-private-key' with your actual private key
-                    'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
-                    'Content-Type': contentType, // Use the determined content type
-                  },
-                });
-
-                if (response.ok) {
-                  const jsonResponse = await response.json();
-                  console.log(jsonResponse);
-
-                  // Set the URL from jsonResponse to the passportPhoto state
-                  setFormData({ ...formData, passportPhoto: jsonResponse.url });
-                } else {
-                  throw new Error('File upload failed.');
-                }
-              } else {
-                setIsUploading(false);
-                // Invalid content type, display an error message
-                console.error('Invalid file type selected.');
-              }
-            } catch (error) {
-              throw error;
-            }
-          };
-
-          reader.readAsBinaryString(files[0]);
-        } else {
-          // Handle the case where no file is selected
-          setFileData(null);
-          setFormData({ ...formData, [name]: null });
-        }
-      } else if (name === 'otherDoc') {
-        // Handle multiple file uploads for 'otherDoc' field
-        const uploadedFiles = Array.from(files || []);
-
-        // Process each uploaded file and send POST requests
-        const uploadedImages = await Promise.all(
-          uploadedFiles.map(async (file) => {
-            const reader = new FileReader();
-
-            reader.onload = async (e) => {
-              try {
-                // Read the binary data from the file
-                const binaryData = e.target.result;
-
-                // Determine the content type based on the file extension
-                const contentType = getFileContentType(file.name);
-
-                // Check if the content type is valid (image or PDF)
-                if (isValidContentType(contentType)) {
-                  // Disable the upload button
-                  setIsUploading(true);
-                  // Send a POST request to Builder Upload API
-                  const response = await fetch('https://builder.io/api/v1/upload?name=' + file.name, {
-                    method: 'POST',
-                    body: binaryData,
-                    headers: {
-                      'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
-                      'Content-Type': contentType,
-                    },
-                  });
-
-                  if (response.ok) {
-                    const jsonResponse = await response.json();
-                    console.log(jsonResponse);
-                    setIsUploading(false);
-                    return jsonResponse.url;
-                  } else {
-                    throw new Error('File upload failed.');
-                  }
-                } else {
-                  // Invalid content type, display an error message
-                  console.error('Invalid file type selected.');
-                }
-              } catch (error) {
-                throw error;
-              }
-            };
-
-            reader.readAsBinaryString(file);
-          })
-        );
-
-        // Set the uploaded file URLs in the otherDoc state
-        setFormData({ ...formData, otherDoc: uploadedImages });
-      }
-    } else {
-      // Handle non-file inputs
-      setFormData({ ...formData, [name]: value });
-    }
-  };
+  
 
   // Function to determine content type based on file extension
   const getFileContentType = (fileName) => {
@@ -214,10 +129,8 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   const handleUploadFormSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("uploadFormData", formData);
-
     // Define the URL for the POST request
-    const apiUrl = 'https://builder.io/api/v1/write/users';
+    const apiUrl = 'https://builder.io/api/v1/write/customer-details';
 
     try {
       // Create an array to hold document objects for otherDoc
@@ -245,8 +158,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
         fullName: uploadFormData.fullName,
       };
 
-      console.log("🚀 ~ file: CustomerInfo.jsx:254 ~ handleUploadFormSubmit ~ formattedData:", formattedData);
-
 
       // Send a POST request to the specified URL
       const response = await fetch(apiUrl, {
@@ -267,7 +178,6 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
       if (response.ok) {
         // Request was successful, handle the response as needed
         const jsonResponse = await response.json();
-        console.log('Success:', jsonResponse);
 
         // Clear the form or perform any other actions upon successful submission
         // For example, you can reset the form by setting the form data to its initial state
@@ -288,28 +198,130 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
     }
   };
 
-
-
+  const handleFileUpload = async (name, files, guestIndex) => {
+    const fileArray = name === "otherDoc" ? Array.from(files) : [files].flat(); // Ensure files is an array
+  
+    if (!fileArray || fileArray.length === 0) {
+      // Handle the case where no files are selected
+      console.error('No files selected.');
+      return;
+    }
+  
+    try {
+      setIsUploading(true);
+  
+      const uploadedFiles = await Promise.all(
+        fileArray?.map(async (file, index) => { // Added an index parameter
+          try {
+            const formDataCopy = { ...formData };
+  
+            const binaryData = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+  
+              reader.onload = () => {
+                // Resolve with ArrayBuffer
+                resolve(reader.result);
+              };
+  
+              reader.onerror = (error) => {
+                reject(error);
+              };
+  
+              reader.readAsArrayBuffer(file);
+            });
+  
+            let contentType = getFileContentType(file.name);
+  
+            if (isValidContentType(contentType)) {
+              const response = await axios.post('https://builder.io/api/v1/upload?name=' + name, binaryData, {
+                headers: {
+                  'Authorization': 'Bearer bpk-ce7a15edc38b471e8101a488e526dadd',
+                  'Content-Type': contentType,
+                },
+                // Add this option to track upload progress
+                onUploadProgress: (progressEvent) => {
+                  const progress = (progressEvent.loaded / progressEvent.total) * 100;
+                  setUploadProgress(progress); // Update the progress state
+                },
+              });
+  
+              if (response.status === 200) {
+                // Assuming the response contains the URL
+                const jsonResponse = response.data;
+      
+  
+                // Ensure that guestDetails array exists for the specific guest
+                if (!formDataCopy.guestDetails[guestIndex]) {
+                  formDataCopy.guestDetails[guestIndex] = {
+                    guestName: '', // Initialize other properties as needed
+                    age: 0,
+                    documentList: [],
+                  };
+                }
+                // Ensure that documentList is initialized as an array for the specific guest
+                if (!formDataCopy?.guestDetails[guestIndex]?.documentList) {
+                  formDataCopy.guestDetails[guestIndex].documentList = [];
+                }
+  
+                if (name === 'passportPhoto') {
+                  // Update the passportPhoto for the specific guest
+                  formDataCopy?.guestDetails[guestIndex]?.documentList.push({
+                    documentType: name,
+                    documentUrl: jsonResponse.url,
+                  });
+                } else if (name === 'otherDoc') {
+                  // Update the otherDoc for the specific guest
+                  formDataCopy?.guestDetails[guestIndex]?.documentList.push({
+                    documentType: name,
+                    documentUrl: jsonResponse.url,
+                  });
+                }
+  
+                // Update the state with the modified formData
+                setFormData(formDataCopy);
+              } else {
+                throw new Error('File upload failed.');
+              }
+            } else {
+              console.error('Invalid file type selected.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        })
+      );
+  
+      setIsUploading(false);
+    } catch (error) {
+      console.error('Error:', error);
+      setIsUploading(false);
+    }
+  };
+  
   const accordionItemsIndian = (count) => {
     let item = [];
-    for (let i = 1; i <= count; i++) {
+    for (let i = 0; i < count; i++) {
       item.push(<Accordion.Item eventKey={i} key={i}>
-        <Accordion.Header>Person #{i}</Accordion.Header>
+        <Accordion.Header>Person #{i + 1}</Accordion.Header>
         <Accordion.Body>
-          <Form onSubmit={handleUploadFormSubmit}>
-            <Form.Group controlId="personName" className="mb-3">
+          <Form>
+            <Form.Group controlId="guestName" className="mb-3">
               <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" placeholder="Full Name" name="fullName" onChange={handleUploadFormInputChange} />
+              <Form.Control type="text" placeholder="Full Name" name="guestName" onChange={(e) => handleGuestDetailChange(e, i)} />
+            </Form.Group>
+            <Form.Group controlId="age" className="mb-3">
+              <Form.Label>Age</Form.Label>
+              <Form.Control type="text" placeholder="Age" name="age" onChange={(e) => handleGuestDetailChange(e, i)} />
             </Form.Group>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Passport Size Photo</Form.Label>
-              <Form.Control type="file" name="passportPhoto" onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="passportPhoto" onChange={(e) => handleFileUpload('passportPhoto', e.target.files[0], i)} />
             </Form.Group>
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label>Voter ID/ Adhaar/ Passport</Form.Label>
-              <Form.Control type="file" name="otherDoc" multiple onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
-            <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
+            <ProgressBar className={isUploading? 'd-block': 'd-none'} now={uploadProgress} label={`${uploadProgress}%`} />
           </Form>
         </Accordion.Body>
       </Accordion.Item>);
@@ -323,23 +335,27 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
         <Accordion.Header>Person #{i}</Accordion.Header>
         <Accordion.Body>
           <Form onSubmit={handleUploadFormSubmit}>
-            <Form.Group controlId="personName" className="mb-3">
+            <Form.Group controlId="guestName" className="mb-3">
               <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" name="fullName" placeholder="Full Name" onChange={handleUploadFormInputChange} />
+              <Form.Control type="text" name="guestName" placeholder="Full Name" onChange={(e) => handleGuestDetailChange(e, i)} />
+            </Form.Group>
+            <Form.Group controlId="age" className="mb-3">
+              <Form.Label>Age</Form.Label>
+              <Form.Control type="text" placeholder="Age" name="age" onChange={(e) => handleGuestDetailChange(e, i)} />
             </Form.Group>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Passport Size Photo</Form.Label>
-              <Form.Control type="file" onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="passportPhoto" onChange={(e) => handleFileUpload('passportPhoto', e.target.files[0], i)} />
             </Form.Group>
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label> Passport</Form.Label>
-              <Form.Control type="file" multiple onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label> Visa</Form.Label>
-              <Form.Control type="file" multiple onChange={handleUploadFormInputChange} />
+              <Form.Control type="file" name="otherDoc" multiple onChange={(e) => handleFileUpload('otherDoc', e.target.files, i)} />
             </Form.Group>
-            <Button type="submit" disabled={isUploading}>{isUploading ? 'Uploading...' : 'Upload'}</Button>
+            <ProgressBar className={isUploading? 'd-block': 'd-none'} now={uploadProgress} label={`${uploadProgress}%`} />
           </Form>
         </Accordion.Body>
       </Accordion.Item>);
@@ -348,6 +364,7 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
   }
 
   const forForeigeners = packageDetail?.data?.forForeigeners[0].isAvailable ? true : false;
+
   return (
     <>
       <div className="col-xl-7 col-lg-8 mt-30">
@@ -387,14 +404,14 @@ const CustomerInfo = ({ bookingInfo, packageDetail }) => {
           </div>
           <div className='col-12'>
             <h2 className="text-22 fw-500 mt-40 md:mt-24">
-              Let us know who you are
+              Enter contact details
             </h2>
 
             <form onSubmit={handleSubmit}>
               <div className='row x-gap-20 y-gap-20 pt-20'>
                 <div className="col-12">
                   <div className="form-input ">
-                    <input type="text" name='fullName' onChange={handleCustomerDetailChange} required />
+                    <input type="text" name='customerName' onChange={handleCustomerDetailChange} required />
                     <label className="lh-1 text-16 text-light-1">Full Name</label>
                   </div>
                 </div>

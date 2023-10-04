@@ -8,9 +8,12 @@ import { updateDatePrice } from '@/utils/datePriceUpdater';
 import { getPackageTypeId } from '@/utils/getPackageTypeId';
 
 const Index = ({ bookingInfo, packageDetail }) => {
+
   const [currentStep, setCurrentStep] = useState(0);
   const [basePrice, setBasePrice] = useState();
   const [selectedPackage, setSelectedPackage] = useState(packageDetail);
+  const [razorpayResponse, setRazorpayResponse] =  useState({});
+
   const { state } = useRoomContext();
   const room = state;
 
@@ -36,7 +39,8 @@ const Index = ({ bookingInfo, packageDetail }) => {
   };
 
   // Function to handle payment success and move to the next step
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = (data) => {
+      setRazorpayResponse(data);
       setCurrentStep(currentStep + 1); // Move to the next step
   };
 
@@ -73,7 +77,7 @@ const Index = ({ bookingInfo, packageDetail }) => {
       title: "Final Step",
       stepNo: "3",
       stepBar: "",
-      content: <OrderSubmittedInfo />,
+      content: <OrderSubmittedInfo  razorpayResponse={razorpayResponse} />,
     },
   ];
 

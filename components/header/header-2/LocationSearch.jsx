@@ -6,8 +6,6 @@ import { builder } from "@builder.io/sdk";
 builder.init("02508b9173c94715834f124a5247ac79");
 
 const SearchBar = ({destinations}) => {
-
-  console.log(destinations);
   
   const [searchValue, setSearchValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
