@@ -33,7 +33,7 @@ const SignUpForm = () => {
     }
 
     try {
-      const response = await fetch("https://nss-backend-services.onrender.com/api/users", {
+      const response = await fetch("http://localhost:5050/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,6 @@ const SignUpForm = () => {
       });
 
       if (response.ok) {
-        // Handle successful registration, e.g., redirect to another page or show a success message
         console.log("User registered successfully!");
         router.push("/"); // Redirect to the home screen path
       } else {
