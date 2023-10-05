@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PricingSummary from "./sidebar/PricingSummary";
 import PromoCode from "./sidebar/PromoCode";
 import { loadScript } from "@/utils/razorPayScript";
+import axios from "axios";
 
 const PaymentInfo = ({ totalPrice, onPaymentSuccess }) => {
   const [isPaymentInitiated, setIsPaymentInitiated] = useState(false);
@@ -26,7 +27,8 @@ const PaymentInfo = ({ totalPrice, onPaymentSuccess }) => {
       setIsPaymentInitiated(true); // Disable the payment button
 
       // Call your Express API endpoint to create a Razorpay order
-      const response = await fetch("https://nss-backend-services.onrender.com/api/order", {
+      const { data: { key } } = await axios.get("http://www.localhost:5050/api/getkey")
+      const response = await fetch("http://localhost:5050/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,6 +36,7 @@ const PaymentInfo = ({ totalPrice, onPaymentSuccess }) => {
         body: JSON.stringify({
           amount: totalPrice,
           email: "mash.pro666@gmail.com",
+          currency: "INR"
         }),
       });
 
@@ -41,24 +44,48 @@ const PaymentInfo = ({ totalPrice, onPaymentSuccess }) => {
 
       // Initialize Razorpay
       const options = {
-        key: "rzp_test_UXdf8YbAHfDH51",
-        amount: order.amount,
-        currency: "INR",
-        order_id: order.id,
-        handler: function (response) {
-          const data = {
-            orderCreationId: order.id,
-            amountPaid: totalPrice,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-          };
-          // Handle successful payment response
-          onPaymentSuccess(data);
-        },
-      };
+        key: key,
+        amount: totalPrice,
+        currency: order.order.currency,
+        name: "North Sikkim Sharing",
+        description: "Test Transaction",
+        image: "https://razorpay.com/docs/build/browser/static/razorpay-docs-dark.6f09b030.svg",
+        order_id: order.order.id,
 
+        "handler": async (response) => {
+          const verifyResponse = await fetch("http://localhost:5050/api/paymentverification", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+            })
+          })
+          const paymentVerificationResult = await verifyResponse.json();
+          if (paymentVerificationResult.success) {
+            onPaymentSuccess(paymentVerificationResult)
+          } else {
+            // Payment failed, you can show an error message to the user
+            console.error("Payment failed!");
+          }
+        },
+        prefill: {
+          name: "Gaurav Kumar",
+          email: "gaurav.kumar@example.com",
+          contact: "9000090000"
+        },
+        notes: {
+          address: "Razorpay Corporate Office"
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
       const rzp = new window.Razorpay(options);
+
       rzp.open();
     } catch (err) {
       console.error(err);
