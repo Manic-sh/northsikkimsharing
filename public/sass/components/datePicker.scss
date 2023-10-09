@@ -1,15 +1,25 @@
 .react-date-picker__wrapper{
     display: flex !important;
     align-items: center;
+    color: #fff;
 }
 .react-date-picker__inputGroup{
     min-width: 170px;
+    color: #fff;
 }
-.custom_datepicker input{
+
+input{
     width: 40px !important;
+    color: #fff;
 }
+
+.react-date-picker__inputGroup input::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+  }
 .react-date-picker__inputGroup__input.react-date-picker__inputGroup__year{
     width: 60px !important;
+    color: #fff;
 }
 .react-date-picker__calendar.react-date-picker__calendar--open{
     z-index: 1 !important;

@@ -15,7 +15,7 @@ const Social2 = () => {
           className="flex-center size-40 rounded-full"
           key={item.id}
         >
-          <i className={`${item.icon} text-14`} />
+          <i className={`${item.icon} text-20`} />
         </a>
       ))}
     </>

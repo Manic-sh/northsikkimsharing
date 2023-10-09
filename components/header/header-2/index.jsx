@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import LocationSearch from "./LocationSearch";
 import MobileMenu from "../MobileMenu";
 
-const Header = ({destinations}) => {
+const Header = ({ destinations }) => {
   const [navbar, setNavbar] = useState(false);
 
   const changeBackground = () => {
@@ -20,12 +20,17 @@ const Header = ({destinations}) => {
 
   return (
     <>
-      <header className={`header ${navbar ? "bg-dark-1 is-sticky" : "bg-dark-2"}`}>
+      <header className={`header ${navbar ? "bg-dark-1 is-sticky" : ""}`}>
         <div className="header__container container">
           <div className="row justify-between items-center">
-            <div className="col-auto mobile-col">
-              <div className="d-flex items-center">
-                <div className="mr-20 d-flex items-center">
+            <div className="col-auto mobile-col w-100">
+              <div className="d-flex items-center justify-content-between">
+                <Link href="/" className="header-logo mr-20">
+                  <img src="/img/general/logo.svg" alt="logo icon" />
+                  <img src="/img/general/logo.svg" alt="logo icon" />
+                </Link>
+                {/* End logo */}
+                <div className="mr-20 d-flex items-center ml-auto">
                   <div className="mr-15 d-none md:d-flex">
                     <Link
                       href="/others-pages/login"
@@ -48,7 +53,7 @@ const Header = ({destinations}) => {
                     id="mobile-sidebar_menu"
                     aria-labelledby="offcanvasMenuLabel"
                     data-bs-scroll="true"
-                    style={{backgroundColor: '#0d2857', color: '#fff'}}
+                    style={{ backgroundColor: '#0d2857', color: '#fff' }}
                   >
                     <MobileMenu />
                     {/* End MobileMenu */}
@@ -56,15 +61,11 @@ const Header = ({destinations}) => {
                 </div>
                 {/* End mobile humberger menu */}
 
-                <Link href="/" className="header-logo mr-20">
-                  <img src="/img/general/logo.svg" alt="logo icon" />
-                  <img src="/img/general/logo.svg" alt="logo icon" />
-                </Link>
-                {/* End logo */}
 
-                <div className="relative xl:d-none">
+
+                {/* <div className="relative xl:d-none">
                   <LocationSearch destinations={destinations} />
-                </div>
+                </div> */}
                 {/* End Search box */}
               </div>
               {/* End d-flex */}
@@ -96,12 +97,12 @@ const Header = ({destinations}) => {
                   >
                     Become An Expert
                   </Link> */}
-                  <Link
+                  {/* <Link
                     href="/others-pages/signup"
                     className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
                   >
                     Sign In / Register
-                  </Link>
+                  </Link> */}
                 </div>
                 {/* End btn-group */}
               </div>

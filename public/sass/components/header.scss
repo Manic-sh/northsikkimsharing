@@ -42,10 +42,12 @@
   &.is-sticky {
     margin: 0 !important;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-color: var(--color-dark-1) !important;
   }
 
   .row {
     flex-wrap: nowrap;
+    width: 60%;
   }
 
   &__container {
@@ -60,7 +62,7 @@
     position: relative;
 
     img {
-      width: 100px;
+      width: 120px;
 
       @include media-below(md) {
         max-width: 100px;

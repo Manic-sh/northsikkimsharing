@@ -21,9 +21,8 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
 
 
   return (
-    <>
-      <h4 className="text-15 fw-500 ls-2 lh-16 text-black"><i class="icomoon icon-ticket text-20 text-light-1 mr-10"></i>Packages</h4>
-      <div className={`searchMenu-loc px-10 d-flex align-items-center pb-0 lg:px-0 js-form-dd js-liverSearch mb-20 ${searchValue === "" ? 'border border-danger' : ''}`}>
+    <>     
+     <div className={`searchMenu-loc d-flex align-items-center  js-form-dd js-liverSearch border border-white ${searchValue === "" ? 'border border-white' : 'border border-white'}`}>
         <div
           data-bs-toggle="dropdown"
           data-bs-auto-close="true"
@@ -35,7 +34,7 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
               autoComplete="off"
               type="search"
               placeholder="Select package..."
-              className="js-search js-dd-focus"
+              className="js-search js-dd-focus text-white w-100"
               value={searchValue}
               readOnly
               onChange={(e) => setSearchValue(e.target.value)}
@@ -45,7 +44,7 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
         </div>
 
         <div className="shadow-2 dropdown-menu min-width-300 package-items-dropdown">
-          <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
+          <div className="bg-white px-20 py-20 sm:px-0 sm:py-15">
             <ul className="y-gap-5 js-results">
               {packages?.map((item, idx) => (
                 <li

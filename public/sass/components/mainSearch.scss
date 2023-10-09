@@ -1,159 +1,51 @@
 .mainSearch {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-
-  .searchMenu-loc{
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-    min-height: 42px;
-    // background-color: #F6F6F6;
-  }
-  .mainSearch-form{
-    padding: 32px;
-  }
+  width: 40%;
+  height: 100vh;
+  padding: 60px;
+  backdrop-filter: contrast(40%);
+  right: 0;
   @include media-below(lg) {
     width: 100%;
     border-radius: 4px !important;
-    .mainSearch-form{
-      padding: 20px;
-    }
   }
-
-  .guest-count-dropdown, .package-items-dropdown{
-    max-height: 350px;
-    overflow-y: scroll;
-    overscroll-behavior: auto;
-  }
-
-  /* custom radio style */
-  .middle {
-    width: 100%;
-    text-align: center;
-    display: flex;
-    position: relative;
-    h1 {
-      font-family: inherit;
-      color: #fff;
-    }
-    label{
-      flex-basis: 50%;
-    }
-    input[type="radio"] {
-      display: none;
-
-      &:checked {
-        +.box {
-          background-color: #0d2857;
-
-          span {
-            color: white;
-            transform: translateY(10px);
-
-            &:before {
-              transform: translateY(0px);
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-
-    .box {
-      width: 100%;
-      height: 100px;
-      background-color: #fff;
-      transition: all 250ms ease;
-      will-change: transition;
-      display: inline-block;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      font-family: inherit;
-      font-weight: 900;
-
-      &:active {
-        transform: translateY(10px);
-      }
-
-      span {
-        position: absolute;
-        transform: translate(0, -10px);
-        left: 0;
-        right: 0;
-        transition: all 300ms ease;
-        font-size: 1.5em;
-        user-select: none;
-        color: #0d2857;
-
-        &:before {
-          font-size: 1.2em;
-          font-family: FontAwesome;
-          display: block;
-          transform: translateY(-80px);
-          opacity: 0;
-          transition: all 300ms ease-in-out;
-          font-weight: normal;
-          color: white;
-        }
-      }
-    }
-
-    .front-end {
-      span {
-        &:before {
-          content: "\f121";
-        }
-      }
-    }
-
-    .back-end {
-      span {
-        &:before {
-          content: "\f0f4";
-        }
-      }
-    }
-  
-    @include media-below(md) {
-      .box{
-        height: 60px;
-      }
-      .box span{
-        display: inline-flex;
-        align-items: center;
-        margin-right: 10px;
-        justify-content: center;
-        transform: translate(0, 10px);
-        &:before {
-          display: none;
-        }
-      }
-    }
-  }
-
   .button-grid {
     display: grid;
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
 
-    >*+* {
-      border-left: 0;
-      //border-top: 1px solid var(--color-border);
+    > * + * {
+      padding: 10px;
+      border: 1px solid white;
+      margin-top: 10px;
     }
 
     @include media-below(lg) {
       grid-template-columns: 1fr;
 
-      >*+* {
+      > * + * {
         border-left: 0;
-        //border-top: 1px solid var(--color-border);
+        border-top: 1px solid var(--color-border);
       }
+    }
+    ::placeholder {
+      color: white;
+      opacity: 1; /* Firefox */
+    }
+    .react-date-picker__calendar-button svg{
+      stroke: #fff;
     }
   }
 
-  .content-item {}
 
   .button-item {
     border: none !important;
+  }
+
+  .button-item button:hover{
+    background-color: #fff !important;
+    color: var(--color-dark-1) !important;
+    border-color: var(--color-dark-1) !important;
   }
 
   &__submit {
@@ -199,7 +91,7 @@
       @include media-below(lg) {
         grid-template-columns: 1fr;
 
-        >*+* {
+        > * + * {
           border-left: 0;
           border-top: 1px solid var(--color-border);
         }
@@ -208,7 +100,7 @@
   }
 
   &.-w-900 {
-    width: 900px;
+    width: auto;
 
     @include media-below(lg) {
       width: auto;
@@ -223,16 +115,21 @@
       width: auto;
     }
   }
+
+  .social-icons{
+   margin-top: 100px;
+   padding: 0 10px;
+  }
+  .social-icons  a{
+    color: white  !important;
+   }
+  .social-icons  a:hover {
+     color: var(--color-yellow-1) !important;
+   }
 }
 
 .searchMenu-loc {
   position: relative;
-  min-width: 380px;
-
-  @include media-below(lg) {
-    min-width: 300px;
-    ;
-  }
 
   &__field {
     position: absolute;
@@ -276,14 +173,15 @@
 
 .searchMenu-date {
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-
+  
   &.-left {
     .searchMenu-date__field {
       transform: none !important;
     }
   }
-
+  input{
+    width: 100% !important;
+  }
   &.-right {
     .searchMenu-date__field {
       left: unset;
@@ -325,9 +223,8 @@
   }
 }
 
-.mainSearch-form .searchMenu-guests {
+.searchMenu-guests {
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 
   &__field {
     position: absolute;
@@ -358,112 +255,62 @@
       opacity: 1;
     }
   }
+
+  .guest-count-dropdown{
+    border-radius: 0;
+  }
 }
 
-/*switch styles*/
-
-div.btn-container {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  width: 150px;
-  padding-right: 60px;
-  position: absolute;
-  top: 0px;
-  right: 25px;
+.blur {
+  background: #ffffff33; // Make sure this color has an opacity of less than 1
+  backdrop-filter: blur(8px); // This be the blur
+  width: 40%;
 }
 
-label {
-  font-size: 13px;
-  color: #424242;
-  font-weight: 500;
-}
-
-.btn-color-mode-switch {
+/* Style the radio buttons as buttons */
+.middle label {
   display: inline-block;
-  margin: 0px;
-  position: relative;
-}
-
-.btn-color-mode-switch>label.btn-color-mode-switch-inner {
-  margin: 0px;
-  width: 140px;
-  height: 30px;
-  background: #E0E0E0;
-  border-radius: 26px;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.3s ease;
-  /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
-  display: block;
-}
-
-.btn-color-mode-switch>label.btn-color-mode-switch-inner:before {
-  content: attr(data-on);
-  position: absolute;
-  font-size: 12px;
-  font-weight: 500;
-  top: 5px;
-  right: 20px;
-
-}
-
-.btn-color-mode-switch>label.btn-color-mode-switch-inner:after {
-  content: attr(data-off);
-  width: 70px;
-  height: 26px;
-  background: #fff;
-  border-radius: 26px;
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0px 0px 6px -2px #111;
-  padding: 2px 0px;
-}
-
-.btn-color-mode-switch>.alert {
-  display: none;
-  background: #FF9800;
-  border: none;
-  color: #fff;
-}
-
-.btn-color-mode-switch input[type="checkbox"] {
+  margin-right: 10px;
   cursor: pointer;
-  width: 50px;
-  height: 25px;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  margin: 0px;
 }
 
-.btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner {
-  background: #000;
-  color: #fff;
+/* Hide the actual radio input */
+.middle input[type="radio"] {
+  display: none;
 }
 
-.btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner:after {
-  content: attr(data-on);
-  left: 68px;
-  background: #fff;
-  color: #000;
+/* Style the custom button container */
+.middle .custom-box {
+  display: inline-block;
+  padding: 3px 10px;
+  background-color: transparent; /* Change this to your desired button color */
+  color: #fff; /* Change this to your desired text color */
+  border: 1px solid #fff; /* Change this to your desired border color */
+  border-radius: 0px;
+  text-align: center;
+  width: 100px;
 }
 
-.btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner:before {
-  content: attr(data-off);
-  right: auto;
-  left: 10px;
+/* Style the custom button when it's checked */
+.middle input[type="radio"]:checked + .custom-box {
+  background-color: #fff !important; /* Change this to your desired checked button color */
+  color: var(--color-dark-2); /* Change this to your desired checked text color */
+  border: 1px solid #fff; /* Change this to your desired checked border color */
 }
 
-// .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner{
-//     background: #66BB6A; 
-//     color: #fff;
-// }
-
-.btn-color-mode-switch input[type="checkbox"]:checked~.alert {
-  display: block;
+/* Add some hover effects */
+.middle .custom-box:hover {
+  background-color: var(--color-yellow-1) !important; /* Change this to your desired hover button color */
+  border-color: var(--color-yellow-1) !important; /* Change this to your desired hover border color */
+  color: var(--color-dark-2);
 }
+
+/* Style the label text */
+.middle label span {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.mainSearch .button-grid{
+  margin-top: 150px;
+}
+

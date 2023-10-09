@@ -1,7 +1,9 @@
 import React from "react";
 import MainFilterSearchBox from './MainFilterSearchBox';
 import Link from "next/link";
-import { Container, Row, Col } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const initialState = {
   tabs: [
@@ -12,58 +14,56 @@ const initialState = {
   ],
   currentTab: "Package",
 };
+const imageUrl = 'hero-section-banner';
+
 
 const Index = (props) => {
 
   return (
     <section className="masthead -type-2 z-2">
-      <div className="masthead__bg bg-dark-2">
-      </div>
-      {/* End bg image */}
-
-      
-        <div className="masthead__tabs">
-          <div className="container">
-            <div className="tabs -bookmark-2 js-tabs">
-              <div className="tabs__controls d-flex items-center js-tabs-controls justify-content-between">
-                {initialState.tabs?.map((tab) => (
-                  <Link
-                    key={tab?.id}
-                    href={{ pathname: `${tab.linkUrl}` }}
-                    className={`tabs__button px-30 py-20 sm:px-15 sm:py-15 fw-600 text-white js-tabs-button ${tab?.name === initialState.currentTab ? "is-tab-el-active" : ""
-                      }`}
-                  >
-                    <i className={`${tab.icon} text-20 mb-10 sm:mb-16`}></i>
-                    {tab?.name}
-                  </Link>
-                ))}
-              </div>
+      <div className="masthead__tabs bg-dark-2">
+        <div className="container">
+          <div className="tabs -bookmark-2 js-tabs">
+            <div className="tabs__controls d-flex items-center js-tabs-controls justify-content-between">
+              {initialState.tabs?.map((tab) => (
+                <Link
+                  key={tab?.id}
+                  href={{ pathname: `${tab.linkUrl}` }}
+                  className={`tabs__button px-30 py-20 sm:px-15 sm:py-15 fw-600 text-white js-tabs-button ${tab?.name === initialState.currentTab ? "is-tab-el-active" : ""
+                    }`}
+                >
+                  <i className={`${tab.icon} text-20 mb-10 sm:mb-16`}></i>
+                  {tab?.name}
+                </Link>
+              ))}
             </div>
           </div>
-          {/* End tabs */}
         </div>
-        {/* End .masthead__tabs */}
+        {/* End tabs */}
+      </div>
+      {/* End .masthead__tabs */}
+      {/* End bg image */}
 
-        <div className="masthead__content">
-          <div className="hero">
-            <Container fluid>
-              <Row>
-                {/* Right Column for Form */}
-                <Col md={6}>
-                  <div className="form-container" data-aos="fade-up" data-aos-offset="0">
-                      {/* <MainFilterSearchBox packageData={packageData} /> */}
-                      <MainFilterSearchBox />
-                      {/* End filter content */}
-                  </div>
-                </Col>
-              </Row>
-            </Container>
+      <Row>
+        <Col lg={12} sm={12}>
+          <div className="hero-image-container relative">
+            <div className="row">
+              <div className="col-lg-6 col-sm-12">
+                <div className="hero-content absolute z-1">
+                  <h1 className="text-yellow-1 text-60">North Sikkim Sharing</h1>
+                  <p className="z-2 text-white is-in-view text-30">Booking your trip was never so easy! </p>
+                </div>
+              </div>
+              <div className="col-lg-6 col-sm-12">
+                <MainFilterSearchBox />
+              </div>
+            </div>
+
+            <img alt="image" src="/img/backgrounds/background.jpg" className="js-lazy" />
           </div>
-          {/* End .row */}
-        </div>
-        {/* End .masthead__content */}
-      
-      {/* End .container */}
+        </Col>
+      </Row>
+
     </section>
   );
 };
