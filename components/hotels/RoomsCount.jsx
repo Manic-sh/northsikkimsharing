@@ -132,7 +132,7 @@ const RoomsCount = () => {
 
   return (
     <>
-      <div className="searchMenu-guests px-10 py-10 lg:px-0 js-form-dd js-form-counters position-relative">
+      <div className="searchMenu-guests js-form-dd js-form-counters position-relative">
         <div
           data-bs-toggle="dropdown"
           data-bs-auto-close="outside"
@@ -142,7 +142,7 @@ const RoomsCount = () => {
           <div className="d-flex">
             <div className="">
 
-              <div className="text-15 text-light-1 ls-2 lh-16 sm:pl-20 sm:ml-5 text-white">
+              <div className="text-15 text-light-1 ls-2 lh-16 text-white">
                 <span className="js-count-adult">{noOfAdults}</span>{" "}
                 adults -{" "}
                 <span className="js-count-child">{noOfChildren}</span>{" "}

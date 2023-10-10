@@ -8,6 +8,8 @@
   right: 0;
   @include media-below(lg) {
     width: 100%;
+    height: calc(100vh - 170px);
+    padding: 50px 20px;
     border-radius: 4px !important;
   }
   .button-grid {
@@ -22,11 +24,6 @@
 
     @include media-below(lg) {
       grid-template-columns: 1fr;
-
-      > * + * {
-        border-left: 0;
-        border-top: 1px solid var(--color-border);
-      }
     }
     ::placeholder {
       color: white;
@@ -312,5 +309,9 @@
 }
 .mainSearch .button-grid{
   margin-top: 150px;
+
+  @include media-below(lg) {
+   margin-top: 50px;
+  }
 }
 

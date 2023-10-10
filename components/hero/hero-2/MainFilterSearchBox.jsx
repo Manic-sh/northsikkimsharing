@@ -69,7 +69,7 @@ const MainFilterSearchBox = () => {
 
     <>
       <div className="mainSearch z-2 blur">
-        <h2 className="text-40 text-white mb-20">Select your package</h2>
+        <h2 className="text-40 text-white mb-20 md:text-30">Select your package</h2>
         
         <div className="button-grid items-center">
         <CustomRadioButton options={radioOptions} onChange={handleIsIndianChange} />

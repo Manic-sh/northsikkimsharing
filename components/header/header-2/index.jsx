@@ -22,9 +22,9 @@ const Header = ({ destinations }) => {
     <>
       <header className={`header ${navbar ? "bg-dark-1 is-sticky" : ""}`}>
         <div className="header__container container">
-          <div className="row justify-between items-center">
-            <div className="col-auto mobile-col w-100">
-              <div className="d-flex items-center justify-content-between">
+          <div className="row justify-between items-center sm:w-100 sm:mr-0 sm:ml-0">
+            <div className="col-auto mobile-col w-100 sm:pr-0 sm:pl-0">
+              <div className="d-flex items-center justify-content-between ">
                 <Link href="/" className="header-logo mr-20">
                   <img src="/img/general/logo.svg" alt="logo icon" />
                   <img src="/img/general/logo.svg" alt="logo icon" />

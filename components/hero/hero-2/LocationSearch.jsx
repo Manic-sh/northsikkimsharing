@@ -29,7 +29,7 @@ const LocationSearch = ({ packages, setSelectedPackage, isIndian }) => {
           data-bs-offset="0,22"
           className="w-100"
         >
-          <div className=" d-flex text-15 text-light-1 ls-2 lh-16 sm:ml-5 sm:pl-20">
+          <div className=" d-flex text-15 text-light-1 ls-2 lh-16">
             <input
               autoComplete="off"
               type="search"

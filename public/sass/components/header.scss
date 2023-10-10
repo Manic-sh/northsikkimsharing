@@ -48,6 +48,9 @@
   .row {
     flex-wrap: nowrap;
     width: 60%;
+    @include media-below(md) {
+      width: 100%;
+    }
   }
 
   &__container {
