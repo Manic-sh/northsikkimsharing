@@ -81,7 +81,7 @@
 
 
   .mainSearch {
-    position: relative;
+    position: absolute;
     @include media-below(md) {
       position: absolute;
       bottom: 0;
