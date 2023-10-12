@@ -4,7 +4,6 @@ import Seo from "../../components/common/Seo";
 import Footer2 from "../../components/footer/footer-2";
 import Header from "../../components/header/header-2";
 import Hero2 from "../../components/hero/hero-2";
-import CallToActions from "../../components/home/home-2/CallToActions";
 import Testimonial from "../../components/home/home-2/Testimonial";
 import TestimonialRating from "../../components/home/home-2/TestimonialRating";
 import Sights from "../../components/home/home-2/Sights";
@@ -189,12 +188,6 @@ const Home = () => {
         </div>
       </section>
       {/* End testimonial and brand sections Section */}
-
-      {/* End blog Section */}
-
-      <CallToActions />
-      {/* End CallToActions Section */}
-
       <Footer2 />
       {/* End Footer Section */}
     </>
