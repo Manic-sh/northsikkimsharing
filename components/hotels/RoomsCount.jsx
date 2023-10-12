@@ -33,7 +33,7 @@ const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrem
 
   return (
     <>
-      <div className="row y-gap-10 justify-between items-center">
+      <div className="row y-gap-10 items-center d-flex flex-column">
         <div className="col-auto">
           <div className="text-15 lh-12 fw-500">Adults</div>
         </div>
@@ -41,7 +41,7 @@ const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrem
         <div className="col-auto">
           <div className="d-flex items-center js-counter">
             <button
-              className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down"
+              className="button -outline-blue-1 text-blue-1 size-38 rounded-0 js-down"
               onClick={handleAdultDecrement}
             >
               <i className="icon-minus text-12" />
@@ -52,7 +52,7 @@ const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrem
             </div>
             {/* counter text  */}
             <button
-              className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up"
+              className="button -outline-blue-1 text-blue-1 size-38 rounded-0 js-up"
               onClick={handleAdultIncrement}
               disabled={disableIncrement}
             >
@@ -63,17 +63,15 @@ const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrem
         </div>
         {/* End .col-auto */}
       </div>
-      <div className="border-top-light mt-24 mb-24" />
-      <div className="row y-gap-10 justify-between items-center">
+      <div className="row y-gap-10 items-center flex-column">
         <div className="col-auto">
-          <div className="text-15 lh-12 fw-500">Children</div>
-          <div className="text-14 lh-12 text-light-1 mt-5">Ages 0 - 4</div>
+          <div className="text-15 lh-12 fw-500 d-flex align-content-center">Children - <span className="text-13 lh-12 text-light-1 ml-5"> Below 4 Years</span></div>
         </div>
         {/* End .col-auto */}
         <div className="col-auto">
           <div className="d-flex items-center js-counter">
             <button
-              className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down"
+              className="button -outline-blue-1 text-blue-1 size-38 rounded-0 js-down"
               onClick={handleChildDecrement}
             >
               <i className="icon-minus text-12" />
@@ -84,7 +82,7 @@ const RoomGuestCounter = ({ roomIndex, adultsCount, childrenCount, disableIncrem
             </div>
             {/* counter text  */}
             <button
-              className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up"
+              className="button -outline-blue-1 text-blue-1 size-38 rounded-0 js-up"
               onClick={handleChildIncrement}
               disabled={disableIncrement}
             >
@@ -156,7 +154,10 @@ const RoomsCount = () => {
         {/* End guest */}
 
         <div className="shadow-2 dropdown-menu min-width-400 guest-count-dropdown">
-          <div className="bg-white px-6 py-30 rounded-4 counter-box">
+          <Alert variant='warning' className="pb-5 rounded-0 bg-yellow-1 text-center">
+                      Maximum 4 guests are allowed in a room
+          </Alert>
+          <div className="bg-white px-6 pb-10 rounded-4 counter-box">
             <Accordion defaultActiveKey="0" flush>
               {room?.map((roomItem, index) => (
                 <Accordion.Item eventKey={index} key={index}>
@@ -172,15 +173,12 @@ const RoomsCount = () => {
                       </Row>
                     </Container></Accordion.Header>
                   <Accordion.Body>
-                    <Alert variant='warning' className="py-5">
-                      Maximum 4 guests are allowed in a room
-                    </Alert>
-                    <div key={index}>
+                    <div key={index} className='d-flex justify-content-between'>
                       <RoomGuestCounter roomIndex={index} adultsCount={roomItem?.adults} childrenCount={roomItem?.children} disableIncrement={disableGuestIncrement(roomItem?.adults + roomItem?.children)} dispatch={dispatch} />
                     </div>
                     {room.length > 1 &&
                       (<div className="d-flex w-100 justify-content-end py-2 mt-24 border-top-light">
-                        <Button type="button" variant="outline-danger" size="sm" onClick={() => handleRoomRemove(index)}>Remove</Button>
+                        <Button className="rounded-0 text-black" type="button" variant="outline-danger" size="sm" onClick={() => handleRoomRemove(index)}>Remove</Button>
                       </div>)
                     }
                   </Accordion.Body>
@@ -188,8 +186,8 @@ const RoomsCount = () => {
               ))}
             </Accordion>
           </div>
-          <div className="bg-white px-30 py-10 rounded-4 text-center">
-            <Button variant="warning" onClick={handleRoomAdd} disabled={room.length == 5}>+Add Room</Button>{' '}
+          <div className="bg-white px-30 py-10 rounded-0 text-center">
+            <Button className="rounded-0 bg-yellow-1 text-black" variant="warning" onClick={handleRoomAdd} disabled={room.length == 5}>+Add Room</Button>{' '}
           </div>
         </div>
       </div>

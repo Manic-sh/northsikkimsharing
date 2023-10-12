@@ -6,7 +6,7 @@ import "photoswipe/dist/photoswipe.css";
 import { Gallery, Item } from "react-photoswipe-gallery";
 import { hotelsData } from "../../../data/hotels";
 import Seo from "../../../components/common/Seo";
-import Header2 from "../../../components/header/header-2";
+import Header1 from "../../../components/header/default-header";
 import Overview from "../../../components/hotel-single/Overview";
 import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
 import PropertyHighlights from "../../../components/hotel-single/PropertyHighlights";
@@ -58,7 +58,7 @@ const HotelSingleV1Dynamic = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <Header2 />
+      <Header1 />
       {/* End Header 1 */}
 
       <TopBreadCrumb />

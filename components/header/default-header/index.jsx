@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import MainMenu from "../MainMenu";
-import CurrenctyMegaMenu from "../CurrenctyMegaMenu";
-import LanguageMegaMenu from "../LanguageMegaMenu";
+
 
 import MobileMenu from "../MobileMenu";
 
@@ -23,9 +22,9 @@ const Header1 = () => {
 
   return (
     <>
-      <header className={`header bg-white ${navbar ? "is-sticky" : ""}`}>
+      <header className={`header bg-dark-1 ${navbar ? "is-sticky" : ""}`}>
         <div className="header__container px-30 sm:px-20">
-          <div className="row justify-between items-center">
+          <div className="row justify-between items-center w-100">
             <div className="col-auto">
               <div className="d-flex items-center">
                 <Link href="/" className="header-logo mr-20">
@@ -36,7 +35,7 @@ const Header1 = () => {
 
                 <div className="header-menu">
                   <div className="header-menu__content">
-                    <MainMenu style="text-dark-1" />
+                    <MainMenu style="text-white" />
                   </div>
                 </div>
                 {/* End header-menu */}
@@ -47,40 +46,8 @@ const Header1 = () => {
 
             <div className="col-auto">
               <div className="d-flex items-center">
-                <div className="row x-gap-20 items-center xxl:d-none">
-                  <CurrenctyMegaMenu textClass="text-dark-1" />
-                  {/* End Megamenu for Currencty */}
 
-                  {/* Start vertical devider*/}
-                  <div className="col-auto">
-                    <div className="w-1 h-20 bg-white-20" />
-                  </div>
-                  {/* End vertical devider*/}
-
-                  <LanguageMegaMenu textClass="text-dark-1" />
-                  {/* End Megamenu for Language */}
-                </div>
-                {/* End language and currency selector */}
-
-                {/* Start btn-group */}
-                <div className="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
-                  <Link
-                    href="/others-pages/login"
-                    className="button px-30 fw-400 text-14 -blue-1 bg-blue-1 h-50 text-white"
-                  >
-                    Become An Expert
-                  </Link>
-                  <Link
-                    href="/others-pages/signup"
-                    className="button px-30 fw-400 text-14 -outline-blue-1 h-50 text-blue-1 ml-20"
-                  >
-                    Sign In / Register
-                  </Link>
-                </div>
-                {/* End btn-group */}
-
-                {/* Start mobile menu icon */}
-                <div className="d-none xl:d-flex x-gap-20 items-center pl-30 text-dark-1">
+                <div className="d-none xl:d-flex x-gap-20 items-center pl-30 text-white">
                   <div>
                     <Link
                       href="/others-pages/login"

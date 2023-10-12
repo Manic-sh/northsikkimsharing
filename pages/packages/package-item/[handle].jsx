@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ModalVideo from "react-modal-video";
 import "photoswipe/dist/photoswipe.css";
 import Seo from "../../../components/common/Seo";
-import DefaultHeader from "../../../components/header/header-2";
+import Header2 from "../../../components/header/header-2";
 import Overview from "../../../components/hotel-single/Overview";
 import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
 import TopBreadCrumb from "../../../components/hotel-single/TopBreadCrumb";
@@ -141,7 +141,7 @@ const HotelSingleV2Dynamic = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <DefaultHeader />
+      <Header2 />
       {/* End DefaultHeader */}
 
       {/* End Search filter top */}
