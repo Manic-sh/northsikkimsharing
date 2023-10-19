@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import LocationSearch from "./LocationSearch";
+import { useRouter } from 'next/router';
+
 import MobileMenu from "../MobileMenu";
 
 const Header = ({ destinations }) => {
+  const router = useRouter();
   const [navbar, setNavbar] = useState(false);
+
+  const isHomepage = router.pathname === '/';
 
   const changeBackground = () => {
     if (window.scrollY >= 10) {
@@ -20,7 +24,7 @@ const Header = ({ destinations }) => {
 
   return (
     <>
-      <header className={`header ${navbar ? "bg-dark-1 is-sticky" : ""}`}>
+      <header className={`header ${navbar ? "bg-dark-1 is-sticky" : isHomepage ? '' : 'bg-dark-1'}`}>
         <div className="header__container container">
           <div className="row justify-between items-center sm:w-100 sm:mr-0 sm:ml-0">
             <div className="col-auto mobile-col w-100 sm:pr-0 sm:pl-0">
@@ -53,7 +57,7 @@ const Header = ({ destinations }) => {
                     id="mobile-sidebar_menu"
                     aria-labelledby="offcanvasMenuLabel"
                     data-bs-scroll="true"
-                    style={{ backgroundColor: '#0d2857', color: '#fff' }}
+                    style={{ backgroundColor: '#051036', color: '#fff' }}
                   >
                     <MobileMenu />
                     {/* End MobileMenu */}
@@ -87,24 +91,6 @@ const Header = ({ destinations }) => {
                   {/* <LanguageMegaMenu textClass="text-white" /> */}
                   {/* End Megamenu for Language */}
                 </div>
-                {/* End language and currency selector */}
-
-                {/* Start btn-group */}
-                <div className="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
-                  {/* <Link
-                    href="/others-pages/login"
-                    className="button px-30 fw-400 text-14 -white bg-white h-50 text-dark-1"
-                  >
-                    Become An Expert
-                  </Link> */}
-                  {/* <Link
-                    href="/others-pages/signup"
-                    className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
-                  >
-                    Sign In / Register
-                  </Link> */}
-                </div>
-                {/* End btn-group */}
               </div>
             </div>
             {/* End col-auto */}

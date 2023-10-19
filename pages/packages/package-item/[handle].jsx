@@ -6,10 +6,12 @@ import "photoswipe/dist/photoswipe.css";
 import Seo from "../../../components/common/Seo";
 import Header2 from "../../../components/header/header-2";
 import Overview from "../../../components/hotel-single/Overview";
+import Itinerary from "@/components/hotel-single/Itinerary";
+
 import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
 import TopBreadCrumb from "../../../components/hotel-single/TopBreadCrumb";
 import CallToActions from "../../../components/common/CallToActions";
-import DefaultFooter from "../../../components/footer/default";
+import Footer2 from "../../../components/footer/footer-2";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Tab from 'react-bootstrap/Tab';
@@ -23,13 +25,11 @@ import { useRoomContext } from '@/context/RoomContext';
 import { updateDatePrice } from '@/utils/datePriceUpdater';
 import SlideGallery from '@/components/hotel-single/SlideGallery';
 
-
 builder.init("02508b9173c94715834f124a5247ac79");
 
 
 const HotelSingleV2Dynamic = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);
   const [packageDetail, setPackageDetail] = useState(null);
   const [packageType, setPackageType] = useState('Standard');
@@ -67,6 +67,9 @@ const HotelSingleV2Dynamic = () => {
 
       // Set Package Deatils 
       setPackageDetail(data);
+
+      console.log("🚀 ~ file: [handle].jsx:71 ~ fetchPackage ~ data:", data);
+
 
       function getPackageTypeId(packageName) {
         const availablePackageType = data?.data?.availablePackageType;
@@ -151,11 +154,11 @@ const HotelSingleV2Dynamic = () => {
       <TopBreadCrumb title={packageDetail?.data?.pakageName} />
       {/* End top breadcrumb */}
 
-      <section className="pt-40">
+      <section className="pt-20 package-details-container">
         <div className="container">
           <div className="hotelSingleGrid">
             <div className="d-flex flex-column">
-              <div className="row justify-between items-end pb-2">
+              <div className="row">
                 <div className="col-auto">
                   <div className="row x-gap-20  items-center">
                     <div className="col-auto">
@@ -170,7 +173,7 @@ const HotelSingleV2Dynamic = () => {
 
                   <div className="row x-gap-20 y-gap-20 items-center">
                     <div className="col-auto">
-                      <div className="d-flex items-center text-15 text-light-1">
+                      <div className="d-flex items-center text-15 sm:text-13 text-light-1">
                         <i className="icon-location-2 text-16 mr-5" />
                         {packageDetail?.data?.places}
                       </div>
@@ -178,11 +181,20 @@ const HotelSingleV2Dynamic = () => {
                   </div>
                   {/* End .row */}
                 </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <SlideGallery sliderImg={packageDetail?.data?.images} />
+                </div>
+              </div>
+              <div className="row mt-10 d-sm-none">
+              <div className="row justify-between items-end pb-2">
                 <div className="col-auto">
                   <h3 className="text-18 fw-500">Select Package Type</h3>
                   <ButtonGroup>
                     {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
                       <ToggleButton
+                        className="rounded-0"
                         key={idx}
                         id={`radio-${idx}`}
                         type="radio"
@@ -200,14 +212,8 @@ const HotelSingleV2Dynamic = () => {
                 </div>
                 {/* End .col */}
               </div>
-              <div className="row">
                 <div className="col">
-                  <SlideGallery sliderImg={packageDetail?.data?.images} />
-                </div>
-              </div>
-              <div className="row mt-10 d-sm-none">
-                <div className="col">
-                  <div className="border-light rounded-4">
+                  <div className="border-light rounded-0">
                     <div className="mb-15">
                       <div className="pt-2">
                         <div className="w-100 border-bottom-light pb-2">
@@ -243,7 +249,7 @@ const HotelSingleV2Dynamic = () => {
                                   'children': getNumberOfChildren(),
                                 }
                               }}
-                              className="button -md -dark-1 bg-blue-1 text-white mt-10"
+                              className="button -md bg-dark-1 text-white mt-10"
                             >
                               Book Now
                               <div className="icon-arrow-top-right ml-15"></div>
@@ -257,16 +263,16 @@ const HotelSingleV2Dynamic = () => {
                   </div>
                 </div>
               </div>
-              <div className="row w-1000 items-end pt-40">
+              <div className="row w-1000 items-end pt-40 mb-20">
                 <div className="col-auto">
                   <Tabs
-                    defaultActiveKey="itenary"
+                    defaultActiveKey="itinerary"
                     id="fill-tab-example"
                     className="mb-3"
                     fill
                   >
-                    <Tab eventKey="itenary" title="Itenary">
-                      Enjoy the cool breeze with intermittent rain showers in Goa. Explore secluded beaches with lush greens, visit architectural gems and grab off-season discounts!
+                    <Tab eventKey="itinerary" title="Itinerary">
+                      <Itinerary itinenary={packageDetail?.data?.itinenary} />
                     </Tab>
                     <Tab eventKey="policy" title="Policy">
                       These are non-refundable amounts as per the current components attached. In the case of component change/modifications, the policy will change accordingly.
@@ -277,7 +283,9 @@ const HotelSingleV2Dynamic = () => {
                     <Tab eventKey="overview" title="Overview">
                       <div id="overview" className="row pt-40 ">
                         <div className="col-12">
+                     
                           <Overview description={packageDetail?.data?.description} />
+        
                         </div>
                         {/* End col-12 */}
 
@@ -301,7 +309,31 @@ const HotelSingleV2Dynamic = () => {
             {/* End left hotel galler  */}
 
             <div className="d-none d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block">
-              <div className="border-light rounded-4">
+              <div className="row justify-between items-end pb-2">
+                <div className="col-auto">
+                  <h3 className="text-18 fw-500">Select Package Type</h3>
+                  <ButtonGroup>
+                    {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
+                      <ToggleButton
+                        className="rounded-0"
+                        key={idx}
+                        id={`radio-${idx}`}
+                        type="radio"
+                        variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                        name="radio"
+                        value={elType?.typeName?.typeName?.value?.data?.name}
+                        checked={packageType === elType?.typeName?.typeName?.value?.data?.name}
+                        onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.typeName?.id)}
+                      >
+                        {elType?.typeName?.typeName?.value?.data?.name}
+                      </ToggleButton>
+                    ))}
+                  </ButtonGroup>
+
+                </div>
+                {/* End .col */}
+              </div>
+              <div className="border-light rounded-0">
                 <div className="mb-15">
                   <div className="pt-2">
                     <div className="w-100 border-bottom-light pb-2">
@@ -313,7 +345,7 @@ const HotelSingleV2Dynamic = () => {
                       </div>
                     </div>
                     <div className="w-100 border-bottom-light pb-2">
-                      <div className="mt-24 px-20 relative">
+                      <div className="mt-24 px-20 relative text-white">
                         <RoomsCount />
                       </div>
                     </div>
@@ -337,7 +369,7 @@ const HotelSingleV2Dynamic = () => {
                               'children': getNumberOfChildren(),
                             }
                           }}
-                          className="button -md -dark-1 bg-blue-1 text-white mt-10"
+                          className="button -md bg-dark-1 text-white mt-10"
                         >
                           Book Now
                           <div className="icon-arrow-top-right ml-15"></div>
@@ -363,7 +395,7 @@ const HotelSingleV2Dynamic = () => {
       <CallToActions />
       {/* End Call To Actions Section */}
 
-      <DefaultFooter />
+      <Footer2 />
     </>
   );
 };

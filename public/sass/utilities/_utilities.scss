@@ -1825,10 +1825,13 @@ table.table-5 {
 .hotelSingleGrid {
   display: grid;
   gap: 30px;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 480px;
 
   @include media-below(lg) {
     grid-template-columns: 1fr;
+  }
+  .swiper{
+    max-height: 400px;
   }
   .swiper-wrapper{
     width: 100% !important;

@@ -35,7 +35,7 @@ const MobileMenu = () => {
       {/* End pro-header */}
 
       <ProSidebarProvider>
-        <Sidebar width="400" backgroundColor="#0d2857">
+        <Sidebar width="400" backgroundColor="#051036">
           <Menu>
           <MenuItem
               component={

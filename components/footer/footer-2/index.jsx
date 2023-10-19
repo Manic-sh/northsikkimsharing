@@ -1,4 +1,4 @@
-import AppButton from "./AppButton";
+import Link from "next/link";
 import ContactInfo from "./ContactInfo";
 import Copyright from "./Copyright";
 import FooterContent from "./FooterContent";
@@ -10,6 +10,11 @@ const index = () => {
         <div className="pt-60 pb-60">
           <div className="row y-gap-40 justify-between xl:justify-start">
             <div className="col-xl-2 col-lg-4 col-sm-6">
+              <Link href="/" className="header-logo mr-20">
+                <img src="/img/general/logo.svg" alt="logo icon" />
+              </Link>
+            </div>
+            <div className="col-xl-2 col-lg-4 col-sm-6">
               <h5 className="text-16 fw-500 mb-30">Contact Us</h5>
               <ContactInfo />
             </div>
@@ -17,11 +22,6 @@ const index = () => {
 
             <FooterContent />
             {/* End footer menu content */}
-
-            <div className="col-xl-2 col-lg-4 col-sm-6">
-              <h5 className="text-16 fw-500 mb-30">Mobile</h5>
-              <AppButton />
-            </div>
           </div>
         </div>
         {/* End footer top */}

@@ -37,7 +37,7 @@ const SlideGallery = ({sliderImg}) => {
           {sliderImg?.map((img, i) => (
             <SwiperSlide key={i}>
               <div className="ratio ratio-64:45">
-                <img src={img.image} alt="image" className="rounded-4 img-ratio" />
+                <img src={img.image} alt="image" className="img-ratio" />
               </div>
             </SwiperSlide>
           ))}
@@ -52,7 +52,7 @@ const SlideGallery = ({sliderImg}) => {
               <Item width={451} height={450} original={slide?.image} thumbnail={slide?.image}>
                 {({ ref, open }) => (
                   <div
-                    className="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery"
+                    className="button px-24 py-15 bg-yellow-1 text-white js-gallery rounded-0"
                     ref={ref}
                     onClick={open}
                     role="button"

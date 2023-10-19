@@ -1,18 +1,18 @@
 const CallToActions = () => {
   return (
-    <section className="layout-pt-md layout-pb-md bg-dark-2">
+    <section className="layout-pt-md layout-pb-md bg-yellow-1">
       <div className="container">
         <div className="row y-gap-30 justify-between items-center">
           <div className="col-auto">
             <div className="row y-gap-20  flex-wrap items-center">
               <div className="col-auto">
-                <div className="icon-newsletter text-60 sm:text-40 text-white" />
+                <div className="icon-newsletter text-60 sm:text-40 text-dark-1" />
               </div>
               <div className="col-auto">
-                <h4 className="text-26 text-white fw-600">
+                <h4 className="text-26 text-dark-1 fw-600">
                   Your Travel Journey Starts Here
                 </h4>
-                <div className="text-white">
+                <div className="text-dark-1">
                   Sign up and we`&apos;ll send the best deals to you
                 </div>
               </div>
@@ -24,7 +24,7 @@ const CallToActions = () => {
             <div className="single-field -w-410 d-flex x-gap-10 y-gap-20">
               <div>
                 <input
-                  className="bg-white h-60"
+                  className="bg-white h-60 rounded-0"
                   type="text"
                   placeholder="Your Email"
                 />
@@ -32,7 +32,7 @@ const CallToActions = () => {
               {/* End email input */}
 
               <div>
-                <button className="button -md h-60 bg-blue-1 text-white">
+                <button className="button -md h-60 bg-dark-1 text-white">
                   Subscribe
                 </button>
               </div>

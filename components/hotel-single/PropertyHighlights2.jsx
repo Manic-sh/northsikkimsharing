@@ -23,8 +23,8 @@ const PropertyHighlights2 = () => {
   ];
 
   return (
-    <div className="px-30 py-30 border-light rounded-4 mt-30">
-      <div className="text-18 fw-500 pb-30">Property highlights</div>
+    <div className="px-30 py-30 border-light rounded-0 mt-30">
+      <div className="text-18 fw-500 pb-30">Package highlights</div>
 
       {highlightsContent.map((item) => (
         <div className="row x-gap-20 y-gap-20" key={item.id}>

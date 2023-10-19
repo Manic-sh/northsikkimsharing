@@ -140,7 +140,7 @@ const RoomsCount = () => {
           <div className="d-flex">
             <div className="">
 
-              <div className="text-15 text-light-1 ls-2 lh-16 text-white">
+              <div className="guest-count-label text-15 text-light-1 ls-2 lh-16 text-white">
                 <span className="js-count-adult">{noOfAdults}</span>{" "}
                 adults -{" "}
                 <span className="js-count-child">{noOfChildren}</span>{" "}
