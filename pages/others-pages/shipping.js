@@ -3,9 +3,9 @@ import CallToActions from "../../components/common/CallToActions";
 import Seo from "../../components/common/Seo";
 import Header2 from "../../components/header/header-2";
 import Footer2 from "../../components/footer/footer-2";
-import PrivacyContent from "../../components/common/PrivacyContent";
+import ShippingContent from "../../components/common/ShippingContent";
 
-const Privacy = () => {
+const Shipping = () => {
   return (
     <>
       <Seo pageTitle="Terms & Conditions" />
@@ -20,7 +20,7 @@ const Privacy = () => {
       <section className="layout-pt-lg layout-pb-lg">
         <div className="container">
           <div className="tabs js-tabs">
-            <PrivacyContent />
+            <ShippingContent />
           </div>
         </div>
       </section>
@@ -35,4 +35,4 @@ const Privacy = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Privacy), { ssr: false });
+export default dynamic(() => Promise.resolve(Shipping), { ssr: false });

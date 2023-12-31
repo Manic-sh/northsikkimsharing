@@ -1,257 +1,122 @@
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-
 const TermsConent = () => {
   return (
-    <Tabs>
-      <div className="row y-gap-30">
-        <div className="col-lg-3">
-          <div className="px-30 py-30 rounded-4 border-light">
-            <TabList className="tabs__controls row y-gap-10 js-tabs-controls">
-              <Tab className="col-12 tabs__button js-tabs-button">
-                General Terms of Use
-              </Tab>
-              <Tab className="col-12 tabs__button js-tabs-button">
-                Privacy policy
-              </Tab>
-              <Tab className="col-12 tabs__button js-tabs-button">
-                Cookie Policy
-              </Tab>
-              <Tab className="col-12 tabs__button js-tabs-button">
-                Best Price Guarantee
-              </Tab>
-            </TabList>
+    <div className="row y-gap-30">
+      <div className="col-lg-2"></div>
+      <div className="col-lg-8">
+        <div class='compalinace-page'>
+          <div class='header-conatiner'>
+            <div class='merchant-logo'>
+              <div class='logo-container'>
+                <div class='logo-text'>S</div>
+              </div>
+            </div>
+            <p class='header-text'>Sunflower Tour &amp; Travels</p>
+          </div>
+          <div class='compalinace-content'>
+            <div class='content-container'>
+              <p class='content-head'>Terms &amp; Conditions</p>
+              <div class='content-seprater'></div>
+              <p class='updated-date'>Last updated on Dec 31st 2023</p>
+              <p class='content-text'>
+                For the purpose of these Terms and Conditions, The term "we", "us",
+                "our" used anywhere on this page shall mean
+                Sunflower Tour &amp; Travels, whose registered/operational
+                office is
+                N H 10 , Goyal Building,
+                East Sikkim
+                SIKKIM
+                737101
+                . "you", “your”, "user", “visitor” shall
+                mean any natural or legal person who is visiting our website and/or
+                agreed to purchase from us.
+              </p>
+              <p class='content-text'>
+                <strong>Your use of the website and/or purchase from us are governed by following Terms and
+                  Conditions:</strong>
+              </p>
+              <ul class='unorder-list'>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    The content of the pages of this website is subject to change without notice.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    Neither we nor any third parties provide any warranty or
+                    guarantee as to the accuracy, timeliness, performance,
+                    completeness or suitability of the information and materials
+                    found or offered on this website for any particular purpose.
+                    You acknowledge that such information and materials may contain
+                    inaccuracies or errors and we expressly exclude liability for
+                    any such inaccuracies or errors to the fullest extent permitted
+                    by law.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    Your use of any information or materials on our website and/or product
+                    pages is entirely at your own risk, for which we shall not be liable.
+                    It shall be your own responsibility to ensure that any products, services
+                    or information available through our website and/or product pages meet your
+                    specific requirements.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    Our website contains material which is owned by or licensed to us. This material
+                    includes, but are not limited to, the design, layout, look, appearance
+                    and graphics. Reproduction is prohibited other than in accordance with the
+                    copyright notice, which forms part of these terms and conditions.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    All trademarks reproduced in our website which are not the property of, or
+                    licensed to, the operator are acknowledged on the website.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    Unauthorized use of information provided by us shall give rise to a claim for
+                    damages and/or be a criminal offense.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    From time to time our website may also include links to other websites. These links are
+                    provided for your convenience to provide further information.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    You may not create a link to our website from another website or document without
+                    Sunflower Tour &amp; Travels’s prior written consent.
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    Any dispute arising out of use of our website and/or purchase with
+                    us and/or any engagement with us is subject to the laws of India .
+                  </p>
+                </li>
+                <li class='list-item'>
+                  <p class='content-text list-text'>
+                    We, shall be under no liability whatsoever in respect of any loss or
+                    damage arising directly or indirectly out of the decline of
+                    authorization for any Transaction, on Account of the Cardholder
+                    having exceeded the preset limit mutually agreed by us with our
+                    acquiring bank from time to time
+                  </p>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        {/* End .col-lg-3 */}
-
-        <div className="col-lg-9">
-          <TabPanel>
-            <div className="tabs__content js-tabs-content" data-aos="fade">
-              <h1 className="text-30 fw-600 mb-15">General Terms of Use</h1>
-              <h2 className="text-16 fw-500">1. Your Agreement</h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                2. Change of Terms of Use
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                3. Access and Use of the Services
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-            </div>
-          </TabPanel>
-          {/* End  General Terms of Use */}
-
-          <TabPanel>
-            <div className="tabs__content js-tabs-content" data-aos="fade">
-              <h1 className="text-30 fw-600 mb-15"> Privacy policy</h1>
-              <h2 className="text-16 fw-500">1. Your Agreement</h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                2. Change of Terms of Use
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                3. Access and Use of the Services
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-            </div>
-          </TabPanel>
-          {/* End  Privacy policy */}
-
-          <TabPanel>
-            <div className="tabs__content js-tabs-content" data-aos="fade">
-              <h1 className="text-30 fw-600 mb-15"> Cookie Policy</h1>
-              <h2 className="text-16 fw-500">1. Your Agreement</h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                2. Change of Terms of Use
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                3. Access and Use of the Services
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-            </div>
-          </TabPanel>
-          {/* End  Cookie Policy */}
-
-          <TabPanel>
-            <div className="tabs__content js-tabs-content" data-aos="fade">
-              <h1 className="text-30 fw-600 mb-15"> Best Price Guarantee</h1>
-              <h2 className="text-16 fw-500">1. Your Agreement</h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                2. Change of Terms of Use
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-              <h2 className="text-16 fw-500 mt-35">
-                3. Access and Use of the Services
-              </h2>
-              <p className="text-15 text-dark-1 mt-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book. It
-                has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-                <br />
-                <br />
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
-            </div>
-          </TabPanel>
-          {/* End  Best Price Guarantee */}
-        </div>
-        {/* End col-lg-9 */}
+        {/* End  General Terms of Use */}
       </div>
-    </Tabs>
+      <div className="col-lg-2"></div>
+      {/* End col-lg-9 */}
+    </div>
   );
 };
 

@@ -1919,6 +1919,9 @@ table.table-5 {
   .display-lg-none{
     display: none;
   }
+  .display-lg-none >{
+    display: none;
+  }
   @include media-below(lg) {
     grid-template-columns: 1fr;
 

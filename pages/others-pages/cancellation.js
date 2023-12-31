@@ -3,7 +3,7 @@ import CallToActions from "../../components/common/CallToActions";
 import Seo from "../../components/common/Seo";
 import Header2 from "../../components/header/header-2";
 import Footer2 from "../../components/footer/footer-2";
-import TermsConent from "../../components/common/TermsConent";
+import RefundPolicyContent from "../../components/common/RefundPolicyContent";
 
 const CancellationPolicy = () => {
   return (
@@ -20,7 +20,7 @@ const CancellationPolicy = () => {
       <section className="layout-pt-lg layout-pb-lg">
         <div className="container">
           <div className="tabs js-tabs">
-            <TermsConent />
+            <RefundPolicyContent />
           </div>
         </div>
       </section>

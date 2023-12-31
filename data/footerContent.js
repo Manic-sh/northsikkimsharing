@@ -14,10 +14,10 @@ module.exports = [
     title: "Support",
     menuList: [
       { name: "Contact", routerPath: "/contact" },
-      { name: "Agreement", routerPath: "/others-pages/agreement" },
       { name: "Privacy Policy", routerPath: "/others-pages/privacy-policy" },
       { name: "Terms and Conditions", routerPath: "/others-pages/terms" },
-      { name: "Cancellation Policy", routerPath: "/others-pages/cancellation" },
+      { name: "Shipping and Delivery", routerPath: "/others-pages/shipping" },
+      { name: "Cancellation & Refund Policy", routerPath: "/others-pages/cancellation" },
     ],
   },
 
