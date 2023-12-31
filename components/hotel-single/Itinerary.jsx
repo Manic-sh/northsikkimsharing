@@ -21,7 +21,6 @@ const Itinerary = ({ itinenary }) => {
                                 href={`#list-item-${index + 1}`}
                             >
                                 {item?.day}
-                                {console.log(item)}
                             </a>
                         ))}
                     </div>

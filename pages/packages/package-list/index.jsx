@@ -28,7 +28,7 @@ const index = () => {
                 <h1 className="text-30 fw-600">Find Your Dream Luxury Hotel</h1>
               </div>
               {/* End text-center */}
-              <MainFilterSearchBox />
+
             </div>
             {/* End col-12 */}
           </div>

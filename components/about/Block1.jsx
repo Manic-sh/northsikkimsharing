@@ -4,7 +4,7 @@ const Block1 = () => {
   return (
     <>
       <div className="col-lg-5">
-        <h2 className="text-30 fw-600">About GoTrip.com</h2>
+        <h2 className="text-30 fw-600">About North Sikkim Sharing</h2>
         <p className="mt-5">These popular destinations have a lot to offer</p>
         <p className="text-dark-1 mt-60 lg:mt-40 md:mt-20">
           London is a shining example of a metropolis at the highest peak of

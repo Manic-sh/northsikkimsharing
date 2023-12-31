@@ -67,7 +67,7 @@ const Sights = ({ sights }) => {
   }
 
   return (
-    <>
+    <div id="Sights">
       <Slider {...settings}>
         {sights?.slice(0, 5)?.map((item, idx) => (
           <div
@@ -76,7 +76,7 @@ const Sights = ({ sights }) => {
             data-aos-delay={100 * idx}
           >
             <Link
-              href={`/destinations`}
+              href={`#Sights`}
               className="activityCard -type-1 rounded-4 hover-inside-slider"
             >
               <div className="activityCard__image position-relative">
@@ -129,7 +129,7 @@ const Sights = ({ sights }) => {
           </div>
         ))}
       </Slider>
-    </>
+    </div>
   );
 };
 

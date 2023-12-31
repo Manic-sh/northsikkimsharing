@@ -9,7 +9,7 @@ const initialState = {
   tabs: [
     { id: 1, name: "Home", icon: "icon-home", linkUrl: '/' },
     { id: 2, name: "About Us", icon: "icon-user", linkUrl: '/others-pages/about' },
-    { id: 3, name: "Packages", icon: "icon-ski", linkUrl: '/tour/tour-list-v2' },
+    { id: 3, name: "Packages", icon: "icon-ski", linkUrl: '/packages/package-list' },
     { id: 4, name: "Contact Us", icon: "icon-tickets", linkUrl: '/contact' },
   ],
   currentTab: "Package",

@@ -53,9 +53,9 @@ const MobileMenu = () => {
             <MenuItem
               component={
                 <Link
-                  href="/packages"
+                  href="/packages/package-list"
                   className={
-                    router.pathname === "/packages" ? "menu-active-link" : ""
+                    router.pathname === "/packages/package-list" ? "menu-active-link" : ""
                   }
                 />
               }

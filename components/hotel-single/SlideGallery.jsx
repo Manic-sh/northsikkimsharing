@@ -1,80 +1,86 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
-import { Gallery, Item } from "react-photoswipe-gallery";
+import { Navigation, Thumbs, Mousewheel } from "swiper";
+import { useState } from "react";
 
-const SlideGallery = ({sliderImg}) => {
+const slides = [
+  "/img/cars/slides/1.png",
+  "/img/cars/slides/2.png",
+  "/img/cars/slides/3.png",
+  "/img/cars/slides/4.png",
+];
 
+const SlideGallery = ({ sliderImg }) => {
+
+  const [imagesNavSlider, setImagesNavSlider] = useState(null);
 
   return (
     <>
       <div className="relative">
-        <Swiper
-          loop={true}
-          spaceBetween={10}
-          modules={[Navigation]}
-          className="overflow-hidden"
-          navigation={{
-            nextEl: ".js-activity-next-active",
-            prevEl: ".js-activity-prev-active",
-          }}
-          breakpoints={{
-            540: {
-              slidesPerView: 1,
-              spaceBetween: 20,
-            },
-            768: {
-              slidesPerView: 1,
-              spaceBetween: 22,
-            },
-            1024: {
-              slidesPerView: 1,
-            },
-            1200: {
-              slidesPerView: 1,
-            },
-          }}
-        >
-          {sliderImg?.map((img, i) => (
-            <SwiperSlide key={i}>
-              <div className="ratio ratio-64:45">
-                <img src={img.image} alt="image" className="img-ratio" />
+        <section className="slider">
+          <div className="packageSlider">
+            <div className="packageSlider-slides js-cars-slides">
+              <div className="slider__thumbs">
+                <Swiper
+                  onSwiper={setImagesNavSlider}
+                  direction="vertical"
+                  spaceBetween={10}
+                  slidesPerView={4}
+                  className="swiper-container1"
+                  breakpoints={{
+                    0: {
+                      direction: "horizontal",
+                    },
+                    768: {
+                      direction: "vertical",
+                    },
+                  }}
+                  modules={[Navigation, Thumbs]}
+                >
+                  {sliderImg?.map((slide, index) => {
+                    return (
+                      <SwiperSlide key={index}>
+                        <div className="slider__image">
+                          <img src={slide.image} alt="" />
+                        </div>
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        <Gallery>
-          {sliderImg?.map((slide, i) => (
-            <div
-              className="absolute px-10 py-10 col-12  d-flex justify-end items-end z-2 bottom-0 end-0"
-              key={i}
-            >
-              <Item width={451} height={450} original={slide?.image} thumbnail={slide?.image}>
-                {({ ref, open }) => (
-                  <div
-                    className="button px-24 py-15 bg-yellow-1 text-white js-gallery rounded-0"
-                    ref={ref}
-                    onClick={open}
-                    role="button"
-                  >
-                    See All Photos
-                  </div>
-                )}
-              </Item>
             </div>
-          ))}
-        </Gallery>
 
-        <button className="section-slider-nav -prev flex-center button -blue-1 bg-white shadow-1 size-40 rounded-full sm:d-none js-activity-prev-active">
-          <i className="icon icon-chevron-left text-12" />
-        </button>
-        <button className="section-slider-nav -next flex-center button -blue-1 bg-white shadow-1 size-40 rounded-full sm:d-none js-activity-next-active">
-          <i className="icon icon-chevron-right text-12" />
-        </button>
-
-        {/* End prev nav button wrapper */}
+            <div className="packageSlider-slider">
+              <Swiper
+                thumbs={{ swiper: imagesNavSlider }}
+                direction="horizontal"
+                slidesPerView={1}
+                spaceBetween={0}
+                mousewheel={true}
+                breakpoints={{
+                  0: {
+                    direction: "horizontal",
+                  },
+                  768: {
+                    direction: "horizontal",
+                  },
+                }}
+                className="swiper-container2"
+                modules={[Navigation, Thumbs, Mousewheel]}
+              >
+                {sliderImg?.map((slide, index) => {
+                  return (
+                    <SwiperSlide key={index}>
+                      <div className="slider__image">
+                        <img src={slide.image} alt="" />
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </div>
+          </div>
+        </section>
       </div>
-      {/* slider relative */}
     </>
   );
 };

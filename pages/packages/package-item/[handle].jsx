@@ -9,7 +9,6 @@ import Overview from "../../../components/hotel-single/Overview";
 import Itinerary from "@/components/hotel-single/Itinerary";
 
 import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
-import TopBreadCrumb from "../../../components/hotel-single/TopBreadCrumb";
 import CallToActions from "../../../components/common/CallToActions";
 import Footer2 from "../../../components/footer/footer-2";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -33,9 +32,9 @@ const HotelSingleV2Dynamic = () => {
   const [isOpen, setOpen] = useState(false);
   const [packageDetail, setPackageDetail] = useState(null);
   const [packageType, setPackageType] = useState('Standard');
-  const [packageTypeId, setPackageTypeId] = useState('')
+  const [packageTypeId, setPackageTypeId] = useState('4c1a3a64978d4df29a35150965916882')
   const [basePrice, setBasePrice] = useState();
-
+  const [packageTypeDetails, setPackageTypeDetails] = useState(null);
 
   const [isSolo, setIsSolo] = useState(false);
   const { state } = useRoomContext();
@@ -52,7 +51,10 @@ const HotelSingleV2Dynamic = () => {
       const { handle, dateOfJourney } = router.query;
 
       if (!handle) <h1>Loading...</h1>;
-      else fetchPackage(handle, dateOfJourney);
+      else {
+        fetchPackage(handle, dateOfJourney);
+        fetchPackageTypeDetails();
+      }
     }
     async function fetchPackage(handle, dateOfJourney) {
       const data = await builder.get("package", {
@@ -64,11 +66,8 @@ const HotelSingleV2Dynamic = () => {
           "data.handle": handle,
         },
       }).promise() || null;
-
       // Set Package Deatils 
       setPackageDetail(data);
-
-      console.log("🚀 ~ file: [handle].jsx:71 ~ fetchPackage ~ data:", data);
 
 
       function getPackageTypeId(packageName) {
@@ -85,12 +84,29 @@ const HotelSingleV2Dynamic = () => {
       }
       const packageTid = getPackageTypeId(packageType);
 
+
+
+
       setBasePrice(updateDatePrice(packageDetail, dateOfJourney, packageTid));
       //setBasePrice(data?.data?.pricingPeriods?.value?.data?.basePrice?.standard);  
       if (getTotalGuests == 1) {
         setIsSolo(true);
         setBasePrice(basePrice + 1000);
       }
+    }
+
+    async function fetchPackageTypeDetails() {
+      const packageData = await builder.get("package-type", {
+        fields: "data",
+        includeRefs: true, // Currently this only gets one level of nested references
+        cachebust: true,
+        query: {
+          // Get the specific article by handle
+          "data.typeName.id": packageTypeId,
+        },
+      }).promise() || null;
+
+      setPackageTypeDetails(packageData);
     }
     return () => { };
   }, [router.isReady, basePrice, packageType]);
@@ -145,73 +161,41 @@ const HotelSingleV2Dynamic = () => {
       {/* header top margin */}
 
       <Header2 />
-      {/* End DefaultHeader */}
 
-      {/* End Search filter top */}
-
-      {/* End StickyHeader2 */}
-
-      <TopBreadCrumb title={packageDetail?.data?.pakageName} />
-      {/* End top breadcrumb */}
-
-      <section className="pt-20 package-details-container">
-        <div className="container">
+      <section className="pt-0 package-details-container">
+        <div>
           <div className="hotelSingleGrid">
             <div className="d-flex flex-column">
-              <div className="row">
-                <div className="col-auto">
-                  <div className="row x-gap-20  items-center">
-                    <div className="col-auto">
-                      <h1 className="text-30 sm:text-25 fw-600">
-                        {packageDetail?.data?.pakageName}
-                      </h1>
-
-                    </div>
-                    {/* End .col */}
-                  </div>
-                  {/* End .row */}
-
-                  <div className="row x-gap-20 y-gap-20 items-center">
-                    <div className="col-auto">
-                      <div className="d-flex items-center text-15 sm:text-13 text-light-1">
-                        <i className="icon-location-2 text-16 mr-5" />
-                        {packageDetail?.data?.places}
-                      </div>
-                    </div>
-                  </div>
-                  {/* End .row */}
-                </div>
-              </div>
               <div className="row">
                 <div className="col">
                   <SlideGallery sliderImg={packageDetail?.data?.images} />
                 </div>
               </div>
-              <div className="row mt-10 d-sm-none">
-              <div className="row justify-between items-end pb-2">
-                <div className="col-auto">
-                  <h3 className="text-18 fw-500">Select Package Type</h3>
-                  <ButtonGroup>
-                    {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
-                      <ToggleButton
-                        className="rounded-0"
-                        key={idx}
-                        id={`radio-${idx}`}
-                        type="radio"
-                        variant={idx % 2 ? 'outline-success' : 'outline-danger'}
-                        name="radio"
-                        value={elType?.typeName?.typeName?.value?.data?.name}
-                        checked={packageType === elType?.typeName?.typeName?.value?.data?.name}
-                        onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.typeName?.id)}
-                      >
-                        {elType?.typeName?.typeName?.value?.data?.name}
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
+              <div className="row mt-10 display-sm-none">
+                <div className="col justify-between items-end pb-2">
+                  <div className="col-auto">
+                    <h3 className="text-18 fw-500">Select Package Type</h3>
+                    <ButtonGroup>
+                      {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
+                        <ToggleButton
+                          className="rounded-0"
+                          key={idx}
+                          id={`radio-${idx}`}
+                          type="radio"
+                          variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                          name="radio"
+                          value={elType?.typeName?.typeName?.value?.data?.name}
+                          checked={packageType === elType?.typeName?.typeName?.value?.data?.name}
+                          onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.typeName?.id)}
+                        >
+                          {elType?.typeName?.typeName?.value?.data?.name}
+                        </ToggleButton>
+                      ))}
+                    </ButtonGroup>
 
+                  </div>
+                  {/* End .col */}
                 </div>
-                {/* End .col */}
-              </div>
                 <div className="col">
                   <div className="border-light rounded-0">
                     <div className="mb-15">
@@ -262,81 +246,67 @@ const HotelSingleV2Dynamic = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="row w-1000 items-end pt-40 mb-20">
-                <div className="col-auto">
-                  <Tabs
-                    defaultActiveKey="itinerary"
-                    id="fill-tab-example"
-                    className="mb-3"
-                    fill
-                  >
-                    <Tab eventKey="itinerary" title="Itinerary">
-                      <Itinerary itinenary={packageDetail?.data?.itinenary} />
-                    </Tab>
-                    <Tab eventKey="policy" title="Policy">
-                      These are non-refundable amounts as per the current components attached. In the case of component change/modifications, the policy will change accordingly.
-                      Please check the exact cancellation and date change policy on the review page before proceeding further.
-                      Please note, TCS once collected cannot be refunded in case of any cancellation / modification. You can claim the TCS amount as adjustment against Income Tax payable at the time of filing the return of income.
-                      Cancellation charges shown is exclusive of all taxes and taxes will be added as per applicable.
-                    </Tab>
-                    <Tab eventKey="overview" title="Overview">
-                      <div id="overview" className="row pt-40 ">
-                        <div className="col-12">
-                     
-                          <Overview description={packageDetail?.data?.description} />
-        
-                        </div>
-                        {/* End col-12 */}
-
-                        <div className="col-12">
-                          <h3 className="text-22 fw-500 pt-40 border-top-light">
-                            Package Facilities
-                          </h3>
-                          <div className="row y-gap-10 pt-20">
-                            <PopularFacilities />
-                          </div>
-                        </div>
-                        {/* End .col-12  */}
-                      </div>
-                    </Tab>
-                  </Tabs>
+                <div className="col">
                 </div>
               </div>
-
               {/* End .col-12  Overview */}
             </div>
             {/* End left hotel galler  */}
 
-            <div className="d-none d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block">
+            <div className="display-lg-none d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block">
+              <div className="row pb-2">
+                <div className="col-auto">
+                  <div className="row x-gap-20 items-center">
+                    <div className="col-auto">
+                      <h1 className="text-30 sm:text-25 fw-600 pl-20 pt-15">
+                        {packageDetail?.data?.pakageName}
+                      </h1>
+
+                    </div>
+                    {/* End .col */}
+                  </div>
+                  {/* End .row */}
+
+                  <div className="row x-gap-20 y-gap-20 items-center">
+                    <div className="col-auto">
+                      <div className="d-flex items-center text-15 sm:text-13 text-light-1 pl-20">
+                        <i className="icon-location-2 text-16 mr-5" />
+                        {packageDetail?.data?.places}
+                      </div>
+                    </div>
+                  </div>
+                  {/* End .row */}
+                </div>
+              </div>
               <div className="row justify-between items-end pb-2">
                 <div className="col-auto">
-                  <h3 className="text-18 fw-500">Select Package Type</h3>
-                  <ButtonGroup>
-                    {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
-                      <ToggleButton
-                        className="rounded-0"
-                        key={idx}
-                        id={`radio-${idx}`}
-                        type="radio"
-                        variant={idx % 2 ? 'outline-success' : 'outline-danger'}
-                        name="radio"
-                        value={elType?.typeName?.typeName?.value?.data?.name}
-                        checked={packageType === elType?.typeName?.typeName?.value?.data?.name}
-                        onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.typeName?.id)}
-                      >
-                        {elType?.typeName?.typeName?.value?.data?.name}
-                      </ToggleButton>
-                    ))}
-                  </ButtonGroup>
-
+                  <h3 className="text-18 fw-500 pl-20">Select Package Type</h3>
+                  <div className="pl-20">
+                    <ButtonGroup>
+                      {packageDetail?.data?.availablePackageType?.map((elType, idx) => (
+                        <ToggleButton
+                          className="rounded-0"
+                          key={idx}
+                          id={`radio-${idx}`}
+                          type="radio"
+                          variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                          name="radio"
+                          value={elType?.typeName?.typeName?.value?.data?.name}
+                          checked={packageType === elType?.typeName?.typeName?.value?.data?.name}
+                          onChange={(e) => handleSetPackageType(e.currentTarget.value, elType?.typeName?.typeName?.id)}
+                        >
+                          {elType?.typeName?.typeName?.value?.data?.name}
+                        </ToggleButton>
+                      ))}
+                    </ButtonGroup>
+                  </div>
                 </div>
                 {/* End .col */}
               </div>
-              <div className="border-light rounded-0">
-                <div className="mb-15">
+              <div className="row rounded-0">
+                <div className="col mb-15">
                   <div className="pt-2">
-                    <div className="w-100 border-bottom-light pb-2">
+                    <div className="w-100  pb-2">
                       <div className="text-14 px-20">
                         from{" "}
                         <span className="text-14 text-dark-1 fw-500">
@@ -344,12 +314,12 @@ const HotelSingleV2Dynamic = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="w-100 border-bottom-light pb-2">
+                    <div className="w-100  pb-2">
                       <div className="mt-24 px-20 relative text-white">
                         <RoomsCount />
                       </div>
                     </div>
-                    <div className="w-100 border-bottom-light pb-2">
+                    <div className="w-100 pb-2">
                       <div className="text-14 mt-10 px-20">
                         Amount{" "}
                         <span className="text-22 text-dark-1 fw-500">
@@ -381,9 +351,7 @@ const HotelSingleV2Dynamic = () => {
                   {/* End .row */}
                 </div>
               </div>
-
               {/* <RatingBox hotel={hotel} /> */}
-              <PropertyHighlights2 />
             </div>
             {/* End right content */}
           </div>
@@ -391,7 +359,44 @@ const HotelSingleV2Dynamic = () => {
         {/* End .container */}
       </section>
       {/* End gallery grid wrapper */}
-
+      <section>
+        <div className="row w-1000 items-top pt-40 mb-20">
+          <div className="col-md-8 col-sm-12">
+            <Tabs
+              defaultActiveKey="itinerary"
+              id="fill-tab-example"
+              className="mb-3"
+              fill
+            >
+              <Tab eventKey="itinerary" title="Itinerary">
+                <Itinerary itinenary={packageDetail?.data?.itinenary} />
+              </Tab>
+              <Tab eventKey="policy" title="Policy">
+                These are non-refundable amounts as per the current components attached. In the case of component change/modifications, the policy will change accordingly.
+                Please check the exact cancellation and date change policy on the review page before proceeding further.
+                Please note, TCS once collected cannot be refunded in case of any cancellation / modification. You can claim the TCS amount as adjustment against Income Tax payable at the time of filing the return of income.
+                Cancellation charges shown is exclusive of all taxes and taxes will be added as per applicable.
+              </Tab>
+              <Tab eventKey="overview" title="Overview">
+                <div id="overview" className="row pt-40 ">
+                  <div className="col-12">
+                    <Overview description={packageDetail?.data?.description} />
+                  </div>
+                  {/* End col-12 */}
+                </div>
+              </Tab>
+            </Tabs>
+          </div>
+          <div className="col-md-4 col-sm-12">
+            <h3 className="text-22 fw-500 pt-40">
+              Package Facilities
+            </h3>
+            <div className="row y-gap-10 pt-20">
+              <PopularFacilities />
+            </div>
+          </div>
+        </div>
+      </section>
       <CallToActions />
       {/* End Call To Actions Section */}
 
